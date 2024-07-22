@@ -1567,7 +1567,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5,
 .ftco-navbar-light {
   background: rgba(0, 0, 0, 0.1) !important;
   position: absolute;
-  top: 92px;
+  top: 0px;
   left: 0;
   right: 0;
   z-index: 3;
@@ -1866,7 +1866,7 @@ textarea.form-control {
   position: relative;
   width: 100%;
   display: block;
-  margin-top: -120px; }
+  margin-top: -138px; }
   .ftco-search .nav-pills {
     display: inline-block; }
     .ftco-search .nav-pills p {
@@ -3103,6 +3103,10 @@ textarea.form-control {
     padding-right: 50px;
     font-size: 14px;
     border: none; }
+
+    .tagline small{
+      color:#198754;
+    }
 
 .search-form .icon {
   position: absolute;
