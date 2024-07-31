@@ -129,10 +129,10 @@
 <div class="col-md-12">
 <div class="ftco-search d-flex justify-content-center">
 <div class="row">
-<div class="col-md-12 nav-link-wrap d-flex justify-content-center">
+ <div class="col-md-12 nav-link-wrap d-flex "><!--justify-content-center -->
 <div class="nav nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-<a class="nav-link active" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">Buy Properties</a>
-<a class="nav-link" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">Rent Properties</a>
+<a class="nav-link active" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">Tour Search</a>
+<!-- <a class="nav-link" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">Rent Properties</a> -->
 </div>
 </div>
 <div class="col-md-12 tab-wrap">
@@ -140,7 +140,7 @@
 <div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
 <form action="#" class="search-property-1">
 <div class="row g-0">
-<div class="col-md d-flex">
+<!-- <div class="col-md d-flex">
 <div class="form-group p-4 border-0">
 <label for="#">Enter Keyword</label>
 <div class="form-field">
@@ -148,18 +148,18 @@
 <input type="text" class="form-control" placeholder="Enter Keyword">
 </div>
 </div>
-</div>
+</div> -->
 <div class="col-md d-flex">
 <div class="form-group p-4">
-<label for="#">Property Type</label>
+<label for="#">Location</label>
 <div class="form-field">
 <div class="select-wrap">
 <div class="icon"><span class="fa fa-chevron-down"></span></div>
 <select name id class="form-control">
-<option value>Residential</option>
-<option value>Commercial</option>
-<option value>Land</option>
-<option value>Industrial</option>
+<option value>Gulmarg</option>
+<option value>Sonmarg</option>
+<option value>Leh</option>
+<option value>Ladakh</option>
 </select>
 </div>
 </div>
@@ -167,10 +167,10 @@
 </div>
 <div class="col-md d-flex">
 <div class="form-group p-4">
-<label for="#">Location</label>
+<label for="#">No of travellers</label>
 <div class="form-field">
-<div class="icon"><span class="ion-ios-pin"></span></div>
-<input type="text" class="form-control" placeholder="Search Location">
+<div class="icon"><span class="fa fa-users"></span></div>
+<input type="number" class="form-control" placeholder="2">
 </div>
 </div>
 </div>
@@ -181,20 +181,12 @@
 <div class="select-wrap">
 <div class="icon"><span class="fa fa-chevron-down"></span></div>
 <select name id class="form-control">
-<option value>$100</option>
-<option value>$10,000</option>
-<option value>$50,000</option>
-<option value>$100,000</option>
-<option value>$200,000</option>
-<option value>$300,000</option>
-<option value>$400,000</option>
-<option value>$500,000</option>
-<option value>$600,000</option>
-<option value>$700,000</option>
-<option value>$800,000</option>
-<option value>$900,000</option>
-<option value>$1,000,000</option>
-<option value>$2,000,000</option>
+<option value>&#8377;5000</option>
+<option value>&#8377;10,000</option>
+<option value>&#8377;20,000</option>
+<option value>&#8377;40,000</option>
+<option value>&#8377;100,000</option>
+
 </select>
 </div>
 </div>
@@ -210,7 +202,7 @@
 </div>
 </form>
 </div>
-<div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">
+<!-- <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">
 <form action="#" class="search-property-1">
 <div class="row g-0">
 <div class="col-md d-flex">
@@ -282,7 +274,7 @@
 </div>
 </div>
 </form>
-</div>
+</div> -->
 </div>
 </div>
 </div>
@@ -295,7 +287,7 @@
 <div class="container-xl">
 <div class="row justify-content-center">
 <div class="col-md-8 heading-section text-center mb-5" data-aos="fade-up" data-aos-duration="1000">
-<span class="subheading">Kashmir Meridian Categories</span>
+<span class="subheading">Top Picks for Every Traveler</span>
 <h2 class="mb-4">Explore Our Categories &amp; Places</h2>
 </div>
 </div>
@@ -430,12 +422,20 @@ Shimla
 <section class="ftco-section bg-light">
 <div class="container-xl">
 <div class="row justify-content-center">
-<div class="col-md-8 heading-section text-center mb-5" data-aos="fade-up" data-aos-duration="1000">
-<!-- <span class="subheading">Our Properties</span> -->
-<h2 class="mb-4">Featured Packages</h2>
+<div class="col-md-8 heading-section text-center mb-2" data-aos="fade-up" data-aos-duration="1000">
+<span class="subheading">Explore Our Top-Rated Packages</span>
+<h2 class="mb-1">Featured Packages</h2>
 </div>
 </div>
 <div class="row">
+	<div class="row justify-content-right">
+		<nav>
+			<ul class="custom-pagination">
+				<li><a href="#">&laquo;</a></li>
+				<li><a href="#">&raquo;</a></li>
+			</ul>
+		</nav>
+	  </div>
 <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
 	<div class="card product-card">
         <a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
@@ -497,6 +497,7 @@ Shimla
       </div>
 </div>
 <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+	
 	<div class="card product-card">
         <a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
           <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
@@ -527,19 +528,7 @@ Shimla
       </div>
 	  
 </div>
-<div class="row justify-content-center">
-	<nav>
-		<ul class="custom-pagination">
-			<li><a href="#">&laquo;</a></li>
-			<li><a href="#">1</a></li>
-			<li><a href="#">2</a></li>
-			<li><a href="#">3</a></li>
-			<li><a href="#">4</a></li>
-			<li><a href="#">5</a></li>
-			<li><a href="#">&raquo;</a></li>
-		</ul>
-	</nav>
-  </div>
+
 
 </div>
 </div>
@@ -562,12 +551,20 @@ Shimla
 <section class="ftco-section bg-light">
 	<div class="container-xl">
 	<div class="row justify-content-center">
-	<div class="col-md-8 heading-section text-center mb-5" data-aos="fade-up" data-aos-duration="1000">
-	<!-- <span class="subheading">Our Properties</span> -->
-	<h2 class="mb-4">Featured Honeymoon Packages</h2>
+	<div class="col-md-8 heading-section text-center mb-2" data-aos="fade-up" data-aos-duration="1000">
+	<span class="subheading">Highlighting Our Premier Packages</span> 
+	<h2 class="mb-1">Featured Honeymoon Packages</h2>
 	</div>
 	</div>
 	<div class="row">
+		<div class="row justify-content-right">
+			<nav>
+				<ul class="custom-pagination">
+					<li><a href="#">&laquo;</a></li>
+					<li><a href="#">&raquo;</a></li>
+				</ul>
+			</nav>
+		  </div>
 	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
 		<div class="card product-card">
 			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
@@ -660,19 +657,7 @@ Shimla
 		  
 		  
 	</div>
-	<div class="row justify-content-center">
-		<nav>
-			<ul class="custom-pagination">
-				<li><a href="#">&laquo;</a></li>
-				<li><a href="#">1</a></li>
-				<li><a href="#">2</a></li>
-				<li><a href="#">3</a></li>
-				<li><a href="#">4</a></li>
-				<li><a href="#">5</a></li>
-				<li><a href="#">&raquo;</a></li>
-			</ul>
-		</nav>
-	  </div>
+	
 	
 	</div>
 	</div>
@@ -684,9 +669,12 @@ Shimla
 <div class="img w-100" style="background-image: url(images/boating.jpg);"></div>
 </div>
 <div class="col-md-8 heading-section" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+	<span class="subheading">Discover Fun and Excitement in the Great Outdoors</span>
 <h2 class="mb-4">Outdoor Activities</h2>
-<p>Kashmir offers a diverse array of adventures, from trekking through lush meadows and alpine lakes to skiing on the powdery slopes of Gulmarg, one of Asia’s premier ski destinations. The region’s majestic landscapes provide a stunning backdrop for these activities, whether you’re hiking amidst the serene beauty of the Himalayas or enjoying the thrill of skiing down snow-capped mountains. For a more tranquil experience, boating on the pristine waters of Dal Lake and Nigeen Lake in a traditional Shikara offers a peaceful escape and a unique view of Kashmir’s natural and cultural splendor.</p>
+<div>
+<p class="d-flex justify-content-center text-left">Kashmir offers a diverse array of adventures, from trekking through lush meadows and alpine lakes to skiing on the powdery slopes of Gulmarg, one of Asia’s premier ski destinations. The region’s majestic landscapes provide a stunning backdrop for these activities, whether you’re hiking amidst the serene beauty of the Himalayas or enjoying the thrill of skiing down snow-capped mountains. For a more tranquil experience, boating on the pristine waters of Dal Lake and Nigeen Lake in a traditional Shikara offers a peaceful escape and a unique view of Kashmir’s natural and cultural splendor.</p>
 <!-- <div class="row py-5">
+	
 <div class="col-md-6 col-lg-3">
 <div class="counter-wrap" data-aos="fade-up" data-aos-duration="1000">
 <div class="text">
@@ -873,85 +861,64 @@ Shimla
 </div>
 </div>
 </section>
-<section class="ftco-section ftco-agent ftco-no-pb">
+<section class="ftco-section ftco-agent ftco-no-pb" >
 <div class="overlay"></div>
 <div class="container-xl">
-<div class="row justify-content-center pb-5">
-<div class="col-md-10 heading-section heading-section-white" data-aos="fade-up" data-aos-duration="1000">
-<span class="subheading">Meets Our Agents</span>
-<h2 class="mb-4">Our Agents</h2>
+<div class="row justify-content-center pb-1">
+<div class="col-md-10 heading-section" data-aos="fade-up" data-aos-duration="1000">
+<span class="subheading">Gallery</span>
+<h2 class="mb-4">Explore the Moments</h2>
 </div>
 </div>
 <div class="row">
-<div class="col-md-3" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-<div class="agent">
-<div class="img">
-<img src="images/images-team-1.jpg" class="img-fluid" alt="Colorlib Template">
-</div>
-<div class="desc">
-<p class="h-info"><span class="position">Listing</span> <span class="details">10 Properties</span></p>
-<h3><a href="properties.html">Mike Bochs</a></h3>
-<ul class="ftco-social">
-<li class="ftco-animate"><a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-twitter"></span></a></li>
-<li class="ftco-animate"><a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-facebook"></span></a></li>
-<li class="ftco-animate"><a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-google"></span></a></li>
-<li class="ftco-animate"><a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-instagram"></span></a></li>
-</ul>
-</div>
-</div>
-</div>
-<div class="col-md-3" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
-<div class="agent">
-<div class="img">
-<img src="images/images-team-2.jpg" class="img-fluid" alt="Colorlib Template">
-</div>
-<div class="desc">
-<p class="h-info"><span class="position">Listing</span> <span class="details">10 Properties</span></p>
-<h3><a href="properties.html">Mike Bochs</a></h3>
-<ul class="ftco-social">
-<li class="ftco-animate"><a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-twitter"></span></a></li>
-<li class="ftco-animate"><a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-facebook"></span></a></li>
-<li class="ftco-animate"><a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-google"></span></a></li>
-<li class="ftco-animate"><a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-instagram"></span></a></li>
-</ul>
-</div>
-</div>
-</div>
-<div class="col-md-3" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
-<div class="agent">
-<div class="img">
-<img src="images/images-team-3.jpg" class="img-fluid" alt="Colorlib Template">
-</div>
-<div class="desc">
-<p class="h-info"><span class="position">Listing</span> <span class="details">10 Properties</span></p>
-<h3><a href="properties.html">Jessica Moore</a></h3>
-<ul class="ftco-social">
-<li class="ftco-animate"><a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-twitter"></span></a></li>
-<li class="ftco-animate"><a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-facebook"></span></a></li>
-<li class="ftco-animate"><a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-google"></span></a></li>
-<li class="ftco-animate"><a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-instagram"></span></a></li>
-</ul>
-</div>
-</div>
-</div>
-<div class="col-md-3" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
-<div class="agent">
-<div class="img">
-<img src="images/images-team-4.jpg" class="img-fluid" alt="Colorlib Template">
-</div>
-<div class="desc">
-<p class="h-info"><span class="position">Listing</span> <span class="details">10 Properties</span></p>
-<h3><a href="properties.html">Sarah Geronimo</a></h3>
-<ul class="ftco-social">
-<li class="ftco-animate"><a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-twitter"></span></a></li>
-<li class="ftco-animate"><a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-facebook"></span></a></li>
-<li class="ftco-animate"><a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-google"></span></a></li>
-<li class="ftco-animate"><a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-instagram"></span></a></li>
-</ul>
-</div>
-</div>
-</div>
-</div>
+	<div class="col-lg-4 col-md-12 mb-0 mb-lg-0">
+	  <img
+		src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
+		class="w-100 shadow-1-strong  mb-4"
+		alt="Boat on Calm Water"
+		height="25%"
+	  />
+  
+	  <img
+		src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain1.webp"
+		class="w-100 shadow-1-strong rounded"
+		alt="Wintry Mountain Landscape"
+		height="50%"
+	  />
+	</div>
+  
+	<div class="col-lg-4 mb-1 mb-lg-0">
+	  <img
+		src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain2.webp"
+		class="w-100 shadow-1-strong rounded mb-4"
+		alt="Mountains in the Clouds"
+		height="50%"
+	  />
+  
+	  <img
+		src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
+		class="w-100 shadow-1-strong rounded"
+		alt="Boat on Calm Water"
+		height="25%"
+	  />
+	</div>
+  
+	<div class="col-lg-4 mb-1 mb-lg-0">
+	  <img
+		src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(18).webp"
+		class="w-100 shadow-1-strong rounded mb-4"
+		alt="Waves at Sea"
+		height="25%"
+	  />
+  
+	  <img
+		src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain3.webp"
+		class="w-100 shadow-1-strong rounded"
+		alt="Yosemite National Park"
+		height="50%"
+	  />
+	</div>
+  </div>
 </div>
 </section>
 <section class="ftco-section bg-light">
@@ -959,57 +926,68 @@ Shimla
 <div class="row justify-content-center mb-5">
 <div class="col-md-7 heading-section text-center" data-aos="fade-up" data-aos-duration="1000">
 <span class="subheading">Our Blog</span>
-<h2>Recent Blog</h2>
+<h2>Recent Stories</h2>
 </div>
 </div>
 <div class="row">
-<div class="col-md-3 d-flex">
+<div class="col-md-6 d-flex">
 <div class="blog-entry justify-content-end" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
-<a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('images/image_1.jpg');">
+<a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('images/k1.jpg');">
 </a>
 <div class="text">
-<p class="meta"><span>Admin</span> <span>Dec. 01, 2020</span><a href="#">3 Comments</a></p>
-<h3 class="heading mb-3"><a href="#">New Home Sales Picked Up in December</a></h3>
-<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+<p class="meta"><span>Admin</span> <span>Jan. 01, 2024</span><a href="#">0 Comments</a></p>
+<h3 class="heading mb-3"><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a></h3>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor</p>
 </div>
 </div>
 </div>
-<div class="col-md-3 d-flex">
+<div class="col-md-6 d-flex">
 <div class="blog-entry justify-content-end" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-<a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('images/image_2.jpg');">
+<a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('images/k1.jpg');">
 </a>
 <div class="text">
-<p class="meta"><span>Admin</span> <span>Dec. 01, 2020</span><a href="#">3 Comments</a></p>
-<h3 class="heading mb-3"><a href="#">New Home Sales Picked Up in December</a></h3>
-<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+<p class="meta"><span>Admin</span> <span>Jan. 01, 2024</span><a href="#">0 Comments</a></p>
+<h3 class="heading mb-3"><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a></h3>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor</p>
 </div>
 </div>
 </div>
-<div class="col-md-3 d-flex">
+<div class="col-md-4 d-flex">
 <div class="blog-entry justify-content-end" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
-<a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('images/image_3.jpg');">
+<a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('images/k1.jpg');">
 </a>
 <div class="text">
-<p class="meta"><span>Admin</span> <span>Dec. 01, 2020</span><a href="#">3 Comments</a></p>
-<h3 class="heading mb-3"><a href="#">New Home Sales Picked Up in December</a>mb-3&gt;</h3>
-<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+<p class="meta"><span>Admin</span> <span>Jan. 01, 2024</span><a href="#">0 Comments</a></p>
+<h3 class="heading mb-3"><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a></h3>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor</p>
 </div>
 </div>
 </div>
-<div class="col-md-3 d-flex">
+<div class="col-md-4 d-flex">
 <div class="blog-entry justify-content-end" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
-<a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('images/image_4.jpg');">
+<a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('images/k1.jpg');">
 </a>
 <div class="text">
-<p class="meta"><span>Admin</span> <span>Dec. 01, 2020</span><a href="#">3 Comments</a></p>
-<h3 class="heading mb-3"><a href="#">New Home Sales Picked Up in December</a>mb-3&gt;</h3>
-<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+<p class="meta"><span>Admin</span> <span>Jan. 01, 2024</span><a href="#">0 Comments</a></p>
+<h3 class="heading mb-3"><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a></h3>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor</p>
 </div>
 </div>
 </div>
+<div class="col-md-4 d-flex">
+	<div class="blog-entry justify-content-end" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+	<a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('images/k1.jpg');">
+	</a>
+	<div class="text">
+	<p class="meta"><span>Admin</span> <span>Jan. 01, 2024</span><a href="#">0 Comments</a></p>
+	<h3 class="heading mb-3"><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a></h3>
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor</p>
+	</div>
+	</div>
+	</div>
 </div>
 </div>
-</section>
+<!-- </section>
 <section class="ftco-gallery">
 <div class="container-xl-fluid">
 <div class="row g-0">
@@ -1045,7 +1023,7 @@ Shimla
 </div>
 </div>
 </div>
-</section>
+</section> -->
 <footer class="ftco-footer">
 <div class="container-xl">
 <div class="row mb-5 pb-5 justify-content-between">
@@ -1053,10 +1031,10 @@ Shimla
 <div class="ftco-footer-widget mb-4">
 <h2 class="ftco-heading-2 logo d-flex">
 <a class="navbar-brand align-items-center" href="index.html">
-<span class>Oakberry <small>Real Estate Agency</small></span>
+<span class>Kashmir Meridian <small>Your Gateway to the Mystical Land</small></span>
 </a>
 </h2>
-<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+<p>At Kashmir Meridian, we believe that travel is not just a journey; it’s an experience that stays with you forever. As a premier travel company specializing in Kashmir and its breathtaking surroundings, we take great pride in curating unforgettable adventures that leave you spellbound.</p>
 <ul class="ftco-footer-social list-unstyled mt-2">
 <li><a href="#"><span class="fa fa-twitter"></span></a></li>
 <li><a href="#"><span class="fa fa-facebook"></span></a></li>
@@ -1066,34 +1044,25 @@ Shimla
 </div>
 <div class="col-md-6 col-lg-2">
 <div class="ftco-footer-widget mb-4">
-<h2 class="ftco-heading-2">Offers</h2>
+<h2 class="ftco-heading-2">Quick Links</h2>
 <ul class="list-unstyled">
-<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Properties</a></li>
-<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Agents</a></li>
-<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Locations</a></li>
-<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Clients Support</a></li>
+<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>FAQ</a></li>
+<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Popular Packages</a></li>
+<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Trending Packages</a></li>
+<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>My Profile</a></li>
 </ul>
 </div>
 </div>
 <div class="col-md-6 col-lg-2">
 <div class="ftco-footer-widget mb-4">
-<h2 class="ftco-heading-2">Company</h2>
+<h2 class="ftco-heading-2">Kashmir Meridian</h2>
 <ul class="list-unstyled">
 <li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Home</a></li>
 <li><a href="#"><span class="fa fa-chevron-right mr-2"></span>About</a></li>
 <li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Blog</a></li>
 <li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Contact Us</a></li>
-</ul>
-</div>
-</div>
-<div class="col-md-6 col-lg-2">
-<div class="ftco-footer-widget mb-4">
-<h2 class="ftco-heading-2">Quick Links</h2>
-<ul class="list-unstyled">
-<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Terms &amp; Conditions</a></li>
-<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>User's Guide</a></li>
-<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Support Center</a></li>
-<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Press Info</a></li>
+<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Ticket Availability</a></li>
+
 </ul>
 </div>
 </div>
@@ -1102,20 +1071,20 @@ Shimla
 <h2 class="ftco-heading-2">Have a Questions?</h2>
 <div class="block-23 mb-3">
 <ul>
-<li><span class="icon fa fa-map marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-<li><a href="#"><span class="icon fa fa-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-<li><a href="#"><span class="icon fa fa-paper-plane pr-4"></span><span class="text"><span class="__cf_email__" data-cfemail="cca5a2aaa38cb5a3b9bea8a3a1ada5a2e2afa3a1">[email&nbsp;protected]</span></span></a></li>
+<li><span class="icon fa fa-map marker"></span><span class="text">Address : Khidmat Complex, Branch office, Abi Guzar Rd, Srinagar, Jammu and Kashmir 190001</span></li>
+<li><a href="#"><span class="icon fa fa-phone"></span><span class="text">+91 9113539263</span></a></li>
+<li><a href="#"><span class="icon fa fa-paper-plane pr-4"></span><span class="text"><span class="__cf_email__" >info@kashmirmeridian.org</span></span></a></li>
 </ul>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="container-fluid px-0 py-5 bg-darken">
+<div class="container-fluid px-0 py-2 bg-darken">
 <div class="container-xl">
 <div class="row">
 <div class="col-md-12 text-center">
-<p class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">Copyright &copy;<script data-cfasync="false" src="js/cloudflare-static-email-decode.min.js"></script><script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" rel="nofollow noopener">Colorlib</a>
+<p class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">Copyright &copy;<script data-cfasync="false" src="js/cloudflare-static-email-decode.min.js"></script>2024 All rights reserved | Kashmir Meridian</p>
 </p></div>
 </div>
 </div>

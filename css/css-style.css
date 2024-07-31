@@ -1899,14 +1899,14 @@ textarea.form-control {
           .ftco-search .nav-pills .nav-link:hover:after {
             opacity: 0; } }
       .ftco-search .nav-pills .nav-link.active {
-        color: gray;
+        color: white;
         -moz-transition: all 0.3s ease;
         -o-transition: all 0.3s ease;
         -webkit-transition: all 0.3s ease;
         -ms-transition: all 0.3s ease;
         transition: all 0.3s ease;
         border: 1px solid transparent;
-        background: #f0f0f0; }
+        background: #5ea51d; }
         .ftco-search .nav-pills .nav-link.active:after {
           opacity: 1; }
         @media (max-width: 575.98px) {
@@ -2401,10 +2401,14 @@ textarea.form-control {
     left: 0;
     right: 0;
     bottom: 0;
-    width: 65%;
+    width: 100%;
     content: '';
-    background: #050d21;
+    opacity: .9;
+    background: #ffffff;
     z-index: -1; }
+    .ftco-agent h3{
+      color: black;
+    }  
 
 .agent {
   position: relative;
@@ -2527,7 +2531,7 @@ textarea.form-control {
   font-weight: 700; }
 
 .ftco-section {
-  padding: 3em 0;
+  padding: .5em 0;
   position: relative;
   width: 100%; }
   @media (max-width: 575.98px) {
