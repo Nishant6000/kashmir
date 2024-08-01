@@ -2038,7 +2038,7 @@ textarea.form-control {
       transition: all 0.3s ease; }
       .places-list li a span {
         display: block;
-        background: #f7f7f7;
+        background: transparent;
         padding: 0 10px;
         color: #5ea51d;
         border-radius: 4px;
@@ -2048,9 +2048,10 @@ textarea.form-control {
         -webkit-transition: all 0.3s ease;
         -ms-transition: all 0.3s ease;
         transition: all 0.3s ease; }
-      .places-list li:hover {
+      .places-list li:hover, li:hover a, li:hover a span {
         background: #5ea51d;
         color: #fff; }
+          
 
 .property-wrap {
   margin-bottom: 60px;
