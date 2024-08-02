@@ -2636,9 +2636,10 @@ textarea.form-control {
         font-size: 14px;
         color: rgba(255, 255, 255, 0.7); }
       .ftco-footer .ftco-footer-widget ul li a:hover {
-        color: #5ea51d; }
+        color: #5ea51d;  background:transparent}
+       
         .ftco-footer .ftco-footer-widget ul li a:hover span {
-          color: #5ea51d; }
+          color: #fff; background:transparent; }
   .ftco-footer .ftco-footer-widget .btn-primary {
     background: #fff !important;
     border: 2px solid #fff !important; }
