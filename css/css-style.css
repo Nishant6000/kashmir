@@ -3590,3 +3590,34 @@ img {
 .back-button {
   margin-bottom: 20px;
 }
+.image-background {
+  background-image: url('../images/k1.jpg');
+  background-size: cover;
+  background-position: center;
+  max-height: auto; /* Adjust height as needed */
+  position: relative;
+}
+.address{
+  color: #000;
+}
+.address-overlay {
+  position: absolute;
+  top: 50%;
+  left: 10%; /* Adjust as needed to position the overlay */
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.8); /* Optional: Add a background color with transparency */
+  padding: 20px; /* Optional: Adjust padding as needed */
+  z-index: 1; /* Ensure the address section appears over the image */
+  width: 80%; /* Adjust the width as needed */
+  box-sizing: border-box; /* Make sure padding doesn't affect the width */
+}
+
+@media (max-width: 767.98px) {
+  .address-overlay {
+    position: relative;
+      width: 100%; /* Ensure full width on smaller screens */
+      left: 0; /* Center on smaller screens */
+      padding: 10px; /* Adjust padding for smaller screens */
+      margin-top: 10px;
+  }
+}
