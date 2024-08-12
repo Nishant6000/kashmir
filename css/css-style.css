@@ -3621,3 +3621,83 @@ img {
       margin-top: 10px;
   }
 }
+ /* Custom CSS for the timeline */
+ .timeline {
+  position: relative;
+  padding-left: 40px;
+  margin-bottom: 30px;
+}
+
+.timeline:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20px;
+  bottom: 0;
+  width: 2px;
+  background: #007bff;
+}
+
+.timeline .timeline-day {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.timeline .timeline-day:before {
+  content: '';
+  position: absolute;
+  left: -28px;
+  top: 5px;
+  width: 12px;
+  height: 12px;
+  background: #007bff;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  z-index: 1;
+}
+
+.timeline .timeline-content {
+  padding-left: 30px;
+}
+
+.timeline .timeline-day-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Custom CSS for cards */
+.card-custom {
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #dee2e6;
+}
+
+.card-custom:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.card-custom:nth-child(odd) {
+  background-color: #e9ecef;
+}
+
+/* Custom CSS for list items with FontAwesome icons */
+.list-group-item {
+  display: flex;
+  align-items: center;
+  padding-left: 0;
+}
+
+.list-group-item i {
+  margin-right: 10px;
+  color: #007bff;
+}
+
+/* Sticky sidebar */
+.sticky-sidebar {
+  position: -webkit-sticky; /* For Safari */
+  position: sticky;
+  top: 20px; /* Adjust as needed */
+  /* max-height: calc(100vh - 300px); /* Adjust 80px to footer height + any additional padding 
+  overflow-y: auto; */
+}
