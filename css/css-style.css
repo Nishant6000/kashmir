@@ -3632,7 +3632,7 @@ img {
   content: '';
   position: absolute;
   top: 0;
-  left: 20px;
+  left: 18px;
   bottom: 0;
   width: 2px;
   background: #007bff;
@@ -3648,8 +3648,8 @@ img {
   position: absolute;
   left: -28px;
   top: 5px;
-  width: 12px;
-  height: 12px;
+  width: 15px;
+  height: 15px;
   background: #007bff;
   border-radius: 50%;
   border: 2px solid #fff;
@@ -3700,4 +3700,17 @@ img {
   top: 20px; /* Adjust as needed */
   /* max-height: calc(100vh - 300px); /* Adjust 80px to footer height + any additional padding 
   overflow-y: auto; */
+}
+.custom-primary{
+  background-color: #007bff !important;
+  color: white;
+}
+.tripdetp{
+  color: #5ea51d;
+  font-size: 18px;
+}
+.tripdeth{
+  color: #5ea51d;
+  font-size: 20px;
+  font-weight: bolder;
 }
