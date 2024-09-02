@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css">
 <link rel="stylesheet" href="css/css-animate.css">
 <link rel="stylesheet" href="css/css-flaticon.css">
@@ -14,6 +15,7 @@
 <link rel="stylesheet" href="css/css-glightbox.min.css">
 <link rel="stylesheet" href="css/css-aos.css">
 <link rel="stylesheet" href="css/css-style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <!-- <div class="py-4 top-wrap">
@@ -63,7 +65,7 @@
 <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
 <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
 </ul>
-<p class="mb-0"><a href="#" class="btn btn-primary rounded">Login/Signup</a></p>
+<p class="mb-0"><a href="#" class="btn btn-primary rounded" data-toggle="modal" data-target="#authModal">Login/Signup</a></p>
 </div>
 </div>
 </nav>
@@ -431,11 +433,12 @@ Shimla
 	<div class="row justify-content-right">
 		<nav>
 			<ul class="custom-pagination">
-				<li><a href="#">&laquo;</a></li>
-				<li><a href="#">&raquo;</a></li>
+				<li><a id="prev" href="#">&laquo;</a></li>
+				<li><a id="next" href="#">&raquo;</a></li>
 			</ul>
 		</nav>
 	  </div>
+	  <div id="pac1" class="row">	  
 <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
 	<div class="card product-card">
         <a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
@@ -528,8 +531,103 @@ Shimla
       </div>
 	  
 </div>
-
-
+<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+	
+	<div class="card product-card">
+        <a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
+          <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <div class="duration">6 days &amp; 5 nights</div>
+              <div class="rating-box">
+				<div class="star-rating">
+					<i class="fa fa-star checked" data-index="0"></i>
+					<i class="fa fa-star checked" data-index="1"></i>
+					<i class="fa fa-star checked" data-index="2"></i>
+					<i class="fa fa-star checked" data-index="3"></i>
+					<i class="fa fa-star unchecked" data-index="4"></i>
+				</div>
+                <div class="rating">4.5</div>
+                <div class="rating-count">(2.2K)</div>
+              </div>
+            </div>
+            <h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
+            <div class="d-flex justify-content-between">
+              <div class="price">INR 21,000</div>
+              <div class="strike-price">INR 38,182</div>
+            </div>
+            <div class="save-price">SAVE INR 17,182</div>
+            <button class="btn btn-primary btn-block">Request Callback</button>
+          </div>
+        </a>
+      </div>
+	  
+</div>
+<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+	
+	<div class="card product-card">
+        <a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
+          <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <div class="duration">6 days &amp; 5 nights</div>
+              <div class="rating-box">
+				<div class="star-rating">
+					<i class="fa fa-star checked" data-index="0"></i>
+					<i class="fa fa-star checked" data-index="1"></i>
+					<i class="fa fa-star checked" data-index="2"></i>
+					<i class="fa fa-star checked" data-index="3"></i>
+					<i class="fa fa-star unchecked" data-index="4"></i>
+				</div>
+                <div class="rating">4.5</div>
+                <div class="rating-count">(2.2K)</div>
+              </div>
+            </div>
+            <h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
+            <div class="d-flex justify-content-between">
+              <div class="price">INR 21,000</div>
+              <div class="strike-price">INR 38,182</div>
+            </div>
+            <div class="save-price">SAVE INR 17,182</div>
+            <button class="btn btn-primary btn-block">Request Callback</button>
+          </div>
+        </a>
+      </div>
+	  
+</div>
+<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+	
+	<div class="card product-card">
+        <a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
+          <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <div class="duration">6 days &amp; 5 nights</div>
+              <div class="rating-box">
+				<div class="star-rating">
+					<i class="fa fa-star checked" data-index="0"></i>
+					<i class="fa fa-star checked" data-index="1"></i>
+					<i class="fa fa-star checked" data-index="2"></i>
+					<i class="fa fa-star checked" data-index="3"></i>
+					<i class="fa fa-star unchecked" data-index="4"></i>
+				</div>
+                <div class="rating">4.5</div>
+                <div class="rating-count">(2.2K)</div>
+              </div>
+            </div>
+            <h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
+            <div class="d-flex justify-content-between">
+              <div class="price">INR 21,000</div>
+              <div class="strike-price">INR 38,182</div>
+            </div>
+            <div class="save-price">SAVE INR 17,182</div>
+            <button class="btn btn-primary btn-block">Request Callback</button>
+          </div>
+        </a>
+      </div>
+	  
+</div>
+</div>
 </div>
 <div class="row justify-content-center">
 	<div class="col-md-8 heading-section text-center mb-2" data-aos="fade-up" data-aos-duration="1000">
@@ -540,11 +638,12 @@ Shimla
 		<div class="row justify-content-right">
 			<nav>
 				<ul class="custom-pagination">
-					<li><a href="#">&laquo;</a></li>
-					<li><a href="#">&raquo;</a></li>
+					<li><a id="prev-2" href="#">&laquo;</a></li>
+					<li><a id="next-2" href="#">&raquo;</a></li>
 				</ul>
 			</nav>
 		  </div>
+		  <div id="pac2" class="row">			
 	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
 		<div class="card product-card">
 			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
@@ -637,8 +736,103 @@ Shimla
 		  </div>
 		  
 	</div>
+	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
 	
+		<div class="card product-card">
+			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
+			  <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
+			  <div class="card-body">
+				<div class="d-flex justify-content-between">
+				  <div class="duration">6 days &amp; 5 nights</div>
+				  <div class="rating-box">
+					<div class="star-rating">
+						<i class="fa fa-star checked" data-index="0"></i>
+						<i class="fa fa-star checked" data-index="1"></i>
+						<i class="fa fa-star checked" data-index="2"></i>
+						<i class="fa fa-star checked" data-index="3"></i>
+						<i class="fa fa-star unchecked" data-index="4"></i>
+					</div>
+					<div class="rating">4.5</div>
+					<div class="rating-count">(2.2K)</div>
+				  </div>
+				</div>
+				<h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
+				<div class="d-flex justify-content-between">
+				  <div class="price">INR 21,000</div>
+				  <div class="strike-price">INR 38,182</div>
+				</div>
+				<div class="save-price">SAVE INR 17,182</div>
+				<button class="btn btn-primary btn-block">Request Callback</button>
+			  </div>
+			</a>
+		  </div>
+		  
+	</div>
+	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
 	
+		<div class="card product-card">
+			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
+			  <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
+			  <div class="card-body">
+				<div class="d-flex justify-content-between">
+				  <div class="duration">6 days &amp; 5 nights</div>
+				  <div class="rating-box">
+					<div class="star-rating">
+						<i class="fa fa-star checked" data-index="0"></i>
+						<i class="fa fa-star checked" data-index="1"></i>
+						<i class="fa fa-star checked" data-index="2"></i>
+						<i class="fa fa-star checked" data-index="3"></i>
+						<i class="fa fa-star unchecked" data-index="4"></i>
+					</div>
+					<div class="rating">4.5</div>
+					<div class="rating-count">(2.2K)</div>
+				  </div>
+				</div>
+				<h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
+				<div class="d-flex justify-content-between">
+				  <div class="price">INR 21,000</div>
+				  <div class="strike-price">INR 38,182</div>
+				</div>
+				<div class="save-price">SAVE INR 17,182</div>
+				<button class="btn btn-primary btn-block">Request Callback</button>
+			  </div>
+			</a>
+		  </div>
+		  
+	</div>
+	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+	
+		<div class="card product-card">
+			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
+			  <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
+			  <div class="card-body">
+				<div class="d-flex justify-content-between">
+				  <div class="duration">6 days &amp; 5 nights</div>
+				  <div class="rating-box">
+					<div class="star-rating">
+						<i class="fa fa-star checked" data-index="0"></i>
+						<i class="fa fa-star checked" data-index="1"></i>
+						<i class="fa fa-star checked" data-index="2"></i>
+						<i class="fa fa-star checked" data-index="3"></i>
+						<i class="fa fa-star unchecked" data-index="4"></i>
+					</div>
+					<div class="rating">4.5</div>
+					<div class="rating-count">(2.2K)</div>
+				  </div>
+				</div>
+				<h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
+				<div class="d-flex justify-content-between">
+				  <div class="price">INR 21,000</div>
+				  <div class="strike-price">INR 38,182</div>
+				</div>
+				<div class="save-price">SAVE INR 17,182</div>
+				<button class="btn btn-primary btn-block">Request Callback</button>
+			  </div>
+			</a>
+		  </div>
+		  
+	</div>
+	</div>
 	</div>
 </div>
 </section>
@@ -669,11 +863,12 @@ Shimla
 		<div class="row justify-content-right">
 			<nav>
 				<ul class="custom-pagination">
-					<li><a href="#">&laquo;</a></li>
-					<li><a href="#">&raquo;</a></li>
+					<li><a id="prev-3" href="#">&laquo;</a></li>
+					<li><a id="next-3" href="#">&raquo;</a></li>
 				</ul>
 			</nav>
 		  </div>
+<div id="pac3" class="row">		  
 	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
 		<div class="card product-card">
 			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
@@ -766,8 +961,103 @@ Shimla
 		  
 		  
 	</div>
+	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
 	
+		<div class="card product-card">
+			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
+			  <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
+			  <div class="card-body">
+				<div class="d-flex justify-content-between">
+				  <div class="duration">6 days &amp; 5 nights</div>
+				  <div class="rating-box">
+					<div class="star-rating">
+						<i class="fa fa-star checked" data-index="0"></i>
+						<i class="fa fa-star checked" data-index="1"></i>
+						<i class="fa fa-star checked" data-index="2"></i>
+						<i class="fa fa-star checked" data-index="3"></i>
+						<i class="fa fa-star unchecked" data-index="4"></i>
+					</div>
+					<div class="rating">4.5</div>
+					<div class="rating-count">(2.2K)</div>
+				  </div>
+				</div>
+				<h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
+				<div class="d-flex justify-content-between">
+				  <div class="price">INR 21,000</div>
+				  <div class="strike-price">INR 38,182</div>
+				</div>
+				<div class="save-price">SAVE INR 17,182</div>
+				<button class="btn btn-primary btn-block">Request Callback</button>
+			  </div>
+			</a>
+		  </div>
+		  
+	</div>
+	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
 	
+		<div class="card product-card">
+			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
+			  <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
+			  <div class="card-body">
+				<div class="d-flex justify-content-between">
+				  <div class="duration">6 days &amp; 5 nights</div>
+				  <div class="rating-box">
+					<div class="star-rating">
+						<i class="fa fa-star checked" data-index="0"></i>
+						<i class="fa fa-star checked" data-index="1"></i>
+						<i class="fa fa-star checked" data-index="2"></i>
+						<i class="fa fa-star checked" data-index="3"></i>
+						<i class="fa fa-star unchecked" data-index="4"></i>
+					</div>
+					<div class="rating">4.5</div>
+					<div class="rating-count">(2.2K)</div>
+				  </div>
+				</div>
+				<h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
+				<div class="d-flex justify-content-between">
+				  <div class="price">INR 21,000</div>
+				  <div class="strike-price">INR 38,182</div>
+				</div>
+				<div class="save-price">SAVE INR 17,182</div>
+				<button class="btn btn-primary btn-block">Request Callback</button>
+			  </div>
+			</a>
+		  </div>
+		  
+	</div>
+	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+	
+		<div class="card product-card">
+			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
+			  <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
+			  <div class="card-body">
+				<div class="d-flex justify-content-between">
+				  <div class="duration">6 days &amp; 5 nights</div>
+				  <div class="rating-box">
+					<div class="star-rating">
+						<i class="fa fa-star checked" data-index="0"></i>
+						<i class="fa fa-star checked" data-index="1"></i>
+						<i class="fa fa-star checked" data-index="2"></i>
+						<i class="fa fa-star checked" data-index="3"></i>
+						<i class="fa fa-star unchecked" data-index="4"></i>
+					</div>
+					<div class="rating">4.5</div>
+					<div class="rating-count">(2.2K)</div>
+				  </div>
+				</div>
+				<h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
+				<div class="d-flex justify-content-between">
+				  <div class="price">INR 21,000</div>
+				  <div class="strike-price">INR 38,182</div>
+				</div>
+				<div class="save-price">SAVE INR 17,182</div>
+				<button class="btn btn-primary btn-block">Request Callback</button>
+			  </div>
+			</a>
+		  </div>
+		  
+	</div>
+	</div>
 	</div>
 	</div>
 	</section>
@@ -835,9 +1125,11 @@ Shimla
 </div>
 </div>
 <div class="col-md-4 d-flex align-items-center">
-<p class="mb-0"><a href="#" class="btn btn-black py-3 px-4">Get in touch</a></p>
+<!-- <p class="mb-0"><a href="#" class="btn btn-black py-3 px-4">Get in touch</a></p> -->
+<p class="mb-0"></p><a href="#" class="btn btn-black py-3 px-4" data-toggle="modal" data-target="#contactModal">Get in touch</a></p>
 </div>
 </div>
+
 </div>
 </div>
 </div>
@@ -1133,6 +1425,97 @@ Shimla
 </div>
 </div>
 </section> -->
+<!-- get in touch modal -->
+<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-light">
+				<h5 class="modal-title" id="contactModalLabel">Get in Touch</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form id="contactForm">
+					<div class="form-group">
+						<label for="name">Name</label>
+						<input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+					</div>
+					<div class="form-group">
+						<label for="phone">Phone Number</label>
+						<input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" required>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer bg-light">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary" form="contactForm">Submit</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- get in Login modal -->
+<div class="modal fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="authModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-light">
+				<h5 class="modal-title" id="authModalLabel">Login/Signup</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" id="authTab" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">Login</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="signup-tab" data-toggle="tab" href="#signup" role="tab" aria-controls="signup" aria-selected="false">Signup</a>
+					</li>
+				</ul>
+				<!-- Tab content -->
+				<div class="tab-content" id="authTabContent">
+					<!-- Login Form -->
+					<div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+						<form id="loginForm">
+							<div class="form-group">
+								<label for="loginEmail">Email address</label>
+								<input type="email" class="form-control" id="loginEmail" placeholder="Enter your email" required>
+							</div>
+							<div class="form-group">
+								<label for="loginPassword">Password</label>
+								<input type="password" class="form-control" id="loginPassword" placeholder="Password" required>
+							</div>
+							<button type="submit" class="btn btn-primary">Login</button>
+						</form>
+					</div>
+					<!-- Signup Form -->
+					<div class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="signup-tab">
+						<form id="signupForm">
+							<div class="form-group">
+								<label for="signupName">Name</label>
+								<input type="text" class="form-control" id="signupName" placeholder="Enter your name" required>
+							</div>
+							<div class="form-group">
+								<label for="signupEmail">Email address</label>
+								<input type="email" class="form-control" id="signupEmail" placeholder="Enter your email" required>
+							</div>
+							<div class="form-group">
+								<label for="signupPassword">Password</label>
+								<input type="password" class="form-control" id="signupPassword" placeholder="Password" required>
+							</div>
+							<button type="submit" class="btn btn-primary">Signup</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer bg-light">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 <footer class="ftco-footer">
 <div class="container-xl">
 <div class="row mb-5 pb-5 justify-content-between">
@@ -1155,7 +1538,7 @@ Shimla
 <div class="ftco-footer-widget mb-4">
 <h2 class="ftco-heading-2">Quick Links</h2>
 <ul class="list-unstyled">
-<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>FAQ</a></li>
+	<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Ticket Availability</a></li>
 <li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Popular Packages</a></li>
 <li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Trending Packages</a></li>
 <li><a href="#"><span class="fa fa-chevron-right mr-2"></span>My Profile</a></li>
@@ -1170,7 +1553,7 @@ Shimla
 <li><a href="#"><span class="fa fa-chevron-right mr-2"></span>About</a></li>
 <li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Blog</a></li>
 <li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Contact Us</a></li>
-<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Ticket Availability</a></li>
+
 
 </ul>
 </div>
@@ -1206,5 +1589,92 @@ Shimla
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&amp;sensor=false"></script>
 <script src="js/8593-js-google-map.js"></script>
 <script src="js/6806-js-main.js"></script>
+<script>
+	$(document).ready(function() {
+            var currentPage = 0;
+            var itemsPerPage = 3;
+            var totalItems = $("#pac1 .col-md-4").length;
+            var totalPages = Math.ceil(totalItems / itemsPerPage);
+			var totalItems2 = $("#pac2 .col-md-4").length;
+            var totalPages2 = Math.ceil(totalItems2 / itemsPerPage);
+			var totalItems3 = $("#pac3 .col-md-4").length;
+            var totalPages3 = Math.ceil(totalItems3 / itemsPerPage);
+
+            function showPage(page, direction, divid) {
+                var start = page * itemsPerPage;
+                var end = start + itemsPerPage;
+                
+                // Add sliding out class to current visible items
+                var currentItems = $("#"+divid+" .col-md-4:visible");
+				//alert(divid);
+                currentItems.addClass(direction === 'right' ? 'slide-out-left' : 'slide-out-right');
+
+                // After sliding out, hide them
+                setTimeout(function() {
+                    currentItems.hide().removeClass('slide-out-left slide-out-right');
+
+                    // Add sliding in class to new items
+                    var newItems = $("#"+divid+" .col-md-4").slice(start, end);
+                    newItems.addClass(direction === 'right' ? 'slide-in-right' : 'slide-in-left').show();
+
+                    // Remove sliding in class after animation
+                    setTimeout(function() {
+                        newItems.removeClass('slide-in-right slide-in-left');
+                    }, 500);
+                }, 500);
+            }
+
+            $("#next").click(function(e) {
+                e.preventDefault();
+                if (currentPage < totalPages - 1) {
+                    currentPage++;
+                    showPage(currentPage, 'right', 'pac1');
+                }
+            });
+
+            $("#prev").click(function(e) {
+                e.preventDefault();
+                if (currentPage > 0) {
+                    currentPage--;
+                    showPage(currentPage, 'left', 'pac1');
+                }
+            });
+			$("#next-2").click(function(e) {
+                e.preventDefault();
+                if (currentPage < totalPages2 - 1) {
+                    currentPage++;
+                    showPage(currentPage, 'right', 'pac2');
+                }
+            });
+
+            $("#prev-2").click(function(e) {
+                e.preventDefault();
+                if (currentPage > 0) {
+                    currentPage--;
+                    showPage(currentPage, 'left', 'pac2');
+                }
+            });
+			$("#next-3").click(function(e) {
+                e.preventDefault();
+                if (currentPage < totalPages3 - 1) {
+                    currentPage++;
+                    showPage(currentPage, 'right', 'pac3');
+                }
+            });
+
+            $("#prev-3").click(function(e) {
+                e.preventDefault();
+                if (currentPage > 0) {
+                    currentPage--;
+                    showPage(currentPage, 'left', 'pac3');
+                }
+            });
+
+            // Initialize the first page with sliding animation
+            showPage(currentPage, 'right', 'pac1');
+			showPage(currentPage, 'right', 'pac2');
+			showPage(currentPage, 'right', 'pac3');
+        });
+</script>
 </body>
 </html>

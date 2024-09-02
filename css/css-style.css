@@ -3842,3 +3842,52 @@ img {
   font-size: 20px !important;
   font-weight: bolder;
 }
+
+/* sliding animations */
+#pac1 .col-md-4 {
+  display: none;
+position: relative;
+}
+#pac2 .col-md-4 {
+  display: none;
+position: relative;
+}
+#pac3 .col-md-4 {
+  display: none;
+position: relative;
+}
+.slide-in-right {
+  animation: slideInRight 0.5 forwards;
+}
+
+.slide-out-left {
+  animation: slideOutLeft 0.5s forwards;
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.5s forwards;
+}
+
+.slide-out-right {
+  animation: slideOutRight 0.5s forwards;
+}
+
+@keyframes slideInRight {
+  from { left: 20%; }
+  to { left: 0; }
+}
+
+@keyframes slideOutLeft {
+  from { left: 0; }
+  to { left: -20%; }
+}
+
+@keyframes slideInLeft {
+  from { left: -20%; }
+  to { left: 0; }
+}
+
+@keyframes slideOutRight {
+  from { left: 0; }
+  to { left: 20%; }
+}
