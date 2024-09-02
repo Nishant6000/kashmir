@@ -1,27 +1,5 @@
 Pending works
 
-Home Page
-
--> prev and next javascript
--> get in touch modal
--> login/signup modal
-
-About us
--> Gateway to mystical land content missing
--> Get in touch modal
-
-Destination
--> Change View Packages to view details and connect link to package details
-
-Blog
--> Get in touch modal
-
-Contact
--> Get in touch modal
-
-Footer
-Remove FAQ and change it with Ticket Availability
-
 Backend
 
 
