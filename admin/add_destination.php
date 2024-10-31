@@ -10,44 +10,57 @@ require 'db_connect.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     $description = $_POST['description'];
-    $image = $_FILES['image'];
+    $images = $_FILES['images'];
 
-    // Handle image upload
-    if ($image['error'] == 0) {
-        $target_dir = "uploads/";
-        $target_file = $target_dir . basename($image["name"]);
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    try {
+        // Insert destination information
+        $stmt = $pdo->prepare("INSERT INTO destinations (name, description) VALUES (?, ?)");
+        $stmt->execute([$name, $description]);
+        $destination_id = $pdo->lastInsertId();
 
-        // Check if image file is a actual image or fake image
-        $check = getimagesize($image["tmp_name"]);
-        if ($check === false) {
-            echo "File is not an image.";
-            exit();
+        // Handle multiple image uploads
+        $uploadDir = 'uploads/';
+        foreach ($images['tmp_name'] as $index => $tmpName) {
+            if ($images['error'][$index] == 0) {
+                $fileName = basename($images["name"][$index]);
+                $targetFile = $uploadDir . $fileName;
+                $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+                // Check if image file is a real image
+                $check = getimagesize($tmpName);
+                if ($check === false) {
+                    echo "File is not an image.";
+                    continue;
+                }
+
+                // Check file size (5MB limit)
+                if ($images["size"][$index] > 5000000) {
+                    echo "Sorry, your file is too large.";
+                    continue;
+                }
+
+                // Allow only specific file formats
+                if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif'])) {
+                    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                    continue;
+                }
+
+                // Attempt to upload file
+                if (move_uploaded_file($tmpName, $targetFile)) {
+                    // Insert each image path into destination_images table
+                    $stmt = $pdo->prepare("INSERT INTO destination_images (destination_id, image_path) VALUES (?, ?)");
+                    $stmt->execute([$destination_id, $targetFile]);
+                } else {
+                    echo "Sorry, there was an error uploading your file.";
+                }
+            } else {
+                echo "Error uploading file.";
+            }
         }
 
-        // Check file size (5MB limit)
-        if ($image["size"] > 5000000) {
-            echo "Sorry, your file is too large.";
-            exit();
-        }
-
-        // Allow certain file formats
-        if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif'])) {
-            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-            exit();
-        }
-
-        // Try to upload file
-        if (move_uploaded_file($image["tmp_name"], $target_file)) {
-            // Insert destination into database
-            $stmt = $pdo->prepare("INSERT INTO destinations (name, description, image) VALUES (?, ?, ?)");
-            $stmt->execute([$name, $description, $target_file]);
-            echo "The destination has been added.";
-        } else {
-            echo "Sorry, there was an error uploading your file.";
-        }
-    } else {
-        echo "Error uploading file.";
+        echo "The destination and images have been added.";
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
 }
 ?>
@@ -72,14 +85,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <textarea class="form-control" name="description" required></textarea>
             </div>
             <div class="form-group">
-                <label for="image">Upload Image</label>
-                <input type="file" class="form-control" name="image" accept="image/*" required>
+                <label for="images">Upload Images</label>
+                <input type="file" class="form-control" name="images[]" accept="image/*" multiple required>
             </div>
             <button type="submit" class="btn btn-primary">Add Destination</button>
         </form>
         <a href="dashboard.php" class="btn btn-secondary mt-3">Back to Dashboard</a>
     </div>
-    
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

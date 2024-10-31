@@ -7,63 +7,96 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'db_connect.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $car_id = $_POST['car_id'];
-    $name = $_POST['name'];
-    $description = $_POST['description'];
+// Check if car ID is provided
+if (!isset($_GET['id'])) {
+    echo "No car ID provided.";
+    exit();
+}
+
+$car_id = $_GET['id'];
+
+// Fetch existing car details
+$stmt = $pdo->prepare("SELECT * FROM cars WHERE id = ?");
+$stmt->execute([$car_id]);
+$car = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Fetch existing images for the car
+$stmtImages = $pdo->prepare("SELECT * FROM cars_images WHERE car_id = ?");
+$stmtImages->execute([$car_id]);
+$images = $stmtImages->fetchAll(PDO::FETCH_ASSOC);
+
+// Update car on form submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_car'])) {
+    $model = $_POST['model'];
+    $status = $_POST['status'];
     $price = $_POST['price'];
-    
-    // Handle file upload (optional)
-    $target_dir = "uploads/";
-    $uploadOk = 1;
 
-    if ($_FILES["image"]["name"]) {
-        $target_file = $target_dir . basename($_FILES["image"]["name"]);
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    // Update car details
+    $stmt = $pdo->prepare("UPDATE cars SET model = ?, status = ?, price = ? WHERE id = ?");
+    $stmt->execute([$model, $status, $price, $car_id]);
 
-        // Check if image file is a actual image or fake image
-        $check = getimagesize($_FILES["image"]["tmp_name"]);
-        if ($check === false) {
-            $error = "File is not an image.";
-            $uploadOk = 0;
-        }
+    // Handle new image uploads
+    if (!empty($_FILES['images']['tmp_name'][0])) {
+        foreach ($_FILES['images']['tmp_name'] as $index => $tmpName) {
+            if ($_FILES['images']['error'][$index] == 0) {
+                $fileName = basename($_FILES["images"]["name"][$index]);
+                $targetFile = 'uploads/' . $fileName;
+                $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
-        // Allow certain file formats
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-            $error = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-            $uploadOk = 0;
-        }
+                // Check if the file is a valid image
+                $check = getimagesize($tmpName);
+                if ($check === false) {
+                    echo "File is not an image.";
+                    continue;
+                }
 
-        // Check if $uploadOk is set to 0 by an error
-        if ($uploadOk == 0) {
-            $error = "Sorry, your file was not uploaded.";
-        } else {
-            // If everything is ok, try to upload file
-            if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                // Update car with new image
-                $stmt = $pdo->prepare("UPDATE cars SET name = ?, description = ?, price = ?, image = ? WHERE id = ?");
-                $stmt->execute([$name, $description, $price, $target_file, $car_id]);
-                $success = "Car updated successfully!";
-            } else {
-                $error = "Sorry, there was an error uploading your file.";
+                // Check file size (5MB limit)
+                if ($_FILES["images"]["size"][$index] > 5000000) {
+                    echo "Sorry, your file is too large.";
+                    continue;
+                }
+
+                // Allow specific file formats
+                if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif'])) {
+                    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                    continue;
+                }
+
+                // Attempt to upload the file
+                if (move_uploaded_file($tmpName, $targetFile)) {
+                    // Insert each image path into the cars_images table
+                    $stmt = $pdo->prepare("INSERT INTO cars_images (car_id, image_path) VALUES (?, ?)");
+                    $stmt->execute([$car_id, $targetFile]);
+                } else {
+                    echo "Sorry, there was an error uploading your file.";
+                }
             }
         }
-    } else {
-        // Update car without changing the image
-        $stmt = $pdo->prepare("UPDATE cars SET name = ?, description = ?, price = ? WHERE id = ?");
-        $stmt->execute([$name, $description, $price, $car_id]);
-        $success = "Car updated successfully!";
     }
-} else {
-    $car_id = $_GET['id'];
-    $stmt = $pdo->prepare("SELECT * FROM cars WHERE id = ?");
-    $stmt->execute([$car_id]);
-    $car = $stmt->fetch();
 
-    if (!$car) {
-        header("Location: dashboard.php");
-        exit();
+    echo "The car has been updated.";
+}
+
+// Handle image deletion
+if (isset($_POST['delete_image_id'])) {
+    $image_id = $_POST['delete_image_id'];
+
+    // Fetch the image path to delete it from the server
+    $stmt = $pdo->prepare("SELECT image_path FROM cars_images WHERE id = ?");
+    $stmt->execute([$image_id]);
+    $image = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($image) {
+        // Delete the image from the server
+        if (file_exists($image['image_path'])) {
+            unlink($image['image_path']);
+        }
+
+        // Delete the image from the database
+        $stmt = $pdo->prepare("DELETE FROM cars_images WHERE id = ?");
+        $stmt->execute([$image_id]);
     }
+    echo "Image deleted successfully.";
 }
 ?>
 
@@ -76,41 +109,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="text-center">Edit Car</h1>
-
-        <?php if (isset($error)) : ?>
-            <div class="alert alert-danger"><?= $error ?></div>
-        <?php elseif (isset($success)) : ?>
-            <div class="alert alert-success"><?= $success ?></div>
-        <?php endif; ?>
-
-        <form action="" method="post" enctype="multipart/form-data" class="mt-4">
-            <input type="hidden" name="car_id" value="<?= $car['id'] ?>">
+        <h1>Edit Car</h1>
+        <form action="" method="POST" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="name">Car Name</label>
-                <input type="text" name="name" id="name" class="form-control" value="<?= $car['name'] ?>" required>
+                <label for="model">Car Model</label>
+                <input type="text" class="form-control" name="model" value="<?= htmlspecialchars($car['model']) ?>" required>
             </div>
             <div class="form-group">
-                <label for="description">Description</label>
-                <textarea name="description" id="description" class="form-control" required><?= $car['description'] ?></textarea>
+                <label for="status">Status</label>
+                <select class="form-control" name="status" required>
+                    <option value="available" <?= $car['status'] == 'available' ? 'selected' : '' ?>>Available</option>
+                    <option value="occupied" <?= $car['status'] == 'occupied' ? 'selected' : '' ?>>Occupied</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="price">Price</label>
-                <input type="number" step="0.01" name="price" id="price" class="form-control" value="<?= $car['price'] ?>" required>
+                <input type="number" class="form-control" name="price" value="<?= htmlspecialchars($car['price']) ?>" required>
             </div>
             <div class="form-group">
-                <label for="image">Upload New Image (leave blank if not changing)</label>
-                <input type="file" name="image" id="image" class="form-control-file">
-                <?php if ($car['image']) : ?>
-                    <p>Current Image:</p>
-                    <img src="<?= $car['image'] ?>" alt="<?= $car['name'] ?>" width="100">
-                <?php endif; ?>
+                <label for="images">Upload New Images (Optional)</label>
+                <input type="file" class="form-control" name="images[]" accept="image/*" multiple>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Update Car</button>
+            <button type="submit" name="update_car" class="btn btn-primary">Update Car</button>
         </form>
-        <div class="text-center mt-3">
-            <a href="dashboard.php" class="btn btn-secondary">Back to Dashboard</a>
+
+        <h3 class="mt-4">Existing Images</h3>
+        <div class="row">
+            <?php foreach ($images as $image): ?>
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <img src="<?= htmlspecialchars($image['image_path']) ?>" class="card-img-top" alt="Image">
+                        <div class="card-body text-center">
+                            <form method="POST" action="">
+                                <input type="hidden" name="delete_image_id" value="<?= $image['id'] ?>">
+                                <button type="submit" class="btn btn-danger">Delete Image</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
+        
+        <a href="dashboard.php" class="btn btn-secondary mt-3">Back to Dashboard</a>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
