@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 12, 2025 at 07:50 PM
+-- Generation Time: Oct 31, 2024 at 08:57 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -36,6 +36,13 @@ CREATE TABLE `cars` (
   `destination_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `cars`
+--
+
+INSERT INTO `cars` (`id`, `model`, `status`, `price`, `image`, `destination_id`) VALUES
+(2, 'hyndai Santro Lx', 'available', '23233.00', NULL, 8);
+
 -- --------------------------------------------------------
 
 --
@@ -47,6 +54,13 @@ CREATE TABLE `cars_images` (
   `car_id` int(11) NOT NULL,
   `image_path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cars_images`
+--
+
+INSERT INTO `cars_images` (`id`, `car_id`, `image_path`) VALUES
+(1, 2, 'uploads/Capture.PNG');
 
 -- --------------------------------------------------------
 
@@ -66,7 +80,7 @@ CREATE TABLE `destinations` (
 --
 
 INSERT INTO `destinations` (`id`, `name`, `description`, `image`) VALUES
-(9, 'gulmarg', 'aaaaaaaa', NULL);
+(8, 'gulmarg', 'paradise on earth.', NULL);
 
 -- --------------------------------------------------------
 
@@ -80,14 +94,6 @@ CREATE TABLE `destination_images` (
   `image_path` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `destination_images`
---
-
-INSERT INTO `destination_images` (`id`, `destination_id`, `image_path`, `created_at`) VALUES
-(8, 9, 'uploads/Capture.PNG', '2025-01-12 18:48:54'),
-(9, 9, 'uploads/check3n4.PNG', '2025-01-12 18:48:54');
 
 -- --------------------------------------------------------
 
@@ -106,6 +112,13 @@ CREATE TABLE `hotels` (
   `destination_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `hotels`
+--
+
+INSERT INTO `hotels` (`id`, `name`, `location`, `description`, `price`, `status`, `image`, `destination_id`) VALUES
+(2, 'gulmarg', 'asasd', 'saedfsff chat gpt', '2344.00', 'available', NULL, 8);
+
 -- --------------------------------------------------------
 
 --
@@ -117,6 +130,13 @@ CREATE TABLE `hotel_images` (
   `hotel_id` int(11) NOT NULL,
   `image_path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `hotel_images`
+--
+
+INSERT INTO `hotel_images` (`id`, `hotel_id`, `image_path`) VALUES
+(2, 2, 'uploads/check3n4.PNG');
 
 -- --------------------------------------------------------
 
@@ -133,6 +153,13 @@ CREATE TABLE `packages` (
   `image` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `packages`
+--
+
+INSERT INTO `packages` (`id`, `name`, `description`, `price`, `destination_id`, `image`) VALUES
+(6, 'gulmarg 3 star', 'wssdsds\r\nsddsd\r\n', '22222.00', 8, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -144,6 +171,13 @@ CREATE TABLE `packages_images` (
   `package_id` int(11) NOT NULL,
   `image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `packages_images`
+--
+
+INSERT INTO `packages_images` (`id`, `package_id`, `image`) VALUES
+(3, 6, 'uploads/Capture.PNG');
 
 -- --------------------------------------------------------
 
@@ -249,13 +283,13 @@ ALTER TABLE `cars_images`
 -- AUTO_INCREMENT for table `destinations`
 --
 ALTER TABLE `destinations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `destination_images`
 --
 ALTER TABLE `destination_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `hotels`
