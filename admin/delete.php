@@ -25,6 +25,9 @@ if (isset($_GET['type']) && isset($_GET['id'])) {
         case "car":
             $tableName = "cars";
             break;
+        case "blog":
+            $tableName = "blogs";
+            break;
         default:
             echo "Invalid type.";
             exit();

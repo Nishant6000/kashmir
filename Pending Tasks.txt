@@ -1,0 +1,75 @@
+Pending Tasks
+Backend Development
+Client Features
+Authentication System
+
+Implement Login/Signup functionality.
+Add email OTP verification for client registration or login.
+Redirect to the client dashboard upon successful verification.
+Client Dashboard
+
+View Cart: Display items or services added by the client.
+View Transactions: Show past transactions, including payment status and details.
+Admin Features
+Manage Packages
+
+Add package categories (e.g., Featured Packages).
+Define package details:
+Day-wise itinerary and pricing.
+Breakfast, lunch, and dinner options with respective prices.
+Terms and conditions for each package.
+Hotel Management for Packages
+
+Add included hotels for packages.
+Specify optional hotels with location-wise pricing.
+Vehicle Management for Packages
+
+Add included vehicles for packages.
+Specify optional cars with location-wise pricing.
+Blog Management
+
+Add, edit, and delete blogs.
+Frontend Development
+Home Page Features
+Packages
+
+Load packages based on each location dynamically.
+Display packages of a selected location upon clicking.
+Featured Packages
+
+Show the latest 5 packages as featured packages.
+Trending Packages
+
+Display the 5 lowest-cost packages as trending packages.
+Top Honeymoon Packages
+
+Highlight the top 5 honeymoon packages.
+Blogs
+
+Display blogs dynamically from the database.
+Destinations
+Dynamically load destinations from the database.
+Display packages linked to specific destinations.
+Packages Page
+Load packages dynamically from the database.
+Implement pagination for package listings.
+Blogs Page
+Dynamically load and display blogs from the database.
+Package Details Page
+Display complete package details, including:
+
+Day-wise itinerary.
+Terms and conditions.
+Booking Process
+
+Pop-up to input the total number of adults and kids.
+Calculate and display the price dynamically.
+Prompt for email input.
+On "Proceed," send the enquiry details via email.
+Additional Features
+SEO Optimization
+
+Optimize each page for search engines.
+Chatbot Integration
+
+Add a chatbot for user assistance and FAQs.
