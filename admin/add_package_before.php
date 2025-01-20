@@ -7,21 +7,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $description = $_POST['description'];
     $price = $_POST['price'];
     $duration = $_POST['duration']; // Get the duration value
-    $category = $_POST['category']; // Get category value
-    $rating = $_POST['rating']; // Get the rating value
-    $reviews = $_POST['reviews']; // Get the reviews value
-
-    // Set category flags based on selected category
-    $is_honeymoon = $category == 'honeymoon' ? 1 : 0;
-    $is_trending = $category == 'trending' ? 1 : 0;
-    $is_featured = $category == 'featured' ? 1 : 0;
-    $is_budget = $category == 'budget' ? 1 : 0;
-    $is_premium = $category == 'premium' ? 1 : 0;
 
     // Insert the package into the packages table
     try {
-        $stmt = $pdo->prepare("INSERT INTO packages (destination_id, name, description, price, duration, is_trending, is_featured, rating, is_honeymoon, is_budget, is_premium, reviews) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$destination_id, $name, $description, $price, $duration, $is_trending, $is_featured, $rating, $is_honeymoon, $is_budget, $is_premium, $reviews]);
+        $stmt = $pdo->prepare("INSERT INTO packages (destination_id, name, description, price, duration) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([$destination_id, $name, $description, $price, $duration]);
 
         // Get the last inserted package ID
         $package_id = $pdo->lastInsertId();
@@ -29,12 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error = "Error: " . $e->getMessage();
     }
 
-    // Handle file uploads (same code as before)
+    // Handle file uploads
     $target_dir = "uploads/"; // Directory to save uploaded images
     $uploadOk = 1;
     $success = '';
     $error = '';
 
+    // Loop through each uploaded file
     foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) {
         if ($_FILES['images']['error'][$key] == UPLOAD_ERR_OK) {
             $target_file = $target_dir . basename($_FILES["images"]["name"][$key]);
@@ -65,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Attempt to upload the file
             if ($uploadOk) {
                 if (move_uploaded_file($tmp_name, $target_file)) {
-                    // Insert image record into the database
+                    // Insert data into packages_images table
                     try {
                         $stmtImage = $pdo->prepare("INSERT INTO packages_images (package_id, image) VALUES (?, ?)");
                         $stmtImage->execute([$package_id, $target_file]);
@@ -116,58 +107,28 @@ $destinations = $stmtDestinations->fetchAll(PDO::FETCH_ASSOC);
                     <?php endforeach; ?>
                 </select>
             </div>
-            
-            <!-- Category selection -->
-            <div class="form-group">
-                <label for="category">Package Category</label>
-                <select name="category" id="category" class="form-control" required>
-                    <option value="">Select a category</option>
-                    <option value="honeymoon">Honeymoon</option>
-                    <option value="trending">Trending</option>
-                    <option value="featured">Featured</option>
-                    <option value="budget">Budget</option>
-                    <option value="premium">Premium</option>
-                </select>
-            </div>
-            
             <div class="form-group">
                 <label for="name">Package Name</label>
                 <input type="text" name="name" id="name" class="form-control" required>
             </div>
-            
             <div class="form-group">
                 <label for="description">Description</label>
                 <textarea name="description" id="description" class="form-control" required></textarea>
             </div>
-            
             <div class="form-group">
                 <label for="price">Price</label>
                 <input type="number" step="0.01" name="price" id="price" class="form-control" required>
             </div>
-            
             <div class="form-group">
                 <label for="duration">Duration</label>
                 <input type="text" name="duration" id="duration" class="form-control" placeholder="e.g., 3 days, 5 nights" required>
             </div>
-            
-            <div class="form-group">
-                <label for="rating">Rating (1-5)</label>
-                <input type="number" name="rating" id="rating" class="form-control" min="1" max="5" step="0.1" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="reviews">Number of Reviews</label>
-                <input type="number" name="reviews" id="reviews" class="form-control" min="0" required>
-            </div>
-
             <div class="form-group">
                 <label for="images">Upload Images (multiple)</label>
                 <input type="file" name="images[]" id="images" class="form-control-file" multiple required>
             </div>
-            
             <button type="submit" class="btn btn-primary btn-block">Add Package</button>
         </form>
-        
         <div class="text-center mt-3">
             <a href="dashboard.php" class="btn btn-secondary">Back to Dashboard</a>
         </div>

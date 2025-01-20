@@ -44,7 +44,18 @@ if ($result->num_rows > 0) {
         $destinations[] = $row;
     }
 }
+// Fetch Featured Packages
+$featured_sql = "SELECT * FROM packages WHERE is_featured = 1 LIMIT 6"; // Add conditions as needed
+$featured_result = $conn->query($featured_sql);
+
+// Fetch Trending Packages
+$trending_sql = "SELECT * FROM packages WHERE is_trending = 1 LIMIT 6"; // Add conditions as needed
+$trending_result = $conn->query($trending_sql);
 // Close connection
+print_r($featured_result);
+print_r($trending_result);
+die;
+
 $conn->close();
 ?>
 
@@ -367,25 +378,57 @@ $conn->close();
 <li>
 <a href="#">
 Srinagar
-<span>22 Packages</span>
+<span><?php 
+foreach($destinations as $destination){
+	if($destination["destination_name"] == "Srinagar"){
+		echo $destination["package_count"];
+	}else{
+		echo 0;
+	}
+}
+?> Packages</span>
 </a>
 </li>
 <li>
 <a href="#">
 Leh
-<span>18 Packages</span>
+<span><?php 
+foreach($destinations as $destination){
+	if($destination["destination_name"] == "Leh"){
+		echo $destination["package_count"];
+	}else{
+		echo 0;
+	}
+}
+?> Packages</span>
 </a>
 </li>
 <li>
 <a href="#">
 Ladkah
-<span>18 Packages</span>
+<span><?php 
+foreach($destinations as $destination){
+	if($destination["destination_name"] == "Ladkah"){
+		echo $destination["package_count"];
+	}else{
+		echo 0;
+	}
+}
+?> Packages</span>
 </a>
 </li>
 <li>
 <a href="#">
 Sonmag
-<span>18 Packages</span>
+<span><?php 
+foreach($destinations as $destination){
+	if($destination["destination_name"] == "Sonmag"){
+		echo $destination["package_count"];
+	}else{
+		echo 0;
+	}
+}
+?> Packages</span>
 </a>
 </li>
 </ul>
@@ -395,25 +438,57 @@ Sonmag
 <li>
 <a href="#">
 Katra
-<span>18 Packages</span>
+<span><?php 
+foreach($destinations as $destination){
+	if($destination["destination_name"] == "Katra"){
+		echo $destination["package_count"];
+	}else{
+		echo 0;
+	}
+}
+?> Packages</span>
 </a>
 </li>
 <li>
 <a href="#">
 Gurez valley
-<span>18 Packages</span>
+<span><?php 
+foreach($destinations as $destination){
+	if($destination["destination_name"] == "Gurez valley"){
+		echo $destination["package_count"];
+	}else{
+		echo 0;
+	}
+}
+?> Packages</span>
 </a>
 </li>
 <li>
 <a href="#">
 Gulmarg
-<span>18 Packages</span>
+<span><?php 
+foreach($destinations as $destination){
+	if($destination["destination_name"] == "Gulmarg"){
+		echo $destination["package_count"];
+	}else{
+		echo 0;
+	}
+}
+?> Packages</span>
 </a>
 </li>
 <li>
 <a href="#">
 Pahalgam
-<span>18 Packages</span>
+<span><?php 
+foreach($destinations as $destination){
+	if($destination["destination_name"] == "Pahalgam"){
+		echo $destination["package_count"];
+	}else{
+		echo 0;
+	}
+}
+?> Packages</span>
 </a>
 </li>
 </ul>
@@ -423,25 +498,57 @@ Pahalgam
 <li>
 <a href="#">
 Dachigam
-<span>422 Packages</span>
+<span><?php 
+foreach($destinations as $destination){
+	if($destination["destination_name"] == "Dachigam"){
+		echo $destination["package_count"];
+	}else{
+		echo 0;
+	}
+}
+?> Packages</span>
 </a>
 </li>
 <li>
 <a href="#">
 Anantnag
-<span>200 Packages</span>
+<span><?php 
+foreach($destinations as $destination){
+	if($destination["destination_name"] == "Anantnag"){
+		echo $destination["package_count"];
+	}else{
+		echo 0;
+	}
+}
+?> Packages</span>
 </a>
 </li>
 <li>
 <a href="#">
 Manali
-<span>200 Packages</span>
+<span><?php 
+foreach($destinations as $destination){
+	if($destination["destination_name"] == "Manali"){
+		echo $destination["package_count"];
+	}else{
+		echo 0;
+	}
+}
+?> Packages</span>
 </a>
 </li>
 <li>
 <a href="#">
 Shimla
-<span>200 Packages</span>
+<span><?php 
+foreach($destinations as $destination){
+	if($destination["destination_name"] == "Shimla"){
+		echo $destination["package_count"];
+	}else{
+		echo 0;
+	}
+}
+?> Packages</span>
 </a>
 </li>
 </ul>

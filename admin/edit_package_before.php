@@ -32,23 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $description = $_POST['description'];
     $price = $_POST['price'];
     $duration = $_POST['duration']; // Get the updated duration value
-    $rating = $_POST['rating']; // Get updated rating
-    $reviews = $_POST['reviews']; // Get updated reviews count
-    
-    // Get status for honeymoon, trending, featured, budget, and premium
-    $is_honeymoon = isset($_POST['is_honeymoon']) ? 1 : 0;
-    $is_trending = isset($_POST['is_trending']) ? 1 : 0;
-    $is_featured = isset($_POST['is_featured']) ? 1 : 0;
-    $is_budget = isset($_POST['is_budget']) ? 1 : 0;
-    $is_premium = isset($_POST['is_premium']) ? 1 : 0;
 
     // Update package details
-    $stmt = $pdo->prepare("UPDATE packages SET 
-        destination_id = ?, name = ?, description = ?, price = ?, duration = ?, 
-        rating = ?, reviews = ?, is_honeymoon = ?, is_trending = ?, is_featured = ?, 
-        is_budget = ?, is_premium = ? WHERE id = ?");
-    $stmt->execute([$destination_id, $name, $description, $price, $duration, $rating, $reviews, 
-                    $is_honeymoon, $is_trending, $is_featured, $is_budget, $is_premium, $package_id]);
+    $stmt = $pdo->prepare("UPDATE packages SET destination_id = ?, name = ?, description = ?, price = ?, duration = ? WHERE id = ?");
+    $stmt->execute([$destination_id, $name, $description, $price, $duration, $package_id]);
 
     // Handle new image uploads
     if (!empty($_FILES['images']['tmp_name'][0])) {
@@ -159,14 +146,6 @@ if (isset($_GET['delete_image_id'])) {
                 <input type="text" name="duration" id="duration" class="form-control" value="<?= htmlspecialchars($package['duration']) ?>" required>
             </div>
             <div class="form-group">
-                <label for="rating">Rating</label>
-                <input type="number" step="0.1" name="rating" id="rating" class="form-control" value="<?= htmlspecialchars($package['rating']) ?>" min="0" max="5" required>
-            </div>
-            <div class="form-group">
-                <label for="reviews">Reviews</label>
-                <input type="number" name="reviews" id="reviews" class="form-control" value="<?= htmlspecialchars($package['reviews']) ?>" min="0" required>
-            </div>
-            <div class="form-group">
                 <label for="images">Upload New Images (Optional)</label>
                 <input type="file" name="images[]" id="images" class="form-control-file" multiple>
             </div>
@@ -178,26 +157,6 @@ if (isset($_GET['delete_image_id'])) {
                         <a href="?id=<?= $package_id ?>&delete_image_id=<?= $image['id'] ?>" class="btn btn-danger btn-sm mt-2" onclick="return confirm('Are you sure you want to delete this image?');">Delete</a>
                     </div>
                 <?php endforeach; ?>
-            </div>
-            <div class="form-group form-check">
-                <input type="checkbox" name="is_honeymoon" id="is_honeymoon" class="form-check-input" <?= $package['is_honeymoon'] ? 'checked' : '' ?>>
-                <label for="is_honeymoon" class="form-check-label">Honeymoon</label>
-            </div>
-            <div class="form-group form-check">
-                <input type="checkbox" name="is_trending" id="is_trending" class="form-check-input" <?= $package['is_trending'] ? 'checked' : '' ?>>
-                <label for="is_trending" class="form-check-label">Trending</label>
-            </div>
-            <div class="form-group form-check">
-                <input type="checkbox" name="is_featured" id="is_featured" class="form-check-input" <?= $package['is_featured'] ? 'checked' : '' ?>>
-                <label for="is_featured" class="form-check-label">Featured</label>
-            </div>
-            <div class="form-group form-check">
-                <input type="checkbox" name="is_budget" id="is_budget" class="form-check-input" <?= $package['is_budget'] ? 'checked' : '' ?>>
-                <label for="is_budget" class="form-check-label">Budget</label>
-            </div>
-            <div class="form-group form-check">
-                <input type="checkbox" name="is_premium" id="is_premium" class="form-check-input" <?= $package['is_premium'] ? 'checked' : '' ?>>
-                <label for="is_premium" class="form-check-label">Premium</label>
             </div>
             <button type="submit" class="btn btn-primary">Update Package</button>
         </form>
