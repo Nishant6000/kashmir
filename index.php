@@ -45,16 +45,75 @@ if ($result->num_rows > 0) {
     }
 }
 // Fetch Featured Packages
-$featured_sql = "SELECT * FROM packages WHERE is_featured = 1 LIMIT 6"; // Add conditions as needed
+$featured_sql = "
+    SELECT 
+        packages.*, 
+        packages_images.* 
+    FROM 
+        packages 
+    INNER JOIN 
+        packages_images 
+    ON 
+        packages.id = packages_images.package_id
+    WHERE 
+        packages.is_featured = 1 
+    LIMIT 6
+";
 $featured_result = $conn->query($featured_sql);
+$trending_sql = "
+    SELECT 
+        packages.*, 
+        packages_images.* 
+    FROM 
+        packages 
+    INNER JOIN 
+        packages_images 
+    ON 
+        packages.id = packages_images.package_id
+    WHERE 
+        packages.is_trending = 1 
+    LIMIT 6
+";
+$trending_result = $conn->query($trending_sql);
+$honeymoon_sql = "
+    SELECT 
+        packages.*, 
+        packages_images.* 
+    FROM 
+        packages 
+    INNER JOIN 
+        packages_images 
+    ON 
+        packages.id = packages_images.package_id
+    WHERE 
+        packages.is_honeymoon = 1 
+    LIMIT 6
+";
+$honeymoon_result = $conn->query($honeymoon_sql);
+
+$default_featured = array();
+$default_featured['name'] = "Romantic Escape to Kashmir | FREE Excursion to Gulmarg";
+$default_featured['description'] = "Romantic Escape to Kashmir | FREE Excursion to Gulmarg";
+$default_featured['duration'] = "6 days & 5 Night";
+$default_featured['price'] = "12000";
+$default_featured['link'] = "";
+$default_featured['image'] = "images/k1.jpg";
+$default_featured['rating'] = "4.0";
+$default_featured['reviews'] = "1200";
+// Count how many rows have been displayed
+$displayed_rows = 0;
+$displayed_rows_tre = 0;
+$displayed_rows_hon = 0;
+$total_cards = 6; // Minimum cards to display
+
 
 // Fetch Trending Packages
-$trending_sql = "SELECT * FROM packages WHERE is_trending = 1 LIMIT 6"; // Add conditions as needed
-$trending_result = $conn->query($trending_sql);
-// Close connection
-print_r($featured_result);
-print_r($trending_result);
-die;
+// $trending_sql = "SELECT * FROM packages WHERE is_trending = 1 LIMIT 6"; // Add conditions as needed
+// $trending_result = $conn->query($trending_sql);
+// // Close connection
+// print_r($featured_result);
+// print_r($trending_result);
+//die;
 
 $conn->close();
 ?>
@@ -575,8 +634,83 @@ foreach($destinations as $destination){
 			</ul>
 		</nav>
 	  </div>
-	  <div id="pac1" class="row">	  
-<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+	  <div id="pac1" class="row">
+	  <?php
+    if ($featured_result->num_rows > 0) {
+        // Display featured packages from the database
+        while ($row = $featured_result->fetch_assoc()) {
+            $displayed_rows++;
+    ?>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+                <div class="card product-card">
+                    <a href="<?= htmlspecialchars($row['link'] ?? '#') ?>" target="_blank">
+                        <img src="<?= htmlspecialchars($row['image']) ?>" alt="<?= htmlspecialchars($row['name']) ?>" class="card-img-top">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div class="duration"><?= htmlspecialchars($row['duration']) ?></div>
+                                <div class="rating-box">
+                                    <div class="star-rating">
+                                        <i class="fa fa-star checked" data-index="0"></i>
+                                        <i class="fa fa-star checked" data-index="1"></i>
+                                        <i class="fa fa-star checked" data-index="2"></i>
+                                        <i class="fa fa-star checked" data-index="3"></i>
+                                        <i class="fa fa-star <?= ($row['rating'] >= 4.5 ? 'checked' : 'unchecked') ?>" data-index="4"></i>
+                                    </div>
+                                    <div class="rating"><?= htmlspecialchars($row['rating']) ?></div>
+                                    <div class="rating-count">(<?= htmlspecialchars($row['reviews']) ?>)</div>
+                                </div>
+                            </div>
+                            <h5 class="card-title"><?= htmlspecialchars($row['name']) ?></h5>
+                            <div class="d-flex justify-content-between">
+                                <div class="price">INR <?= htmlspecialchars($row['price']) ?></div>
+								<div class="strike-price">INR <?= number_format($row['price'] * 1.25, 2) ?></div>
+                            </div>
+                            <button class="btn btn-primary btn-block">Request Callback</button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+    <?php
+        }
+    }
+
+    // Fill remaining cards with default content
+    while ($displayed_rows < $total_cards) {
+        $displayed_rows++;
+    ?>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+            <div class="card product-card">
+                <a href="<?= htmlspecialchars($default_featured['link']) ?>" target="_blank">
+                    <img src="<?= htmlspecialchars($default_featured['image']) ?>" alt="<?= htmlspecialchars($default_featured['name']) ?>" class="card-img-top">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div class="duration"><?= htmlspecialchars($default_featured['duration']) ?></div>
+                            <div class="rating-box">
+                                <div class="star-rating">
+                                    <i class="fa fa-star checked" data-index="0"></i>
+                                    <i class="fa fa-star checked" data-index="1"></i>
+                                    <i class="fa fa-star checked" data-index="2"></i>
+                                    <i class="fa fa-star checked" data-index="3"></i>
+                                    <i class="fa fa-star <?= ($default_featured['rating'] >= 4.5 ? 'checked' : 'unchecked') ?>" data-index="4"></i>
+                                </div>
+                                <div class="rating"><?= htmlspecialchars($default_featured['rating']) ?></div>
+                                <div class="rating-count">(<?= htmlspecialchars($default_featured['reviews']) ?>)</div>
+                            </div>
+                        </div>
+                        <h5 class="card-title"><?= htmlspecialchars($default_featured['name']) ?></h5>
+                        <div class="d-flex justify-content-between">
+                            <div class="price">INR <?= htmlspecialchars($default_featured['price']) ?></div>
+							<div class="strike-price">INR <?= number_format($default_featured['price'] * 1.25, 2) ?></div>
+                        </div>
+                        <button class="btn btn-primary btn-block">Request Callback</button>
+                    </div>
+                </a>
+            </div>
+        </div>
+    <?php
+    }
+    ?>	  
+<!-- <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
 	<div class="card product-card">
         <a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
           <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
@@ -763,7 +897,7 @@ foreach($destinations as $destination){
         </a>
       </div>
 	  
-</div>
+</div> -->
 </div>
 </div>
 <div class="row justify-content-center">
@@ -780,195 +914,82 @@ foreach($destinations as $destination){
 				</ul>
 			</nav>
 		  </div>
-		  <div id="pac2" class="row">			
-	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-		<div class="card product-card">
-			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
-			  <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-			  <div class="card-body">
-				<div class="d-flex justify-content-between">
-				  <div class="duration">6 days &amp; 5 nights</div>
-				  <div class="rating-box">
-					<div class="star-rating">
-						<i class="fa fa-star checked" data-index="0"></i>
-						<i class="fa fa-star checked" data-index="1"></i>
-						<i class="fa fa-star checked" data-index="2"></i>
-						<i class="fa fa-star checked" data-index="3"></i>
-						<i class="fa fa-star unchecked" data-index="4"></i>
-					</div>
-					<div class="rating">4.5</div>
-					<div class="rating-count">(2.2K)</div>
-				  </div>
-				</div>
-				<h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-				<div class="d-flex justify-content-between">
-				  <div class="price">INR 21,000</div>
-				  <div class="strike-price">INR 38,182</div>
-				</div>
-				<div class="save-price">SAVE INR 17,182</div>
-				<button class="btn btn-primary btn-block">Request Callback</button>
-			  </div>
-			</a>
-		  </div>
-	</div>
-	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-		<div class="card product-card">
-			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
-			  <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-			  <div class="card-body">
-				<div class="d-flex justify-content-between">
-				  <div class="duration">6 days &amp; 5 nights</div>
-				  <div class="rating-box">
-					<div class="star-rating">
-						<i class="fa fa-star checked" data-index="0"></i>
-						<i class="fa fa-star checked" data-index="1"></i>
-						<i class="fa fa-star checked" data-index="2"></i>
-						<i class="fa fa-star checked" data-index="3"></i>
-						<i class="fa fa-star unchecked" data-index="4"></i>
-					</div>
-					<div class="rating">4.5</div>
-					<div class="rating-count">(2.2K)</div>
-				  </div>
-				</div>
-				<h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-				<div class="d-flex justify-content-between">
-				  <div class="price">INR 21,000</div>
-				  <div class="strike-price">INR 38,182</div>
-				</div>
-				<div class="save-price">SAVE INR 17,182</div>
-				<button class="btn btn-primary btn-block">Request Callback</button>
-			  </div>
-			</a>
-		  </div>
-	</div>
-	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-		
-		<div class="card product-card">
-			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
-			  <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-			  <div class="card-body">
-				<div class="d-flex justify-content-between">
-				  <div class="duration">6 days &amp; 5 nights</div>
-				  <div class="rating-box">
-					<div class="star-rating">
-						<i class="fa fa-star checked" data-index="0"></i>
-						<i class="fa fa-star checked" data-index="1"></i>
-						<i class="fa fa-star checked" data-index="2"></i>
-						<i class="fa fa-star checked" data-index="3"></i>
-						<i class="fa fa-star unchecked" data-index="4"></i>
-					</div>
-					<div class="rating">4.5</div>
-					<div class="rating-count">(2.2K)</div>
-				  </div>
-				</div>
-				<h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-				<div class="d-flex justify-content-between">
-				  <div class="price">INR 21,000</div>
-				  <div class="strike-price">INR 38,182</div>
-				</div>
-				<div class="save-price">SAVE INR 17,182</div>
-				<button class="btn btn-primary btn-block">Request Callback</button>
-			  </div>
-			</a>
-		  </div>
-		  
-	</div>
-	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-	
-		<div class="card product-card">
-			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
-			  <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-			  <div class="card-body">
-				<div class="d-flex justify-content-between">
-				  <div class="duration">6 days &amp; 5 nights</div>
-				  <div class="rating-box">
-					<div class="star-rating">
-						<i class="fa fa-star checked" data-index="0"></i>
-						<i class="fa fa-star checked" data-index="1"></i>
-						<i class="fa fa-star checked" data-index="2"></i>
-						<i class="fa fa-star checked" data-index="3"></i>
-						<i class="fa fa-star unchecked" data-index="4"></i>
-					</div>
-					<div class="rating">4.5</div>
-					<div class="rating-count">(2.2K)</div>
-				  </div>
-				</div>
-				<h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-				<div class="d-flex justify-content-between">
-				  <div class="price">INR 21,000</div>
-				  <div class="strike-price">INR 38,182</div>
-				</div>
-				<div class="save-price">SAVE INR 17,182</div>
-				<button class="btn btn-primary btn-block">Request Callback</button>
-			  </div>
-			</a>
-		  </div>
-		  
-	</div>
-	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-	
-		<div class="card product-card">
-			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
-			  <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-			  <div class="card-body">
-				<div class="d-flex justify-content-between">
-				  <div class="duration">6 days &amp; 5 nights</div>
-				  <div class="rating-box">
-					<div class="star-rating">
-						<i class="fa fa-star checked" data-index="0"></i>
-						<i class="fa fa-star checked" data-index="1"></i>
-						<i class="fa fa-star checked" data-index="2"></i>
-						<i class="fa fa-star checked" data-index="3"></i>
-						<i class="fa fa-star unchecked" data-index="4"></i>
-					</div>
-					<div class="rating">4.5</div>
-					<div class="rating-count">(2.2K)</div>
-				  </div>
-				</div>
-				<h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-				<div class="d-flex justify-content-between">
-				  <div class="price">INR 21,000</div>
-				  <div class="strike-price">INR 38,182</div>
-				</div>
-				<div class="save-price">SAVE INR 17,182</div>
-				<button class="btn btn-primary btn-block">Request Callback</button>
-			  </div>
-			</a>
-		  </div>
-		  
-	</div>
-	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-	
-		<div class="card product-card">
-			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
-			  <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-			  <div class="card-body">
-				<div class="d-flex justify-content-between">
-				  <div class="duration">6 days &amp; 5 nights</div>
-				  <div class="rating-box">
-					<div class="star-rating">
-						<i class="fa fa-star checked" data-index="0"></i>
-						<i class="fa fa-star checked" data-index="1"></i>
-						<i class="fa fa-star checked" data-index="2"></i>
-						<i class="fa fa-star checked" data-index="3"></i>
-						<i class="fa fa-star unchecked" data-index="4"></i>
-					</div>
-					<div class="rating">4.5</div>
-					<div class="rating-count">(2.2K)</div>
-				  </div>
-				</div>
-				<h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-				<div class="d-flex justify-content-between">
-				  <div class="price">INR 21,000</div>
-				  <div class="strike-price">INR 38,182</div>
-				</div>
-				<div class="save-price">SAVE INR 17,182</div>
-				<button class="btn btn-primary btn-block">Request Callback</button>
-			  </div>
-			</a>
-		  </div>
-		  
-	</div>
+		  <div id="pac2" class="row">
+			<?php			
+		  if ($trending_result->num_rows > 0) {
+        // Display featured packages from the database
+        while ($row = $trending_result->fetch_assoc()) {
+            $displayed_rows_tre++;
+    ?>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+                <div class="card product-card">
+                    <a href="<?= htmlspecialchars($row['link'] ?? '#') ?>" target="_blank">
+                        <img src="<?= htmlspecialchars($row['image']) ?>" alt="<?= htmlspecialchars($row['name']) ?>" class="card-img-top">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div class="duration"><?= htmlspecialchars($row['duration']) ?></div>
+                                <div class="rating-box">
+                                    <div class="star-rating">
+                                        <i class="fa fa-star checked" data-index="0"></i>
+                                        <i class="fa fa-star checked" data-index="1"></i>
+                                        <i class="fa fa-star checked" data-index="2"></i>
+                                        <i class="fa fa-star checked" data-index="3"></i>
+                                        <i class="fa fa-star <?= ($row['rating'] >= 4.5 ? 'checked' : 'unchecked') ?>" data-index="4"></i>
+                                    </div>
+                                    <div class="rating"><?= htmlspecialchars($row['rating']) ?></div>
+                                    <div class="rating-count">(<?= htmlspecialchars($row['reviews']) ?>)</div>
+                                </div>
+                            </div>
+                            <h5 class="card-title"><?= htmlspecialchars($row['name']) ?></h5>
+                            <div class="d-flex justify-content-between">
+                                <div class="price">INR <?= htmlspecialchars($row['price']) ?></div>
+								<div class="strike-price">INR <?= number_format($row['price'] * 1.25, 2) ?></div>
+                            </div>
+                            <button class="btn btn-primary btn-block">Request Callback</button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+    <?php
+        }
+    }
+
+    // Fill remaining cards with default content
+    while ($displayed_rows_tre < $total_cards) {
+        $displayed_rows_tre++;
+    ?>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+            <div class="card product-card">
+                <a href="<?= htmlspecialchars($default_featured['link']) ?>" target="_blank">
+                    <img src="<?= htmlspecialchars($default_featured['image']) ?>" alt="<?= htmlspecialchars($default_featured['name']) ?>" class="card-img-top">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div class="duration"><?= htmlspecialchars($default_featured['duration']) ?></div>
+                            <div class="rating-box">
+                                <div class="star-rating">
+                                    <i class="fa fa-star checked" data-index="0"></i>
+                                    <i class="fa fa-star checked" data-index="1"></i>
+                                    <i class="fa fa-star checked" data-index="2"></i>
+                                    <i class="fa fa-star checked" data-index="3"></i>
+                                    <i class="fa fa-star <?= ($default_featured['rating'] >= 4.5 ? 'checked' : 'unchecked') ?>" data-index="4"></i>
+                                </div>
+                                <div class="rating"><?= htmlspecialchars($default_featured['rating']) ?></div>
+                                <div class="rating-count">(<?= htmlspecialchars($default_featured['reviews']) ?>)</div>
+                            </div>
+                        </div>
+                        <h5 class="card-title"><?= htmlspecialchars($default_featured['name']) ?></h5>
+                        <div class="d-flex justify-content-between">
+                            <div class="price">INR <?= htmlspecialchars($default_featured['price']) ?></div>
+							<div class="strike-price">INR <?= number_format($default_featured['price'] * 1.25, 2) ?></div>
+                        </div>
+                        <button class="btn btn-primary btn-block">Request Callback</button>
+                    </div>
+                </a>
+            </div>
+        </div>
+    <?php
+    }
+    ?>
 	</div>
 	</div>
 </div>
@@ -1005,195 +1026,82 @@ foreach($destinations as $destination){
 				</ul>
 			</nav>
 		  </div>
-<div id="pac3" class="row">		  
-	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-		<div class="card product-card">
-			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
-			  <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-			  <div class="card-body">
-				<div class="d-flex justify-content-between">
-				  <div class="duration">6 days &amp; 5 nights</div>
-				  <div class="rating-box">
-					<div class="star-rating">
-						<i class="fa fa-star checked" data-index="0"></i>
-						<i class="fa fa-star checked" data-index="1"></i>
-						<i class="fa fa-star checked" data-index="2"></i>
-						<i class="fa fa-star checked" data-index="3"></i>
-						<i class="fa fa-star unchecked" data-index="4"></i>
-					</div>
-					<div class="rating">4.5</div>
-					<div class="rating-count">(2.2K)</div>
-				  </div>
-				</div>
-				<h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-				<div class="d-flex justify-content-between">
-				  <div class="price">INR 21,000</div>
-				  <div class="strike-price">INR 38,182</div>
-				</div>
-				<div class="save-price">SAVE INR 17,182</div>
-				<button class="btn btn-primary btn-block">Request Callback</button>
-			  </div>
-			</a>
-		  </div>
-	</div>
-	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-		<div class="card product-card">
-			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
-			  <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-			  <div class="card-body">
-				<div class="d-flex justify-content-between">
-				  <div class="duration">6 days &amp; 5 nights</div>
-				  <div class="rating-box">
-					<div class="star-rating">
-						<i class="fa fa-star checked" data-index="0"></i>
-						<i class="fa fa-star checked" data-index="1"></i>
-						<i class="fa fa-star checked" data-index="2"></i>
-						<i class="fa fa-star checked" data-index="3"></i>
-						<i class="fa fa-star unchecked" data-index="4"></i>
-					</div>
-					<div class="rating">4.5</div>
-					<div class="rating-count">(2.2K)</div>
-				  </div>
-				</div>
-				<h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-				<div class="d-flex justify-content-between">
-				  <div class="price">INR 21,000</div>
-				  <div class="strike-price">INR 38,182</div>
-				</div>
-				<div class="save-price">SAVE INR 17,182</div>
-				<button class="btn btn-primary btn-block">Request Callback</button>
-			  </div>
-			</a>
-		  </div>
-	</div>
-	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-		<div class="card product-card">
-			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
-			  <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-			  <div class="card-body">
-				<div class="d-flex justify-content-between">
-				  <div class="duration">6 days &amp; 5 nights</div>
-				  <div class="rating-box">
-					<div class="star-rating">
-						<i class="fa fa-star checked" data-index="0"></i>
-						<i class="fa fa-star checked" data-index="1"></i>
-						<i class="fa fa-star checked" data-index="2"></i>
-						<i class="fa fa-star checked" data-index="3"></i>
-						<i class="fa fa-star unchecked" data-index="4"></i>
-					</div>
-					<div class="rating">4.5</div>
-					<div class="rating-count">(2.2K)</div>
-				  </div>
-				</div>
-				<h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-				<div class="d-flex justify-content-between">
-				  <div class="price">INR 21,000</div>
-				  <div class="strike-price">INR 38,182</div>
-				</div>
-				<div class="save-price">SAVE INR 17,182</div>
-				<button class="btn btn-primary btn-block">Request Callback</button>
-			  </div>
-			</a>
-		  </div>
-		  
-		  
-	</div>
-	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-	
-		<div class="card product-card">
-			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
-			  <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-			  <div class="card-body">
-				<div class="d-flex justify-content-between">
-				  <div class="duration">6 days &amp; 5 nights</div>
-				  <div class="rating-box">
-					<div class="star-rating">
-						<i class="fa fa-star checked" data-index="0"></i>
-						<i class="fa fa-star checked" data-index="1"></i>
-						<i class="fa fa-star checked" data-index="2"></i>
-						<i class="fa fa-star checked" data-index="3"></i>
-						<i class="fa fa-star unchecked" data-index="4"></i>
-					</div>
-					<div class="rating">4.5</div>
-					<div class="rating-count">(2.2K)</div>
-				  </div>
-				</div>
-				<h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-				<div class="d-flex justify-content-between">
-				  <div class="price">INR 21,000</div>
-				  <div class="strike-price">INR 38,182</div>
-				</div>
-				<div class="save-price">SAVE INR 17,182</div>
-				<button class="btn btn-primary btn-block">Request Callback</button>
-			  </div>
-			</a>
-		  </div>
-		  
-	</div>
-	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-	
-		<div class="card product-card">
-			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
-			  <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-			  <div class="card-body">
-				<div class="d-flex justify-content-between">
-				  <div class="duration">6 days &amp; 5 nights</div>
-				  <div class="rating-box">
-					<div class="star-rating">
-						<i class="fa fa-star checked" data-index="0"></i>
-						<i class="fa fa-star checked" data-index="1"></i>
-						<i class="fa fa-star checked" data-index="2"></i>
-						<i class="fa fa-star checked" data-index="3"></i>
-						<i class="fa fa-star unchecked" data-index="4"></i>
-					</div>
-					<div class="rating">4.5</div>
-					<div class="rating-count">(2.2K)</div>
-				  </div>
-				</div>
-				<h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-				<div class="d-flex justify-content-between">
-				  <div class="price">INR 21,000</div>
-				  <div class="strike-price">INR 38,182</div>
-				</div>
-				<div class="save-price">SAVE INR 17,182</div>
-				<button class="btn btn-primary btn-block">Request Callback</button>
-			  </div>
-			</a>
-		  </div>
-		  
-	</div>
-	<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-	
-		<div class="card product-card">
-			<a href="/tours/kashmir-honeymoon-tour-package" target="_blank">
-			  <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-			  <div class="card-body">
-				<div class="d-flex justify-content-between">
-				  <div class="duration">6 days &amp; 5 nights</div>
-				  <div class="rating-box">
-					<div class="star-rating">
-						<i class="fa fa-star checked" data-index="0"></i>
-						<i class="fa fa-star checked" data-index="1"></i>
-						<i class="fa fa-star checked" data-index="2"></i>
-						<i class="fa fa-star checked" data-index="3"></i>
-						<i class="fa fa-star unchecked" data-index="4"></i>
-					</div>
-					<div class="rating">4.5</div>
-					<div class="rating-count">(2.2K)</div>
-				  </div>
-				</div>
-				<h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-				<div class="d-flex justify-content-between">
-				  <div class="price">INR 21,000</div>
-				  <div class="strike-price">INR 38,182</div>
-				</div>
-				<div class="save-price">SAVE INR 17,182</div>
-				<button class="btn btn-primary btn-block">Request Callback</button>
-			  </div>
-			</a>
-		  </div>
-		  
-	</div>
+<div id="pac3" class="row">	
+	<?php	  
+if ($honeymoon_result->num_rows > 0) {
+        // Display featured packages from the database
+        while ($row = $honeymoon_result->fetch_assoc()) {
+            $displayed_rows_hon++;
+    ?>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+                <div class="card product-card">
+                    <a href="<?= htmlspecialchars($row['link'] ?? '#') ?>" target="_blank">
+                        <img src="<?= htmlspecialchars($row['image']) ?>" alt="<?= htmlspecialchars($row['name']) ?>" class="card-img-top">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div class="duration"><?= htmlspecialchars($row['duration']) ?></div>
+                                <div class="rating-box">
+                                    <div class="star-rating">
+                                        <i class="fa fa-star checked" data-index="0"></i>
+                                        <i class="fa fa-star checked" data-index="1"></i>
+                                        <i class="fa fa-star checked" data-index="2"></i>
+                                        <i class="fa fa-star checked" data-index="3"></i>
+                                        <i class="fa fa-star <?= ($row['rating'] >= 4.5 ? 'checked' : 'unchecked') ?>" data-index="4"></i>
+                                    </div>
+                                    <div class="rating"><?= htmlspecialchars($row['rating']) ?></div>
+                                    <div class="rating-count">(<?= htmlspecialchars($row['reviews']) ?>)</div>
+                                </div>
+                            </div>
+                            <h5 class="card-title"><?= htmlspecialchars($row['name']) ?></h5>
+                            <div class="d-flex justify-content-between">
+                                <div class="price">INR <?= htmlspecialchars($row['price']) ?></div>
+								<div class="strike-price">INR <?= number_format($row['price'] * 1.25, 2) ?></div>
+                            </div>
+                            <button class="btn btn-primary btn-block">Request Callback</button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+    <?php
+        }
+    }
+
+    // Fill remaining cards with default content
+    while ($displayed_rows_hon < $total_cards) {
+        $displayed_rows_hon++;
+    ?>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+            <div class="card product-card">
+                <a href="<?= htmlspecialchars($default_featured['link']) ?>" target="_blank">
+                    <img src="<?= htmlspecialchars($default_featured['image']) ?>" alt="<?= htmlspecialchars($default_featured['name']) ?>" class="card-img-top">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div class="duration"><?= htmlspecialchars($default_featured['duration']) ?></div>
+                            <div class="rating-box">
+                                <div class="star-rating">
+                                    <i class="fa fa-star checked" data-index="0"></i>
+                                    <i class="fa fa-star checked" data-index="1"></i>
+                                    <i class="fa fa-star checked" data-index="2"></i>
+                                    <i class="fa fa-star checked" data-index="3"></i>
+                                    <i class="fa fa-star <?= ($default_featured['rating'] >= 4.5 ? 'checked' : 'unchecked') ?>" data-index="4"></i>
+                                </div>
+                                <div class="rating"><?= htmlspecialchars($default_featured['rating']) ?></div>
+                                <div class="rating-count">(<?= htmlspecialchars($default_featured['reviews']) ?>)</div>
+                            </div>
+                        </div>
+                        <h5 class="card-title"><?= htmlspecialchars($default_featured['name']) ?></h5>
+                        <div class="d-flex justify-content-between">
+                            <div class="price">INR <?= htmlspecialchars($default_featured['price']) ?></div>
+							<div class="strike-price">INR <?= number_format($default_featured['price'] * 1.25, 2) ?></div>
+                        </div>
+                        <button class="btn btn-primary btn-block">Request Callback</button>
+                    </div>
+                </a>
+            </div>
+        </div>
+    <?php
+    }
+    ?>
 	</div>
 	</div>
 	</div>
