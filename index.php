@@ -91,6 +91,23 @@ $honeymoon_sql = "
 ";
 $honeymoon_result = $conn->query($honeymoon_sql);
 
+$blog_sql = "
+    SELECT 
+        blogs.*, 
+        blog_images.* 
+    FROM 
+        blogs 
+    INNER JOIN 
+        blog_images 
+    ON 
+        blogs.id = blog_images.blog_id
+    LIMIT 6
+";
+$blog_result = $conn->query($blog_sql);
+//print_r($blog_result);
+
+//die;
+
 $default_featured = array();
 $default_featured['name'] = "Romantic Escape to Kashmir | FREE Excursion to Gulmarg";
 $default_featured['description'] = "Romantic Escape to Kashmir | FREE Excursion to Gulmarg";
@@ -105,7 +122,25 @@ $displayed_rows = 0;
 $displayed_rows_tre = 0;
 $displayed_rows_hon = 0;
 $total_cards = 6; // Minimum cards to display
+$displayed_rows_blog = 0;
 
+$default_featured = array();
+$default_featured['name'] = "Romantic Escape to Kashmir | FREE Excursion to Gulmarg";
+$default_featured['description'] = "Romantic Escape to Kashmir | FREE Excursion to Gulmarg";
+$default_featured['duration'] = "6 days & 5 Night";
+$default_featured['price'] = "12000";
+$default_featured['link'] = "";
+$default_featured['image'] = "images/k1.jpg";
+$default_featured['rating'] = "4.0";
+$default_featured['reviews'] = "1200";
+
+$default_blog = array();
+$default_blog['title'] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
+$default_blog['description'] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor";
+$default_blog['post_date'] = "2025-01-23";
+$default_blog['link'] = "";
+$default_blog['image_path'] = "images/k1.jpg";
+$total_cards_blog = 5;
 
 // Fetch Trending Packages
 // $trending_sql = "SELECT * FROM packages WHERE is_trending = 1 LIMIT 6"; // Add conditions as needed
