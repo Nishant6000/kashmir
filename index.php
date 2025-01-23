@@ -104,8 +104,6 @@ $blog_sql = "
     LIMIT 6
 ";
 $blog_result = $conn->query($blog_sql);
-//print_r($blog_result);
-
 //die;
 
 $default_featured = array();
@@ -1411,7 +1409,57 @@ if ($honeymoon_result->num_rows > 0) {
 </div>
 </div>
 <div class="row">
-<div class="col-md-6 d-flex">
+<?php
+  $dem = "col-md-6";
+    if ($blog_result->num_rows > 0) {
+        // Display featured packages from the database <?= htmlspecialchars($row['name']) 
+        while ($row = $blog_result->fetch_assoc()) {
+            $displayed_rows_blog++;
+            if($displayed_rows_blog > 2){
+                $dem = "col-md-4";
+            }else{
+                $dem = "col-md-6";
+            }
+    ?>
+            <div class="col-md-6 d-flex">
+<div class="blog-entry justify-content-end" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+<a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('<?php echo htmlspecialchars($row["image_path"]); ?>');"
+</a>
+<div class="text">
+<p class="meta"><span>Admin</span> <span><a href="?b=<?= htmlspecialchars($row['id']) ?>"><?= htmlspecialchars($row['post_date']) ?></a></span></p>
+<h3 class="heading mb-3"><a href="#"><?= htmlspecialchars($row['title']) ?></a></h3>
+<p><?= htmlspecialchars($row['description']) ?></p>
+</div>
+</div>
+</div>
+    <?php
+        }
+    }
+
+    // Fill remaining cards with default content
+    while ($displayed_rows_blog < $total_cards_blog) {
+        $displayed_rows_blog++;
+        if($displayed_rows_blog > 2){
+            $dem = "col-md-4";
+        }else{
+            $dem = "col-md-6";
+        }
+    ?>
+     <div class="col-md-6 d-flex">
+<div class="blog-entry justify-content-end" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+<a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('<?php echo htmlspecialchars($default_blog["image_path"]); ?>');"
+</a>
+<div class="text">
+<p class="meta"><span>Admin</span> <span><a href="#"><?= htmlspecialchars($default_blog['title']) ?></a></span></p>
+<h3 class="heading mb-3"><a href="#"><?= htmlspecialchars($default_blog['title']) ?></a></h3>
+<p><?= htmlspecialchars($default_blog['description']) ?></p>
+</div>
+</div>
+</div>  
+    <?php
+    }
+    ?>
+<!-- <div class="col-md-6 d-flex">
 <div class="blog-entry justify-content-end" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
 <a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('images/k1.jpg');">
 </a>
@@ -1421,8 +1469,8 @@ if ($honeymoon_result->num_rows > 0) {
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor</p>
 </div>
 </div>
-</div>
-<div class="col-md-6 d-flex">
+</div> -->
+<!-- <div class="col-md-6 d-flex">
 <div class="blog-entry justify-content-end" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
 <a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('images/k1.jpg');">
 </a>
@@ -1432,8 +1480,8 @@ if ($honeymoon_result->num_rows > 0) {
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor</p>
 </div>
 </div>
-</div>
-<div class="col-md-4 d-flex">
+</div> -->
+<!-- <div class="col-md-4 d-flex">
 <div class="blog-entry justify-content-end" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
 <a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('images/k1.jpg');">
 </a>
@@ -1443,8 +1491,8 @@ if ($honeymoon_result->num_rows > 0) {
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor</p>
 </div>
 </div>
-</div>
-<div class="col-md-4 d-flex">
+</div> -->
+<!-- <div class="col-md-4 d-flex">
 <div class="blog-entry justify-content-end" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
 <a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('images/k1.jpg');">
 </a>
@@ -1454,8 +1502,8 @@ if ($honeymoon_result->num_rows > 0) {
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor</p>
 </div>
 </div>
-</div>
-<div class="col-md-4 d-flex">
+</div> -->
+<!-- <div class="col-md-4 d-flex">
 	<div class="blog-entry justify-content-end" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
 	<a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('images/k1.jpg');">
 	</a>
@@ -1465,7 +1513,8 @@ if ($honeymoon_result->num_rows > 0) {
 	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor</p>
 	</div>
 	</div>
-	</div>
+	</div> -->
+
 </div>
 </div>
 <!-- </section>
