@@ -282,10 +282,17 @@ $total_cards = 9; // Minimum cards to display
         </div>
         <div class="row">
            
-        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+        <?php
+    if ($destination_result->num_rows > 0) {
+        // Display featured packages from the database <?= htmlspecialchars($row['name']) 
+        while ($row = $destination_result->fetch_assoc()) {
+            $displayed_rows++;
+            $image_path = explode(",",$row["image_paths"]);
+    ?>
+     <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
             <div class="card product-card">
-                <a href="tour-package-details.html" target="_blank">
-                  <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
+                <a href="<?= htmlspecialchars($row['name']) ?>" target="_blank">
+                  <img src="<?= htmlspecialchars($image_path[0]) ?>" alt="<?= htmlspecialchars($row['name']) ?>" class="card-img-top">
                   <div class="card-body">
                     <!-- <div class="d-flex justify-content-between">
                       <div class="duration">6 days &amp; 5 nights</div>
@@ -301,239 +308,55 @@ $total_cards = 9; // Minimum cards to display
                         <div class="rating-count">(2.2K)</div>
                       </div>
                     </div> -->
-                    <h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
+                    <h5 class="card-title"><?= htmlspecialchars($row['name']) ?></h5>
                     <div class="d-flex justify-content-between">
-                      <div class="duration">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor</div>
+                      <div class="duration"><?= htmlspecialchars($row['description']) ?></div>
                     </div>
-                    <a href=""><button class="btn btn-primary btn-block">View Details</button></a>
+                    <a href="?dest=<?= htmlspecialchars($row['id']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
+                  </div>
+                </a>
+              </div>
+        </div>       
+    <?php
+        }
+    }
+
+    // Fill remaining cards with default content
+    while ($displayed_rows < $total_cards) {
+        $displayed_rows++;
+    ?>
+       <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+            <div class="card product-card">
+                <a href="<?= htmlspecialchars($default_destinations['name']) ?>" target="_blank">
+                  <img src="<?= htmlspecialchars($default_destinations['image']) ?>" alt="<?= htmlspecialchars($default_destinations['name']) ?>" class="card-img-top">
+                  <div class="card-body">
+                    <!-- <div class="d-flex justify-content-between">
+                      <div class="duration">6 days &amp; 5 nights</div>
+                      <div class="rating-box">
+                        <div class="star-rating">
+                            <i class="fa fa-star checked" data-index="0"></i>
+                            <i class="fa fa-star checked" data-index="1"></i>
+                            <i class="fa fa-star checked" data-index="2"></i>
+                            <i class="fa fa-star checked" data-index="3"></i>
+                            <i class="fa fa-star unchecked" data-index="4"></i>
+                        </div>
+                        <div class="rating">4.5</div>
+                        <div class="rating-count">(2.2K)</div>
+                      </div>
+                    </div> -->
+                    <h5 class="card-title"><?= htmlspecialchars($default_destinations['name']) ?></h5>
+                    <div class="d-flex justify-content-between">
+                      <div class="duration"><?= htmlspecialchars($default_destinations['description']) ?></div>
+                    </div>
+                    <a href="<?= htmlspecialchars($default_destinations['link']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
                   </div>
                 </a>
               </div>
         </div>
-        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-          <div class="card product-card">
-              <a href="tour-package-details.html" target="_blank">
-                <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-                <div class="card-body">
-                  <!-- <div class="d-flex justify-content-between">
-                    <div class="duration">6 days &amp; 5 nights</div>
-                    <div class="rating-box">
-                      <div class="star-rating">
-                          <i class="fa fa-star checked" data-index="0"></i>
-                          <i class="fa fa-star checked" data-index="1"></i>
-                          <i class="fa fa-star checked" data-index="2"></i>
-                          <i class="fa fa-star checked" data-index="3"></i>
-                          <i class="fa fa-star unchecked" data-index="4"></i>
-                      </div>
-                      <div class="rating">4.5</div>
-                      <div class="rating-count">(2.2K)</div>
-                    </div>
-                  </div> -->
-                  <h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-                  <div class="d-flex justify-content-between">
-                    <div class="duration">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor</div>
-                  </div>
-                  <button class="btn btn-primary btn-block">View Details</button>
-                </div>
-              </a>
-            </div>
-      </div>
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-        <div class="card product-card">
-            <a href="tour-package-details.html" target="_blank">
-              <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-              <div class="card-body">
-                <!-- <div class="d-flex justify-content-between">
-                  <div class="duration">6 days &amp; 5 nights</div>
-                  <div class="rating-box">
-                    <div class="star-rating">
-                        <i class="fa fa-star checked" data-index="0"></i>
-                        <i class="fa fa-star checked" data-index="1"></i>
-                        <i class="fa fa-star checked" data-index="2"></i>
-                        <i class="fa fa-star checked" data-index="3"></i>
-                        <i class="fa fa-star unchecked" data-index="4"></i>
-                    </div>
-                    <div class="rating">4.5</div>
-                    <div class="rating-count">(2.2K)</div>
-                  </div>
-                </div> -->
-                <h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-                <div class="d-flex justify-content-between">
-                  <div class="duration">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor</div>
-                </div>
-                <button class="btn btn-primary btn-block">View Details</button>
-              </div>
-            </a>
-          </div>
-    </div>
-    <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-      <div class="card product-card">
-          <a href="tour-package-details.html" target="_blank">
-            <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-            <div class="card-body">
-              <!-- <div class="d-flex justify-content-between">
-                <div class="duration">6 days &amp; 5 nights</div>
-                <div class="rating-box">
-                  <div class="star-rating">
-                      <i class="fa fa-star checked" data-index="0"></i>
-                      <i class="fa fa-star checked" data-index="1"></i>
-                      <i class="fa fa-star checked" data-index="2"></i>
-                      <i class="fa fa-star checked" data-index="3"></i>
-                      <i class="fa fa-star unchecked" data-index="4"></i>
-                  </div>
-                  <div class="rating">4.5</div>
-                  <div class="rating-count">(2.2K)</div>
-                </div>
-              </div> -->
-              <h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-              <div class="d-flex justify-content-between">
-                <div class="duration">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor</div>
-              </div>
-              <button class="btn btn-primary btn-block">View Details</button>
-            </div>
-          </a>
-        </div>
-  </div>
-  <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-    <div class="card product-card">
-        <a href="tour-package-details.html" target="_blank">
-          <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-          <div class="card-body">
-            <!-- <div class="d-flex justify-content-between">
-              <div class="duration">6 days &amp; 5 nights</div>
-              <div class="rating-box">
-                <div class="star-rating">
-                    <i class="fa fa-star checked" data-index="0"></i>
-                    <i class="fa fa-star checked" data-index="1"></i>
-                    <i class="fa fa-star checked" data-index="2"></i>
-                    <i class="fa fa-star checked" data-index="3"></i>
-                    <i class="fa fa-star unchecked" data-index="4"></i>
-                </div>
-                <div class="rating">4.5</div>
-                <div class="rating-count">(2.2K)</div>
-              </div>
-            </div> -->
-            <h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-            <div class="d-flex justify-content-between">
-              <div class="duration">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor</div>
-            </div>
-            <button class="btn btn-primary btn-block">View Details</button>
-          </div>
-        </a>
-      </div>
-</div>
-<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-  <div class="card product-card">
-      <a href="tour-package-details.html" target="_blank">
-        <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-        <div class="card-body">
-          <!-- <div class="d-flex justify-content-between">
-            <div class="duration">6 days &amp; 5 nights</div>
-            <div class="rating-box">
-              <div class="star-rating">
-                  <i class="fa fa-star checked" data-index="0"></i>
-                  <i class="fa fa-star checked" data-index="1"></i>
-                  <i class="fa fa-star checked" data-index="2"></i>
-                  <i class="fa fa-star checked" data-index="3"></i>
-                  <i class="fa fa-star unchecked" data-index="4"></i>
-              </div>
-              <div class="rating">4.5</div>
-              <div class="rating-count">(2.2K)</div>
-            </div>
-          </div> -->
-          <h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-          <div class="d-flex justify-content-between">
-            <div class="duration">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor</div>
-          </div>
-          <button class="btn btn-primary btn-block">View Details</button>
-        </div>
-      </a>
-    </div>
-</div>
-<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-  <div class="card product-card">
-      <a href="tour-package-details.html" target="_blank">
-        <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-        <div class="card-body">
-          <!-- <div class="d-flex justify-content-between">
-            <div class="duration">6 days &amp; 5 nights</div>
-            <div class="rating-box">
-              <div class="star-rating">
-                  <i class="fa fa-star checked" data-index="0"></i>
-                  <i class="fa fa-star checked" data-index="1"></i>
-                  <i class="fa fa-star checked" data-index="2"></i>
-                  <i class="fa fa-star checked" data-index="3"></i>
-                  <i class="fa fa-star unchecked" data-index="4"></i>
-              </div>
-              <div class="rating">4.5</div>
-              <div class="rating-count">(2.2K)</div>
-            </div>
-          </div> -->
-          <h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-          <div class="d-flex justify-content-between">
-            <div class="duration">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor</div>
-          </div>
-          <button class="btn btn-primary btn-block">View Details</button>
-        </div>
-      </a>
-    </div>
-</div>
-<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-  <div class="card product-card">
-      <a href="tour-package-details.html" target="_blank">
-        <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-        <div class="card-body">
-          <!-- <div class="d-flex justify-content-between">
-            <div class="duration">6 days &amp; 5 nights</div>
-            <div class="rating-box">
-              <div class="star-rating">
-                  <i class="fa fa-star checked" data-index="0"></i>
-                  <i class="fa fa-star checked" data-index="1"></i>
-                  <i class="fa fa-star checked" data-index="2"></i>
-                  <i class="fa fa-star checked" data-index="3"></i>
-                  <i class="fa fa-star unchecked" data-index="4"></i>
-              </div>
-              <div class="rating">4.5</div>
-              <div class="rating-count">(2.2K)</div>
-            </div>
-          </div> -->
-          <h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-          <div class="d-flex justify-content-between">
-            <div class="duration">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor</div>
-          </div>
-          <button class="btn btn-primary btn-block">View Details</button>
-        </div>
-      </a>
-    </div>
-</div>
-<div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-  <div class="card product-card">
-      <a href="tour-package-details.html" target="_blank">
-        <img src="images/k1.jpg" alt="Romantic Escape to Kashmir | FREE Excursion to Gulmarg" class="card-img-top">
-        <div class="card-body">
-          <!-- <div class="d-flex justify-content-between">
-            <div class="duration">6 days &amp; 5 nights</div>
-            <div class="rating-box">
-              <div class="star-rating">
-                  <i class="fa fa-star checked" data-index="0"></i>
-                  <i class="fa fa-star checked" data-index="1"></i>
-                  <i class="fa fa-star checked" data-index="2"></i>
-                  <i class="fa fa-star checked" data-index="3"></i>
-                  <i class="fa fa-star unchecked" data-index="4"></i>
-              </div>
-              <div class="rating">4.5</div>
-              <div class="rating-count">(2.2K)</div>
-            </div>
-          </div> -->
-          <h5 class="card-title">Romantic Escape to Kashmir | FREE Excursion to Gulmarg</h5>
-          <div class="d-flex justify-content-between">
-            <div class="duration">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor</div>
-          </div>
-          <button class="btn btn-primary btn-block">View Details</button>
-        </div>
-      </a>
-    </div>
-</div>
+    <?php
+    }
+    ?>	
+
    
         <div class="row justify-content-right">
             <!-- <nav>
