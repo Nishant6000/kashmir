@@ -159,4 +159,24 @@
     <?php
     }
     ?>	
+//===============================================Packages======================
 
+<?php
+    if ($blog_result->num_rows > 0) {
+        // Display featured packages from the database <?= htmlspecialchars($row['name']) 
+        while ($row = $blog_result->fetch_assoc()) {
+            $displayed_rows_blog++;
+    ?>
+            
+    <?php
+        }
+    }
+
+    // Fill remaining cards with default content
+    while ($displayed_rows_blog < $total_cards_blog) {
+        $displayed_rows_blog++;
+    ?>
+       
+    <?php
+    }
+    ?>	
