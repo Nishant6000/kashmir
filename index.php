@@ -94,16 +94,25 @@ $honeymoon_result = $conn->query($honeymoon_sql);
 $blog_sql = "
     SELECT 
         blogs.*, 
-        blog_images.* 
+        GROUP_CONCAT(blog_images.image_path) AS image_paths
     FROM 
         blogs 
     INNER JOIN 
         blog_images 
     ON 
         blogs.id = blog_images.blog_id
+    GROUP BY 
+        blogs.id
     LIMIT 6
 ";
 $blog_result = $conn->query($blog_sql);
+// print_r($blog_result);die;
+// if ($blog_result->num_rows > 0) {
+//     // Display featured packages from the database
+//     while ($row = $blog_result->fetch_assoc()) {
+       
+//     }
+// }    
 //die;
 
 $default_featured = array();
@@ -1340,66 +1349,62 @@ if ($honeymoon_result->num_rows > 0) {
 </div>
 </div>
 </section>
-<section class="ftco-section ftco-agent ftco-no-pb" >
-<div class="overlay"></div>
-<div class="container-xl">
-<div class="row justify-content-center pb-1">
-<div class="col-md-10 heading-section" data-aos="fade-up" data-aos-duration="1000">
-<span class="subheading">Gallery</span>
-<h2 class="mb-4">Explore the Moments</h2>
-</div>
-</div>
-<div class="row">
-	<div class="col-lg-4 col-md-12 mb-0 mb-lg-0">
-	  <img
-		src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
-		class="w-100 shadow-1-strong  mb-4"
-		alt="Boat on Calm Water"
-		height="25%"
-	  />
-  
-	  <img
-		src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain1.webp"
-		class="w-100 shadow-1-strong rounded"
-		alt="Wintry Mountain Landscape"
-		height="50%"
-	  />
-	</div>
-  
-	<div class="col-lg-4 mb-1 mb-lg-0">
-	  <img
-		src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain2.webp"
-		class="w-100 shadow-1-strong rounded mb-4"
-		alt="Mountains in the Clouds"
-		height="50%"
-	  />
-  
-	  <img
-		src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
-		class="w-100 shadow-1-strong rounded"
-		alt="Boat on Calm Water"
-		height="25%"
-	  />
-	</div>
-  
-	<div class="col-lg-4 mb-1 mb-lg-0">
-	  <img
-		src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
-		class="w-100 shadow-1-strong rounded mb-4"
-		alt="Waves at Sea"
-		height="25%"
-	  />
-  
-	  <img
-		src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain3.webp"
-		class="w-100 shadow-1-strong rounded"
-		alt="Yosemite National Park"
-		height="50%"
-	  />
-	</div>
+<section class="ftco-section ftco-agent ftco-no-pb">
+  <div class="overlay"></div>
+  <div class="container-xl">
+    <div class="row justify-content-center pb-1">
+      <div class="col-md-10 heading-section" data-aos="fade-up" data-aos-duration="1000">
+        <span class="subheading">Gallery</span>
+        <h2 class="mb-4">Explore the Moments</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-12 mb-0 mb-lg-0">
+        <img
+          src="images/img%20(73).webp"
+          class="w-100 shadow-1-strong mb-4"
+          alt="Boat on Calm Water"
+          style="height: 25%;"
+        />
+        <img
+          src="images/mountain1.webp"
+          class="w-100 shadow-1-strong rounded"
+          alt="Wintry Mountain Landscape"
+          style="height: 50%;"
+        />
+      </div>
+      <div class="col-lg-4 mb-1 mb-lg-0">
+        <img
+          src="images/mountain2.webp"
+          class="w-100 shadow-1-strong rounded mb-4"
+          alt="Mountains in the Clouds"
+          style="height: 50%;"
+        />
+        <img
+          src="images/img%20(73).webp"
+          class="w-100 shadow-1-strong rounded"
+          alt="Boat on Calm Water"
+          style="height: 25%;"
+        />
+      </div>
+      <div class="col-lg-4 mb-1 mb-lg-0">
+        <img
+          src="images/img%20(73).webp"
+          class="w-100 shadow-1-strong rounded mb-4"
+          alt="Waves at Sea"
+          style="height: 25%;"
+        />
+        <img
+          src="images/mountain3.webp"
+          class="w-100 shadow-1-strong rounded"
+          alt="Yosemite National Park"
+          style="height: 50%;"
+        />
+      </div>
+    </div>
   </div>
-</div>
 </section>
+
 <section class="ftco-section bg-light">
 <div class="container-xl">
 <div class="row justify-content-center mb-5">
@@ -1414,6 +1419,7 @@ if ($honeymoon_result->num_rows > 0) {
     if ($blog_result->num_rows > 0) {
         // Display featured packages from the database <?= htmlspecialchars($row['name']) 
         while ($row = $blog_result->fetch_assoc()) {
+            $image_path = explode(",",$row["image_paths"]);
             $displayed_rows_blog++;
             if($displayed_rows_blog > 2){
                 $dem = "col-md-4";
@@ -1421,16 +1427,19 @@ if ($honeymoon_result->num_rows > 0) {
                 $dem = "col-md-6";
             }
     ?>
-            <div class="col-md-6 d-flex">
-<div class="blog-entry justify-content-end" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
-<a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('<?php echo htmlspecialchars($row["image_path"]); ?>');"
-</a>
-<div class="text">
-<p class="meta"><span>Admin</span> <span><a href="?b=<?= htmlspecialchars($row['id']) ?>"><?= htmlspecialchars($row['post_date']) ?></a></span></p>
-<h3 class="heading mb-3"><a href="#"><?= htmlspecialchars($row['title']) ?></a></h3>
-<p><?= htmlspecialchars($row['description']) ?></p>
-</div>
-</div>
+            <div class="<?php echo htmlspecialchars($dem); ?> d-flex">
+  <div class="blog-entry justify-content-end" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+    <a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('<?php echo htmlspecialchars($image_path[0]); ?>');">
+    </a>
+    <div class="text">
+      <p class="meta">
+        <span>Admin</span>
+        <span><a href="?b=<?= htmlspecialchars($row['id']) ?>"><?= htmlspecialchars($row['post_date']) ?></a></span>
+      </p>
+      <h3 class="heading mb-3"><a href="#"><?= htmlspecialchars($row['title']) ?></a></h3>
+      <p><?= htmlspecialchars($row['description']) ?></p>
+    </div>
+  </div>
 </div>
     <?php
         }
@@ -1445,17 +1454,20 @@ if ($honeymoon_result->num_rows > 0) {
             $dem = "col-md-6";
         }
     ?>
-     <div class="col-md-6 d-flex">
-<div class="blog-entry justify-content-end" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
-<a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('<?php echo htmlspecialchars($default_blog["image_path"]); ?>');"
-</a>
-<div class="text">
-<p class="meta"><span>Admin</span> <span><a href="#"><?= htmlspecialchars($default_blog['title']) ?></a></span></p>
-<h3 class="heading mb-3"><a href="#"><?= htmlspecialchars($default_blog['title']) ?></a></h3>
-<p><?= htmlspecialchars($default_blog['description']) ?></p>
+     <div class="<?php echo htmlspecialchars($dem); ?> d-flex">
+  <div class="blog-entry justify-content-end" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+    <a href="blog-single.html" class="block-20 img d-flex align-items-end" style="background-image: url('<?php echo htmlspecialchars($default_blog["image_path"]); ?>');">
+    </a>
+    <div class="text">
+      <p class="meta">
+        <span>Admin</span> 
+        <span><a href="#"><?= htmlspecialchars($default_blog['post_date']) ?></a></span>
+      </p>
+      <h3 class="heading mb-3"><a href="#"><?= htmlspecialchars($default_blog['title']) ?></a></h3>
+      <p><?= htmlspecialchars($default_blog['description']) ?></p>
+    </div>
+  </div>
 </div>
-</div>
-</div>  
     <?php
     }
     ?>

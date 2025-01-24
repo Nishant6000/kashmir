@@ -83,3 +83,80 @@
     <?php
     }
     ?>	
+
+    //=================================Destination Code ===========================
+
+    <?php
+    if ($destination_result->num_rows > 0) {
+        // Display featured packages from the database <?= htmlspecialchars($row['name']) 
+        while ($row = $destination_result->fetch_assoc()) {
+            $displayed_rows++;
+    ?>
+     <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+            <div class="card product-card">
+                <a href="<?= htmlspecialchars($row['name']) ?>" target="_blank">
+                  <img src="<?= htmlspecialchars($image_paths) ?>" alt="<?= htmlspecialchars($row['name']) ?>" class="card-img-top">
+                  <div class="card-body">
+                    <!-- <div class="d-flex justify-content-between">
+                      <div class="duration">6 days &amp; 5 nights</div>
+                      <div class="rating-box">
+                        <div class="star-rating">
+                            <i class="fa fa-star checked" data-index="0"></i>
+                            <i class="fa fa-star checked" data-index="1"></i>
+                            <i class="fa fa-star checked" data-index="2"></i>
+                            <i class="fa fa-star checked" data-index="3"></i>
+                            <i class="fa fa-star unchecked" data-index="4"></i>
+                        </div>
+                        <div class="rating">4.5</div>
+                        <div class="rating-count">(2.2K)</div>
+                      </div>
+                    </div> -->
+                    <h5 class="card-title"><?= htmlspecialchars($row['title']) ?></h5>
+                    <div class="d-flex justify-content-between">
+                      <div class="duration"><?= htmlspecialchars($row['description']) ?></div>
+                    </div>
+                    <a href="<?= htmlspecialchars($row['link']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
+                  </div>
+                </a>
+              </div>
+        </div>       
+    <?php
+        }
+    }
+
+    // Fill remaining cards with default content
+    while ($displayed_rows < $total_cards) {
+        $displayed_rows++;
+    ?>
+       <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+            <div class="card product-card">
+                <a href="<?= htmlspecialchars($default_destinations['name']) ?>" target="_blank">
+                  <img src="<?= htmlspecialchars($default_destinations['image_path']) ?>" alt="<?= htmlspecialchars($default_destinations['name']) ?>" class="card-img-top">
+                  <div class="card-body">
+                    <!-- <div class="d-flex justify-content-between">
+                      <div class="duration">6 days &amp; 5 nights</div>
+                      <div class="rating-box">
+                        <div class="star-rating">
+                            <i class="fa fa-star checked" data-index="0"></i>
+                            <i class="fa fa-star checked" data-index="1"></i>
+                            <i class="fa fa-star checked" data-index="2"></i>
+                            <i class="fa fa-star checked" data-index="3"></i>
+                            <i class="fa fa-star unchecked" data-index="4"></i>
+                        </div>
+                        <div class="rating">4.5</div>
+                        <div class="rating-count">(2.2K)</div>
+                      </div>
+                    </div> -->
+                    <h5 class="card-title"><?= htmlspecialchars($default_destinations['title']) ?></h5>
+                    <div class="d-flex justify-content-between">
+                      <div class="duration"><?= htmlspecialchars($default_destinations['description']) ?></div>
+                    </div>
+                    <a href="<?= htmlspecialchars($default_destinations['link']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
+                  </div>
+                </a>
+              </div>
+        </div>
+    <?php
+    }
+    ?>	
+
