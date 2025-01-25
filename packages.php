@@ -291,12 +291,13 @@ $total_cards = 9; // Minimum cards to display
     if ($featured_result->num_rows > 0) {
         // Display featured packages from the database
         while ($row = $featured_result->fetch_assoc()) {
+            //print_r($row);die;
             $displayed_rows++;
     ?>
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
                 <div class="card product-card">
-                    <a href="<?= htmlspecialchars($row['link'] ?? '#') ?>" target="_blank">
-                        <img src="<?= htmlspecialchars($row['image']) ?>" alt="<?= htmlspecialchars($row['name']) ?>" class="card-img-top">
+                    <a href="<?= htmlspecialchars($row['link']) ?>" target="_blank">
+                        <img src="<?= htmlspecialchars($row['image_path']) ?>" alt="<?= htmlspecialchars($row['name']) ?>" class="card-img-top">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <div class="duration"><?= htmlspecialchars($row['duration']) ?></div>

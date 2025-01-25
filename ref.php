@@ -180,3 +180,55 @@
     <?php
     }
     ?>	
+=================================================================================================
+
+<?php
+    if ($blog_result->num_rows > 0) {
+        // Display featured packages from the database <?= htmlspecialchars($row['name']) 
+        while ($row = $blog_result->fetch_assoc()) {
+            $displayed_rows_blog++;
+            $image_path = explode(",",$row["image_paths"]);
+            $displayed_rows_blog++;
+            if($displayed_rows_blog > 6){
+                $dem = "col-md-4";
+            }else{
+                $dem = "col-md-6";
+            }
+    ?>
+             <div class="<?php echo htmlspecialchars($dem); ?> mb-4">
+                    <div class="card h-100">
+                        <img src="<?php echo htmlspecialchars($image_path[0]); ?>" class="card-img-top" alt="Blog Image 1">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($row['title']) ?></h5>
+                            <p class="card-text"><?= htmlspecialchars($row['description']) ?></p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="blog-details.php?bid=<?= htmlspecialchars($row['id']) ?>" class="btn btn-primary">Read More</a>
+                            <span class="float-end text-muted"><?= htmlspecialchars($row['post_date']) ?></span>
+                        </div>
+                    </div>
+                </div>
+    <?php
+        }
+    }
+
+    // Fill remaining cards with default content
+    while ($displayed_rows_blog < $total_cards_blog) {
+        $displayed_rows_blog++;
+    ?>
+        <div class="<?php echo htmlspecialchars($dem); ?> mb-4">
+                    <div class="card h-100">
+                        <img src="<?php echo htmlspecialchars($image_path[0]); ?>" class="card-img-top" alt="Blog Image 1">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($default_blog['title']) ?></h5>
+                            <p class="card-text"><?= htmlspecialchars($default_blog['description']) ?></p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="blog-details.php?bid=<?= htmlspecialchars($default_blog['id']) ?>" class="btn btn-primary">Read More</a>
+                            <span class="float-end text-muted"><?= htmlspecialchars($default_blog['post_date']) ?></span>
+                        </div>
+                    </div>
+                </div>
+    <?php
+    }
+    ?>	
