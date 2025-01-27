@@ -152,7 +152,13 @@ $total_cards_blog = 9;
                         <img src="<?php echo htmlspecialchars($image_path[0]); ?>" class="card-img-top" alt="Blog Image 1">
                         <div class="card-body">
                             <h5 class="card-title"><?= htmlspecialchars($row['title']) ?></h5>
-                            <p class="card-text"><?= htmlspecialchars($row['description']) ?></p>
+                            <p class="card-text"><?php
+$description = $row['description'];
+$words = explode(' ', $description);
+$short_description = implode(' ', array_slice($words, 0, 40));
+
+echo htmlspecialchars($short_description) . '...';
+?></p>
                         </div>
                         <div class="card-footer">
                             <a href="blog-details.php?bid=<?= htmlspecialchars($row['id']) ?>" class="btn btn-primary">Read More</a>

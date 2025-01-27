@@ -148,6 +148,7 @@ $default_blog['post_date'] = "2025-01-23";
 $default_blog['link'] = "";
 $default_blog['image_path'] = "images/k1.jpg";
 $total_cards_blog = 5;
+$word_limit = 50;
 
 // Fetch Trending Packages
 // $trending_sql = "SELECT * FROM packages WHERE is_trending = 1 LIMIT 6"; // Add conditions as needed
@@ -1437,7 +1438,13 @@ if ($honeymoon_result->num_rows > 0) {
         <span><a href="?b=<?= htmlspecialchars($row['id']) ?>"><?= htmlspecialchars($row['post_date']) ?></a></span>
       </p>
       <h3 class="heading mb-3"><a href="#"><?= htmlspecialchars($row['title']) ?></a></h3>
-      <p><?= htmlspecialchars($row['description']) ?></p>
+      <p><?php
+$description = $row['description'];
+$words = explode(' ', $description);
+$short_description = implode(' ', array_slice($words, 0, 40));
+
+echo htmlspecialchars($short_description) . '...';
+?></p>
     </div>
   </div>
 </div>

@@ -312,7 +312,7 @@ $total_cards = 9; // Minimum cards to display
                     <div class="d-flex justify-content-between">
                       <div class="duration"><?= htmlspecialchars($row['description']) ?></div>
                     </div>
-                    <a href="?dest=<?= htmlspecialchars($row['id']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
+                    <a href="view-packages.php?dest=<?= htmlspecialchars($row['id']) ?>"><button class="btn btn-primary btn-block">View Packages</button></a>
                   </div>
                 </a>
               </div>
@@ -348,7 +348,7 @@ $total_cards = 9; // Minimum cards to display
                     <div class="d-flex justify-content-between">
                       <div class="duration"><?= htmlspecialchars($default_destinations['description']) ?></div>
                     </div>
-                    <a href="<?= htmlspecialchars($default_destinations['link']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
+                    <a href="<?= htmlspecialchars($default_destinations['link']) ?>"><button class="btn btn-primary btn-block">View Packages</button></a>
                   </div>
                 </a>
               </div>

@@ -47,16 +47,34 @@ WHERE
     blogs.id = $id    
 GROUP BY 
     blogs.id
-LIMIT 6
+LIMIT 1
 ";
 $blog_result = $conn->query($blog_sql);
-//print_r($blog_result);die;
-$default_blog = array();
-$default_blog['title'] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
-$default_blog['description'] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor";
-$default_blog['post_date'] = "2025-01-23";
-$default_blog['link'] = "#";
-$default_blog['image_path'] = "images/k1.jpg";
+
+if ($blog_result && $blog_result->num_rows > 0) {
+    // Fetch the data as an associative array
+    $blog_data = $blog_result->fetch_assoc();
+}else{
+    $blog_data = array();
+}
+$image = explode(",", $blog_data["image_paths"]);
+//print_r($image);die;
+$post_id = $_GET["bid"]; // Use the actual post ID
+$sql = "SELECT * FROM comments WHERE post_id = ? ORDER BY created_at DESC";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $post_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name']) && isset($_POST['comment'])) {
+    $post_id = $_GET["bid"]; // Set this based on the post you're displaying comments for
+    $author = $_POST['name'];
+    $comment_text = $_POST['comment'];
+    $stmt = $conn->prepare("INSERT INTO comments (post_id, author, comment_text) VALUES (?, ?, ?)");
+    $stmt->bind_param("iss", $post_id, $author, $comment_text);
+    $stmt->execute();
+    $stmt->close();
+}
 ?>
 <!-- <div class="py-4 top-wrap">
 <div class="container-xl">
@@ -128,58 +146,58 @@ $default_blog['image_path'] = "images/k1.jpg";
 
     <!-- Blog Post -->
     <article>
-        <img src="images/bg_2.jpg" alt="Blog Post Image">
-        <h1 class="mt-4">Blog Post Title</h1>
-        <p class="date">Aug 10, 2024</p>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque euismod, urna eget scelerisque volutpat, 
-            arcu lectus egestas felis, et vehicula nisl metus sed orci. Vivamus euismod justo at purus tristique, ut 
-            condimentum lectus ornare. Duis venenatis, purus sit amet cursus fringilla, arcu mi fringilla magna, id 
-            interdum urna ipsum a arcu. Sed bibendum leo vel sapien luctus gravida. Fusce sed urna et urna tempor 
-            facilisis. Nulla facilisi.
-        </p>
-        <p>
-            Integer euismod, ligula eu hendrerit dapibus, lorem odio fermentum ligula, id volutpat libero risus nec leo. 
-            Suspendisse potenti. Sed cursus justo sit amet arcu vehicula, nec ultrices sapien vestibulum. Donec vestibulum 
-            metus vel lacus pharetra, id fermentum turpis volutpat.
-        </p>
+        <img src="<?= htmlspecialchars($image[1]) ?>" alt="Blog Post Image">
+        <h1 class="mt-4"><?= htmlspecialchars($blog_data['title']) ?></h1>
+        <p class="date"><?= htmlspecialchars($blog_data['post_date']) ?></p>
+        <?php $description = $blog_data['description'];
+$sentences = preg_split('/(?<=[.?!])\s+/', $description); // Split the content by sentence
+$grouped_paragraphs = array_chunk($sentences, 5);
+
+foreach ($grouped_paragraphs as $group) {
+    $paragraph = implode(' ', $group); // Join the sentences back together into a paragraph
+    echo '<p>' . htmlspecialchars($paragraph) . '</p>';
+}
+?>
     </article>
 
     <!-- Comments Section -->
     <section class="comments mt-5">
-        <h2>Comments</h2>
-        <div class="comment">
-            <p class="comment-author">John Doe</p>
-            <p class="comment-date">Aug 10, 2024 at 2:30 PM</p>
-            <p>
-                Great post! I really enjoyed reading it. The insights on this topic are very informative. Looking forward to 
-                more posts like this!
-            </p>
-        </div>
-        <div class="comment">
-            <p class="comment-author">Jane Smith</p>
-            <p class="comment-date">Aug 11, 2024 at 10:00 AM</p>
-            <p>
-                I found this article very helpful. The tips you provided are practical and well-explained. Thanks for sharing!
-            </p>
-        </div>
-    </section>
+    <h2>Comments</h2>
+    <div id="commentList">
+        <?php
+        // Check if there are any comments
+        if ($result->num_rows > 0) {
+            // If there are comments, display them
+            while ($row = $result->fetch_assoc()) { ?>
+                <div class="comment">
+                    <p class="comment-author"><?php echo htmlspecialchars($row['author']); ?></p>
+                    <p class="comment-date"><?php echo date("M d, Y \a\t h:i A", strtotime($row['created_at'])); ?></p>
+                    <p><?php echo nl2br(htmlspecialchars($row['comment_text'])); ?></p>
+                </div>
+            <?php }
+        } else {
+            // If no comments, display the "no comments found" message
+            echo "<p>No comments found. Be the first to comment!</p>";
+        }
+        ?>
+    </div>
+</section>
 
     <!-- Comment Form -->
     <section class="comment-form mt-5">
-        <h2>Leave a Comment</h2>
-        <form>
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" required>
-            </div>
-            <div class="mb-3">
-                <label for="comment" class="form-label">Comment</label>
-                <textarea class="form-control" id="comment" rows="4" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit Comment</button>
-        </form>
-    </section>
+    <h2>Leave a Comment</h2>
+    <form action="" method="POST">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="mb-3">
+            <label for="comment" class="form-label">Comment</label>
+            <textarea class="form-control" id="comment" name="comment" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Comment</button>
+    </form>
+</section>
 </div>
 
 <!-- <section class="img vid-section" style="background-image: url(images/bg_4.jpg);">
