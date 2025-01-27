@@ -24,7 +24,16 @@
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    
+    if(isset($_GET["dest"])){
+        $id = $_GET["dest"];
+        $dname = $_GET["name"];
+        }else{
+            echo '<script>
+            alert("Invalid request. Redirecting to Destination Page...");
+            window.location.href = "destinations.php"; // Replace with your desired URL
+          </script>';
+        exit; // Ensure the script stops executing further
+        }   
     $featured_sql = "
     SELECT 
         packages.*, 
@@ -35,11 +44,20 @@
         packages_images 
     ON 
         packages.id = packages_images.package_id
+    WHERE 
+        packages.destination_id = $id        
     GROUP BY 
         packages.id 
     LIMIT 6
 ";
 $featured_result = $conn->query($featured_sql);
+if($featured_result->num_rows == 0){
+    echo '<script>
+    alert("No Packages Available for this destination");
+    window.location.href = "destinations.php"; // Replace with your desired URL
+  </script>';
+exit; // Ensure the script stops executing further
+}
 //print_r($featured_result);die;
 $default_featured = array();
 $default_featured['id'] = "1";
@@ -112,7 +130,7 @@ $total_cards = 9; // Minimum cards to display
 <div class="row no-gutters slider-text align-items-center justify-content-center">
 <div class="col-md-9 pt-5 text-center">
 <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="fa fa-chevron-right"></i></a></span> <span>Packages<i class="fa fa-chevron-right"></i></span></p>
-<h1 class="mb-0 bread">All Pacakges</h1>
+<h1 class="mb-0 bread"><?= htmlspecialchars($dname) ?> Pacakges</h1>
 </div>
 </div>
 </div>
@@ -282,89 +300,65 @@ $total_cards = 9; // Minimum cards to display
         <div class="row justify-content-center">
         <div class="col-md-8 heading-section text-center mb-2" data-aos="fade-up" data-aos-duration="1000">
         <span class="subheading">Explore Our Top-Rated Packages</span>
-        <h2 class="mb-1">Featured Packages</h2>
+        <h2 class="mb-1"><?= htmlspecialchars($dname) ?> Featured Packages</h2>
         </div>
         </div>
         <div class="row">
-           
         <?php
-    if ($featured_result->num_rows > 0) {
-        // Display featured packages from the database
-        while ($row = $featured_result->fetch_assoc()) {
-            //print_r($row);die;
-            $displayed_rows++;
-    ?>
-            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-                <div class="card product-card">
-                    <a href="package_details.php?pack=<?= htmlspecialchars($row['id']) ?>" target="_blank">
-                        <img src="<?= htmlspecialchars($row['image_path']) ?>" alt="<?= htmlspecialchars($row['name']) ?>" class="card-img-top">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div class="duration"><?= htmlspecialchars($row['duration']) ?></div>
-                                <div class="rating-box">
-                                    <div class="star-rating">
-                                        <i class="fa fa-star checked" data-index="0"></i>
-                                        <i class="fa fa-star checked" data-index="1"></i>
-                                        <i class="fa fa-star checked" data-index="2"></i>
-                                        <i class="fa fa-star checked" data-index="3"></i>
-                                        <i class="fa fa-star <?= ($row['rating'] >= 4.5 ? 'checked' : 'unchecked') ?>" data-index="4"></i>
-                                    </div>
-                                    <div class="rating"><?= htmlspecialchars($row['rating']) ?></div>
-                                    <div class="rating-count">(<?= htmlspecialchars($row['reviews']) ?>)</div>
-                                </div>
-                            </div>
-                            <h5 class="card-title"><?= htmlspecialchars($row['name']) ?></h5>
-                            <div class="d-flex justify-content-between">
-                                <div class="price">INR <?= htmlspecialchars($row['price']) ?></div>
-								<div class="strike-price">INR <?= number_format($row['price'] * 1.25, 2) ?></div>
-                            </div>
-                            <a href="?package_details=<?= htmlspecialchars($row['id']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
-                        </div>
-                    </a>
-                </div>
-            </div>
-    <?php
-        }
+if ($featured_result->num_rows > 0) {
+    $num_results = $featured_result->num_rows;
+
+    // Determine the column class based on the number of results
+    if ($num_results == 1) {
+        $col_class = "col-md-12";
+    } elseif ($num_results == 2) {
+        $col_class = "col-md-6";
+    } elseif ($num_results == 3) {
+        $col_class = "col-md-4";
+    } else {
+        $col_class = "col-md-4"; // Default for more than 3 results
     }
 
-    // Fill remaining cards with default content
-    while ($displayed_rows < $total_cards) {
-        $displayed_rows++;
-    ?>
-        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+    // Display featured packages from the database
+    while ($row = $featured_result->fetch_assoc()) {
+?>
+        <div class="<?= $col_class ?>" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
             <div class="card product-card">
-                <a href="<?= htmlspecialchars($default_featured['link']) ?>" target="_blank">
-                    <img src="<?= htmlspecialchars($default_featured['image']) ?>" alt="<?= htmlspecialchars($default_featured['name']) ?>" class="card-img-top">
+                <a href="package_details.php?pack=<?= htmlspecialchars($row['id']) ?>" target="_blank">
+                    <img src="<?= htmlspecialchars($row['image_path']) ?>" alt="<?= htmlspecialchars($row['name']) ?>" class="card-img-top">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <div class="duration"><?= htmlspecialchars($default_featured['duration']) ?></div>
+                            <div class="duration"><?= htmlspecialchars($row['duration']) ?></div>
                             <div class="rating-box">
                                 <div class="star-rating">
                                     <i class="fa fa-star checked" data-index="0"></i>
                                     <i class="fa fa-star checked" data-index="1"></i>
                                     <i class="fa fa-star checked" data-index="2"></i>
                                     <i class="fa fa-star checked" data-index="3"></i>
-                                    <i class="fa fa-star <?= ($default_featured['rating'] >= 4.5 ? 'checked' : 'unchecked') ?>" data-index="4"></i>
+                                    <i class="fa fa-star <?= ($row['rating'] >= 4.5 ? 'checked' : 'unchecked') ?>" data-index="4"></i>
                                 </div>
-                                <div class="rating"><?= htmlspecialchars($default_featured['rating']) ?></div>
-                                <div class="rating-count">(<?= htmlspecialchars($default_featured['reviews']) ?>)</div>
+                                <div class="rating"><?= htmlspecialchars($row['rating']) ?></div>
+                                <div class="rating-count">(<?= htmlspecialchars($row['reviews']) ?>)</div>
                             </div>
                         </div>
-                        <h5 class="card-title"><?= htmlspecialchars($default_featured['name']) ?></h5>
+                        <h5 class="card-title"><?= htmlspecialchars($row['name']) ?></h5>
                         <div class="d-flex justify-content-between">
-                            <div class="price">INR <?= htmlspecialchars($default_featured['price']) ?></div>
-							<div class="strike-price">INR <?= number_format($default_featured['price'] * 1.25, 2) ?></div>
+                            <div class="price">INR <?= htmlspecialchars($row['price']) ?></div>
+                            <div class="strike-price">INR <?= number_format($row['price'] * 1.25, 2) ?></div>
                         </div>
-                        <a href="?package_details=<?= htmlspecialchars($default_featured['id']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
+                        <a href="?package_details=<?= htmlspecialchars($row['id']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
                     </div>
                 </a>
             </div>
         </div>
-    <?php
+<?php
     }
-    ?>	  
+}
+?>
+
+        	  
         <div class="row justify-content-right">
-            <nav>
+            <!-- <nav>
                 <ul class="custom-pagination">
                     <li><a href="#">&laquo;</a></li>
                     <li><a href="#">1</a></li>
@@ -372,7 +366,7 @@ $total_cards = 9; // Minimum cards to display
                     <li><a href="#">3</a></li>
                     <li><a href="#">&raquo;</a></li>
                 </ul>
-            </nav>
+            </nav> -->
           </div>
         
         </div>

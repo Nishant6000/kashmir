@@ -49,6 +49,7 @@ $default_destinations['image'] = "images/k1.jpg";
 // Count how many rows have been displayed
 $displayed_rows = 0;
 $total_cards = 9; // Minimum cards to display
+
 ?>
 <!-- <div class="py-4 top-wrap">
 <div class="container-xl">
@@ -312,7 +313,7 @@ $total_cards = 9; // Minimum cards to display
                     <div class="d-flex justify-content-between">
                       <div class="duration"><?= htmlspecialchars($row['description']) ?></div>
                     </div>
-                    <a href="view-packages.php?dest=<?= htmlspecialchars($row['id']) ?>"><button class="btn btn-primary btn-block">View Packages</button></a>
+                    <a href="view-packages.php?dest=<?= htmlspecialchars($row['id']) ?>&name=<?= htmlspecialchars($row['name']) ?>"><button class="btn btn-primary btn-block">View Packages</button></a>
                   </div>
                 </a>
               </div>
