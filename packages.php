@@ -39,6 +39,7 @@
         packages.id 
     LIMIT 6
 ";
+
 $featured_result = $conn->query($featured_sql);
 //print_r($featured_result);die;
 $default_featured = array();
@@ -292,11 +293,11 @@ $total_cards = 9; // Minimum cards to display
         // Display featured packages from the database
         while ($row = $featured_result->fetch_assoc()) {
             //print_r($row);die;
-            $displayed_rows++;
+           $displayed_rows++; 
     ?>
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
                 <div class="card product-card">
-                    <a href="package_details.php?pack=<?= htmlspecialchars($row['id']) ?>" target="_blank">
+                    <a href="package-details.php?package_id=<?= htmlspecialchars($row['id']) ?>" target="_blank">
                         <img src="<?= htmlspecialchars($row['image_path']) ?>" alt="<?= htmlspecialchars($row['name']) ?>" class="card-img-top">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
@@ -318,7 +319,7 @@ $total_cards = 9; // Minimum cards to display
                                 <div class="price">INR <?= htmlspecialchars($row['price']) ?></div>
 								<div class="strike-price">INR <?= number_format($row['price'] * 1.25, 2) ?></div>
                             </div>
-                            <a href="?package_details=<?= htmlspecialchars($row['id']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
+                            <a href="package-details.php?package_details=<?= htmlspecialchars($row['id']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
                         </div>
                     </a>
                 </div>
@@ -355,7 +356,7 @@ $total_cards = 9; // Minimum cards to display
                             <div class="price">INR <?= htmlspecialchars($default_featured['price']) ?></div>
 							<div class="strike-price">INR <?= number_format($default_featured['price'] * 1.25, 2) ?></div>
                         </div>
-                        <a href="?package_details=<?= htmlspecialchars($default_featured['id']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
+                        <a href="package-details.php?package_id=<?= htmlspecialchars($default_featured['id']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
                     </div>
                 </a>
             </div>

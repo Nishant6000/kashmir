@@ -33,7 +33,8 @@
             window.location.href = "destinations.php"; // Replace with your desired URL
           </script>';
         exit; // Ensure the script stops executing further
-        }   
+        } 
+          
     $featured_sql = "
     SELECT 
         packages.*, 
