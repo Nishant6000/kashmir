@@ -1,92 +1,66 @@
 <?php
-require 'db_connect.php';
+$conn = new mysqli("localhost", "root", "", "kashmir_tourism");
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+// Check for connection errors
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+$sqlDestinations = "SELECT * FROM destinations";
+$resultDestinations = $conn->query($sqlDestinations);
+$destinations = $resultDestinations->fetch_all(MYSQLI_ASSOC);
+
+$sqlPackages = "SELECT * FROM packages";
+$resultPackages = $conn->query($sqlPackages);
+$packages_det = $resultPackages->fetch_all(MYSQLI_ASSOC);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Include database connection
+    // include 'db_connection.php';
+
+    // Fetch form data
+    $package_id = $_POST['package_id'];
     $destination_id = $_POST['destination_id'];
-    $name = $_POST['name'];
-    $description = $_POST['description'];
-    $price = $_POST['price'];
-    $duration = $_POST['duration']; // Get the duration value
-    $category = $_POST['category']; // Get category value
-    $rating = $_POST['rating']; // Get the rating value
-    $reviews = $_POST['reviews']; // Get the reviews value
+    $car_id = $_POST['car_id'];
+    $hotel_id = $_POST['hotel_id'];
+    // $itinerary = $_POST['itinerary'];
+    $itinerary = implode('*', $_POST['itinerary']);
+    $inclusions = $_POST['inclusions'];
+    $exclusions = $_POST['exclusions'];
+    $charges_for_exclusions = $_POST['charges_exclusions'];
+    $terms_and_conditions = $_POST['terms_conditions'];
 
-    // Set category flags based on selected category
-    $is_honeymoon = $category == 'honeymoon' ? 1 : 0;
-    $is_trending = $category == 'trending' ? 1 : 0;
-    $is_featured = $category == 'featured' ? 1 : 0;
-    $is_budget = $category == 'budget' ? 1 : 0;
-    $is_premium = $category == 'premium' ? 1 : 0;
+    //============================================================
+    
 
-    // Insert the package into the packages table
-    try {
-        $stmt = $pdo->prepare("INSERT INTO packages (destination_id, name, description, price, duration, is_trending, is_featured, rating, is_honeymoon, is_budget, is_premium, reviews) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$destination_id, $name, $description, $price, $duration, $is_trending, $is_featured, $rating, $is_honeymoon, $is_budget, $is_premium, $reviews]);
+    // Insert into package_details table
+    $sql = "INSERT INTO package_details 
+            (package_id, destination_id, car_id, hotel_id, itinerary, inclusions, exclusions, charges_for_exclusions, terms_and_conditions) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('iiiisssds', $package_id, $destination_id, $car_id, $hotel_id, $itinerary, $inclusions, $exclusions, $charges_for_exclusions, $terms_and_conditions);
 
-        // Get the last inserted package ID
-        $package_id = $pdo->lastInsertId();
-    } catch (PDOException $e) {
-        $error = "Error: " . $e->getMessage();
+    if ($stmt->execute()) {
+        echo "Package details added successfully!";
+    } else {
+        echo "Error: " . $stmt->error;
     }
 
-    // Handle file uploads (same code as before)
-    $target_dir = "uploads/"; // Directory to save uploaded images
-    $uploadOk = 1;
-    $success = '';
-    $error = '';
+    $stmt->close();
+    $conn->close();
+}else{
 
-    foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) {
-        if ($_FILES['images']['error'][$key] == UPLOAD_ERR_OK) {
-            $target_file = $target_dir . basename($_FILES["images"]["name"][$key]);
-            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-            // Check if image file is an actual image
-            $check = getimagesize($tmp_name);
-            if ($check === false) {
-                $error = "File {$target_file} is not an image.";
-                $uploadOk = 0;
-                continue;
-            }
-
-            // Check file size (e.g., limit to 2MB)
-            if ($_FILES["images"]["size"][$key] > 2000000) {
-                $error = "Sorry, your file {$target_file} is too large.";
-                $uploadOk = 0;
-                continue;
-            }
-
-            // Allow certain file formats
-            if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif'])) {
-                $error = "Sorry, only JPG, JPEG, PNG & GIF files are allowed for file {$target_file}.";
-                $uploadOk = 0;
-                continue;
-            }
-
-            // Attempt to upload the file
-            if ($uploadOk) {
-                if (move_uploaded_file($tmp_name, $target_file)) {
-                    // Insert image record into the database
-                    try {
-                        $stmtImage = $pdo->prepare("INSERT INTO packages_images (package_id, image) VALUES (?, ?)");
-                        $stmtImage->execute([$package_id, $target_file]);
-                    } catch (PDOException $e) {
-                        $error = "Error: " . $e->getMessage();
-                    }
-                } else {
-                    $error = "Sorry, there was an error uploading your file {$target_file}.";
-                }
-            }
-        }
-    }
-
-    if (empty($error)) {
-        $success = "Package added successfully! Duration: $duration";
-    }
 }
 
+
+
 // Fetch destinations for the dropdown
-$stmtDestinations = $pdo->query("SELECT * FROM destinations");
-$destinations = $stmtDestinations->fetchAll(PDO::FETCH_ASSOC);
+// $stmtDestinations = $pdo->query("SELECT * FROM destinations");
+// $destinations = $stmtDestinations->fetchAll(PDO::FETCH_ASSOC);
+// $stmtPackages = $pdo->query("SELECT * FROM packages");
+// $packages_det = $stmtPackages->fetchAll(PDO::FETCH_ASSOC);
+//$destination_id = $packages_det[0]['destination_id'];
+
+//print_r($packages_det[0]['destination_id']);die;
 
 ?>
 
@@ -109,26 +83,17 @@ $destinations = $stmtDestinations->fetchAll(PDO::FETCH_ASSOC);
 
         <form action="" method="post" enctype="multipart/form-data" class="mt-4">
     <!-- Select Package -->
-    <div class="form-group">
-        <label for="package_id">Select Package</label>
-        <select name="package_id" id="package_id" class="form-control" required>
-            <option value="">Select a package</option>
-            <?php foreach ($packages as $package): ?>
-                <option value="<?= $package['id'] ?>"><?= htmlspecialchars($package['name']) ?></option>
-            <?php endforeach; ?>
-        </select>
-    </div>
+    <label for="destination_id">Select Package</label>
+    <select name="package_id" id="package_id" class="form-control" required onchange="fetchCarsAndHotels()">
+    <option value="">Select a package</option>
+    <?php foreach ($packages_det as $package): ?>
+        <option value="<?= $package['id'] ?>" data-destination="<?= $package['destination_id'] ?>"><?= htmlspecialchars($package['name']) ?></option>
+    <?php endforeach; ?>
+    </select>
 
     <!-- Select Destination -->
-    <div class="form-group">
-        <label for="destination_id">Select Destination</label>
-        <select name="destination_id" id="destination_id" class="form-control" required>
-            <option value="">Select a destination</option>
-            <?php foreach ($destinations as $destination): ?>
-                <option value="<?= $destination['id'] ?>"><?= htmlspecialchars($destination['name']) ?></option>
-            <?php endforeach; ?>
-        </select>
-    </div>
+    <input type="hidden" name="destination_id" id="destination_id" value="">
+
 
     <!-- Select Car -->
     <div class="form-group">
@@ -210,7 +175,55 @@ $destinations = $stmtDestinations->fetchAll(PDO::FETCH_ASSOC);
         `;
         itinerarySection.appendChild(newItineraryItem);
     });
+
+
 </script>
+<script>
+function fetchCarsAndHotels() {
+    var packageId = document.getElementById('package_id').value;
+    if (packageId) {
+        var destinationId = document.querySelector('#package_id option:checked').getAttribute('data-destination');
+
+        // Create a new AJAX request
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'get_cars_hotels.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        // Send the destination ID to the server
+        xhr.send('destination_id=' + destinationId);
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                // Parse the response
+                var data = JSON.parse(xhr.responseText);
+
+                // Update car options
+                var carSelect = document.getElementById('car_id');
+                document.getElementById('destination_id').value = data.cars[0].destination_id;
+                carSelect.innerHTML = '<option value="">Select a car</option>';
+                // console.log(data.cars[0].destination_id);
+                data.cars.forEach(function(car) {
+                    var option = document.createElement('option');
+                    option.value = car.id;
+                    option.textContent = car.model;
+                    carSelect.appendChild(option);
+                });
+                
+                // Update hotel options
+                var hotelSelect = document.getElementById('hotel_id');
+                hotelSelect.innerHTML = '<option value="">Select a hotel</option>';
+                data.hotels.forEach(function(hotel) {
+                    var option = document.createElement('option');
+                    option.value = hotel.id;
+                    option.textContent = hotel.name;
+                    hotelSelect.appendChild(option);
+                });
+            }
+        };
+    }
+}
+</script>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
