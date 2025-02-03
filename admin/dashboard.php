@@ -12,6 +12,7 @@ try {
     $destinations = $pdo->query("SELECT * FROM destinations")->fetchAll();
     $hotels = $pdo->query("SELECT * FROM hotels")->fetchAll();
     $packages = $pdo->query("SELECT * FROM packages")->fetchAll();
+    $packages_det = $pdo->query("SELECT * FROM package_details")->fetchAll();
     $cars = $pdo->query("SELECT * FROM cars")->fetchAll();
     $blogs = $pdo->query("SELECT * FROM blogs")->fetchAll(); // Added blogs table
 } catch (PDOException $e) {
@@ -83,7 +84,22 @@ try {
             </tr>
             <?php endforeach; ?>
         </table>
-
+        <h3>Package Details</h3>
+        <table class="table table-bordered">
+            <tr>
+                <th>ID</th><th>Name</th><th>Actions</th>
+            </tr>
+            <?php foreach ($packages_det as $packaged): ?>
+            <tr>
+                <td><?= $packaged['id'] ?></td>
+                <td><?= htmlspecialchars($packaged['package_id']) ?></td>
+                <td>
+                    <a href="edit_package_details.php?id=<?= $packaged['id'] ?>" class="btn btn-warning">Edit</a>
+                    <a href="delete.php?type=package&id=<?= $packaged['id'] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this package?');">Delete</a>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
         <!-- Cars Section -->
         <h3>Cars</h3>
         <table class="table table-bordered">
@@ -125,6 +141,7 @@ try {
             <a href="add_hotel.php" class="btn btn-success">Add Hotel</a>
             <a href="add_car.php" class="btn btn-danger">Add Car</a>
             <a href="add_package.php" class="btn btn-warning">Add Package</a>
+            <a href="add_package_details.php" class="btn btn-success">Add Package Details</a>
             <a href="add_blog.php" class="btn btn-info">Add Blog</a>
             <a href="logout.php" class="btn btn-secondary">Logout</a>
         </div>

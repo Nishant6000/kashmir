@@ -347,7 +347,7 @@ if ($featured_result->num_rows > 0) {
                             <div class="price">INR <?= htmlspecialchars($row['price']) ?></div>
                             <div class="strike-price">INR <?= number_format($row['price'] * 1.25, 2) ?></div>
                         </div>
-                        <a href="?package_details=<?= htmlspecialchars($row['id']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
+                        <a href="package-details.php?package_details=<?= htmlspecialchars($row['id']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
                     </div>
                 </a>
             </div>

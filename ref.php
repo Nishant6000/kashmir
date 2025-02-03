@@ -232,3 +232,45 @@
     <?php
     }
     ?>	
+
+<?php
+//=============================================
+Array
+(
+    [package_id] => 6
+    [package_name] => gulmarg 3 star
+    [package_description] => wssdsds
+sddsd
+
+    [duration] => 6 Night & 7 Days
+    [price] => 22220.00
+    [destination_id] => 10
+    [main_image] => 
+    [is_trending] => 0
+    [is_featured] => 0
+    [rating] => 5.0
+    [is_honeymoon] => 0
+    [is_adventure] => 0
+    [is_premium] => 0
+    [is_budget] => 0
+    [reviews] => 12200
+    [additional_image] => images/k1.jpg
+    [itinerary] => Day 1: Arrival in Leh
+Arrive in Leh, where our representative will greet you at the airport and transfer you to the hotel. Spend the day acclimatizing to the high altitude.*Day 2: Leh - Local Sightseeing
+Visit the famous Shanti Stupa, Leh Palace, and the bustling Leh Market. Return to the hotel in the evening.*Day 3: Leh to Nubra Valley
+Drive through the Khardung La Pass to reach Nubra Valley. Visit Diskit Monastery and enjoy a camel ride in the sand dunes.
+    [inclusions] => Accommodation in 3-star hotels
+Daily breakfast and dinner
+Airport transfers
+All sightseeing tours by private cab
+Inner line permits
+    [exclusions] => Airfare
+Lunch 
+Any personal expenses
+Travel insurance
+    [charges_for_exclusions] => 800.00
+    [terms_and_conditions] => Please read the following terms and conditions carefully before booking the tour. By booking, you agree to all the terms mentioned below.
+    [created_at] => 2025-02-03 15:46:59
+
+    ?>
+

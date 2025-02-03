@@ -19,6 +19,74 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </head>
 <body>
+<?php
+    $conn = new mysqli("localhost", "root", "", "kashmir_tourism");
+
+    // Check connection
+    if (isset($_GET["package_details"])) {
+        $pid = $_GET["package_details"];
+    
+        $stmt = $conn->prepare("SELECT 
+    p.id AS package_id,
+    p.name AS package_name,
+    p.description AS package_description,
+    p.duration,
+    p.price,
+    p.destination_id,
+    p.image AS main_image,
+    p.is_trending,
+    p.is_featured,
+    p.rating,
+    p.is_honeymoon,
+    p.is_adventure,
+    p.is_premium,
+    p.is_budget,
+    p.reviews,
+    
+    pi.image AS additional_image,  -- Additional images from Packages_images
+    
+    pd.itinerary,
+    pd.inclusions,
+    pd.exclusions,
+    pd.charges_for_exclusions,
+    pd.terms_and_conditions,
+    pd.created_at
+
+FROM 
+    Packages p
+
+LEFT JOIN 
+    Packages_images pi ON p.id = pi.package_id
+
+LEFT JOIN 
+    Package_details pd ON p.id = pd.package_id
+
+WHERE 
+    p.id = ?;
+");
+    
+        // Check if the statement was prepared successfully
+        if ($stmt === false) {
+            die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+        }
+    
+        // Bind and execute if prepare was successful
+        $stmt->bind_param("i", $pid);
+        $stmt->execute();
+        $featured_result = $stmt->get_result();
+        $stmt->close();
+    }else{
+        echo '<script>
+        alert("Invalid request. Redirecting to Home Page");
+        window.location.href = "index.php";
+      </script>';
+    exit;
+    }
+    $row = $featured_result->fetch_assoc();
+   
+//e;
+
+?>
 <!-- <div class="py-4 top-wrap">
 <div class="container-xl">
 <div class="row d-flex align-items-start">
@@ -76,7 +144,7 @@
 <div class="row no-gutters slider-text align-items-center justify-content-center">
 <div class="col-md-9 pt-5 text-center">
 <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="fa fa-chevron-right"></i></a></span> <span>Packages details<i class="fa fa-chevron-right"></i></span></p>
-<h4 class="mb-0 bread">SRINAGAR LEH MANALI</h4>
+<h4 class="mb-0 bread"><?= htmlspecialchars($row['package_name']) ?></h4>
 </div>
 </div>
 </div>
@@ -251,7 +319,7 @@
                     <div class="card card-custom">
                         <h2 class="tripdeth">Package Details</h2>
                         <p>
-                            Explore the mesmerizing landscapes of Ladakh with our 7-day tour package. From the serene lakes to the majestic mountains, this tour offers a perfect blend of adventure and tranquility.
+                        <?= htmlspecialchars($row['package_description']) ?>
                         </p>
                     </div>
 
@@ -404,20 +472,33 @@
                     <div class="card card-custom">
                         <h2 class="tripdeth">Day-wise Itinerary</h2>
                         <div class="timeline">
+                            <?php 
+                            
+                            $itenaray = array();
+                            $itenaray = explode("*", $row['itinerary']);
+                           foreach ($itenaray as $itenaray_indu){
+                            $data =  explode("\n",  $itenaray_indu);
+                           
+                           
+                          
+                          
 
+?>
                             <!-- Day 1 -->
                             <div class="timeline-day">
                                 <div class="timeline-content">
                                     <label class="timeline-day-label">
                                         <input type="checkbox" name="day" value="day1" checked>
-                                        <span class="timeline-day-title">Day 1: Arrival in Leh</span>
+                                        <span class="timeline-day-title"><?= htmlspecialchars($data[0]) ?></span>
                                     </label>
-                                    <p>Arrive in Leh, where our representative will greet you at the airport and transfer you to the hotel. Spend the day acclimatizing to the high altitude.</p>
+                                    <p><?= htmlspecialchars($data[1]) ?></p>
                                 </div>
                             </div>
-
+<?php
+                           }
+                           ?>
                             <!-- Day 2 -->
-                            <div class="timeline-day">
+                            <!-- <div class="timeline-day">
                                 <div class="timeline-content">
                                     <label class="timeline-day-label">
                                         <input type="checkbox" name="day" value="day1" checked>
@@ -425,10 +506,10 @@
                                     </label>
                                     <p>Visit the famous Shanti Stupa, Leh Palace, and the bustling Leh Market. Return to the hotel in the evening.</p>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- Day 3 -->
-                            <div class="timeline-day">
+                            <!-- <div class="timeline-day">
                                 <div class="timeline-content">
                                     <label class="timeline-day-label">
                                         <input type="checkbox" name="day" value="day1" checked>
@@ -436,7 +517,7 @@
                                     </label>
                                     <p>Drive through the Khardung La Pass to reach Nubra Valley. Visit Diskit Monastery and enjoy a camel ride in the sand dunes.</p>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- Additional Days -->
                             <!-- Continue adding more days in a similar structure -->
@@ -451,23 +532,42 @@
                             <div class="col-md-6">
                                 <h4>Inclusions</h4>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item pl-1"><i class="fa fa-check-circle"></i> Accommodation in 3-star hotels</li>
-                                    <li class="list-group-item pl-1"><i class="fa fa-check-circle"></i> Daily breakfast and dinner</li>
+                                    <?php
+                                      $inclusions = array();
+                                      $inclusions = explode("\n", $row['inclusions']);
+                                    foreach($inclusions as $inclusions_ind){
+                                    ?>
+                                    <li class="list-group-item pl-1"><i class="fa fa-check-circle"></i><?= htmlspecialchars($inclusions_ind) ?></li>
+
+                                    <?php
+                                    }
+                                    ?>
+                                    <!-- <li class="list-group-item pl-1"><i class="fa fa-check-circle"></i> Daily breakfast and dinner</li>
                                     <li class="list-group-item pl-1"><i class="fa fa-check-circle"></i> Airport transfers</li>
                                     <li class="list-group-item pl-1"><i class="fa fa-check-circle"></i> All sightseeing tours by private cab</li>
-                                    <li class="list-group-item pl-1"><i class="fa fa-check-circle"></i> Inner line permits</li>
+                                    <li class="list-group-item pl-1"><i class="fa fa-check-circle"></i> Inner line permits</li> -->
                                 </ul>
                             </div>
                             <div class="col-md-6">
                                 <h4>Exclusions</h4>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item pl-1"><i class="fa fa-times-circle red"></i> Airfare</li>
+                                <?php
+                                      $Exclusions = array();
+                                      $Exclusions = explode("\n", $row['exclusions']);
+                                    foreach($Exclusions as $Exclusions_ind){
+                                    ?>
+                                    <li class="list-group-item pl-1"><i class="fa fa-times-circle red"></i><?= htmlspecialchars($Exclusions_ind) ?></li>
+                                    <?php
+                                    }
+                                    ?>
+
+                                    <!-- <li class="list-group-item pl-1"><i class="fa fa-times-circle red"></i> Airfare</li>
                                     <li class="list-group-item pl-1">
                                         <i class="fa fa-times-circle red" id="ilunch"></i> Lunch&nbsp;
                                         <input type="checkbox" id="lunch" class="checkbox-inline">
                                     </li>
                                     <li class="list-group-item pl-1"><i class="fa fa-times-circle red"></i> Any personal expenses</li>
-                                    <li class="list-group-item pl-1"><i class="fa fa-times-circle red"></i> Travel insurance</li>
+                                    <li class="list-group-item pl-1"><i class="fa fa-times-circle red"></i> Travel insurance</li> -->
                                 </ul>
                             </div>
                         </div>
@@ -486,7 +586,7 @@
 
                                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                     <div class="card-body">
-                                        The tour package includes accommodation in 3-star hotels, daily breakfast and dinner, airport transfers, sightseeing tours by private cab, and inner line permits.
+                                        The tour package includes accommodation in Hotel as Selected Above, daily breakfast and dinner, airport transfers, sightseeing tours by private cab, and inner line permits.
                                     </div>
                                 </div>
                             </div>
@@ -531,7 +631,7 @@
                     <div class="card card-custom">
                         <h3 class="tripdeth">Terms and Conditions</h3>
                         <p>
-                            Please read the following terms and conditions carefully before booking the tour. By booking, you agree to all the terms mentioned below.
+                        <?= htmlspecialchars($row['terms_and_conditions']) ?>
                         </p>
                     </div>
                 </div>
@@ -541,15 +641,18 @@
                     <!-- Pricing Section -->
                      <div class="sticky-sidebar">
                     <div class="card card-custom bg-light p-3 mb-4 ">
-                        <h3 class="tripdeth">10 NIGHTS 11 DAYS SRINAGAR LEH MANALI PACKAGE</h3>
-                        <p class="tripdetp">₹25,000/- per person</p>
-                        <p>Includes accommodation, meals, transfers, and sightseeing as mentioned in the itinerary.</p>
+                        <h3 class="tripdeth"> <?= htmlspecialchars($row['duration']) ?></h3>
+                        <p class="tripdetp">₹ <?= htmlspecialchars($row['price']) ?>/- per person</p>
+                        <?php
+                        $inclusions_with_commas = str_replace("\n", ", ", $row['inclusions']);
+                        ?>
+                        <p><?= htmlspecialchars($inclusions_with_commas) ?>.</p>
                     </div>
 
                     <!-- Booking Section -->
                     <div class="card card-custom bg-light p-3">
                         <h3 class="tripdeth">Book Your Tour</h3>
-                        <p>Experience the beauty of Ladakh with our expertly curated tour package.</p>
+                        <p>Experience the beauty of Trip with our expertly curated tour package.</p>
                         
                         <a href="#" class="btn btn-primary btn-lg btn-block mb-1" data-toggle="modal" data-target="#bookingModal">Book Now</a>
                         <a href="#" class="btn btn-secondary btn-lg btn-block custom-primary">Enquire Now</a>
