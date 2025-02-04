@@ -325,35 +325,37 @@ WHERE
 
                     <!-- Hotel Details -->
                     <div class="card card-custom">
-                        <h2 class="tripdeth">Hotel Details</h2>
-                        <p>Stay in luxurious 3-star hotels with all modern amenities to make your stay comfortable and enjoyable.</p>
-                    
-                        <!-- Default Hotel Card -->
-                        <div class="hotel-card">
-                            <img src="images/hotel-1-k.jpg" class="hotel-img" alt="Default Hotel">
-                            <div class="hotel-info">
-                                <h5>The Grand Dragon Ladakh
-                                    <div class="star-rating">
-                                        <i class="fa fa-star checked" data-index="0"></i>
-                                        <i class="fa fa-star checked" data-index="1"></i>
-                                        <i class="fa fa-star checked" data-index="2"></i>
-                                        <i class="fa fa-star checked" data-index="3"></i>
-                                        <i class="fa fa-star unchecked" data-index="4"></i>
-                                    </div>
+    <h2 class="tripdeth">Hotel Details</h2>
+    <p>Stay in luxurious 3-star hotels with all modern amenities to make your stay comfortable and enjoyable.</p>
 
-                                </h5>
-                                <p>Old Road Sheynam, 194101 Leh, India</p>
-                                <a href="#" class="btn btn-link btn-sm">
-                                    <i class="fa fa-info-circle" aria-hidden="true"></i> View Details
-                                </a>
-                                <!-- Button to Open Modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#hotelSelectionModal">
-                                    Select Another Hotel
-                                </button>
-                                
-                            </div>
-                        </div>
+    <!-- Default Hotel Card -->
+        <div class="hotel-card" id="main-hotel-card">
+            <img src="images/hotel-1-k.jpg" class="hotel-img" id="main-hotel-img" alt="Default Hotel">
+            <input type="hidden" id="current_hotel_price" value="7000">
+            <input type="hidden" id="days" value="7">
+            <div class="hotel-info">
+                <h5 id="main-hotel-name">
+                    The Grand Dragon Ladakh
+                    <div class="star-rating" id="main-hotel-rating">
+                        <i class="fa fa-star checked"></i>
+                        <i class="fa fa-star checked"></i>
+                        <i class="fa fa-star checked"></i>
+                        <i class="fa fa-star checked"></i>
+                        <i class="fa fa-star unchecked"></i>
                     </div>
+                </h5>
+                <p id="main-hotel-location">Old Road Sheynam, 194101 Leh, India</p>
+                <a href="#" class="btn btn-link btn-sm">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i> View Details
+                </a>
+                <!-- Button to Open Modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#hotelSelectionModal">
+                    Select Another Hotel
+                </button>
+            </div>
+        </div>
+    </div>
+
                     <!-- modal -->
                     <div class="modal fade" id="hotelSelectionModal" tabindex="-1" role="dialog" aria-labelledby="hotelSelectionModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -367,44 +369,34 @@ WHERE
                                 <div class="modal-body bg-light">
                                     <!-- List of Hotels -->
                                     <div class="hotel-list ">
-                                        <div class="hotel-card modal-hotel-card">
-                                            <img src="images/hotel-1-k.jpg" class="hotel-img" alt="Hotel 2">
-                                            <div class="hotel-info">
-                                                <h5>The Grand Dragon Ladakh
-                                                    <div class="star-rating">
-                                                        <i class="fa fa-star checked" data-index="0"></i>
-                                                        <i class="fa fa-star checked" data-index="1"></i>
-                                                        <i class="fa fa-star checked" data-index="2"></i>
-                                                        <i class="fa fa-star checked" data-index="3"></i>
-                                                        <i class="fa fa-star unchecked" data-index="4"></i>
+                                        
+                                    <div class="hotel-card modal-hotel-card" 
+                                                    data-name="The Grand Dragon Ladakh 1" 
+                                                    data-location="Old Road Sheynam, 194101 Leh, India"
+                                                    data-img="images/hotel-1-k.jpg"
+                                                    data-rating="3"
+                                                    data-hotel-price="800">
+                                                    
+                                                    <img src="images/hotel-1-k.jpg" class="hotel-img" alt="Hotel 2">
+                                                    <div class="hotel-info">
+                                                        <h5>The Grand Dragon Ladakh 1
+                                                            <div class="star-rating">
+                                                                <i class="fa fa-star checked"></i>
+                                                                <i class="fa fa-star checked"></i>
+                                                                <i class="fa fa-star checked"></i>
+                                                                <i class="fa fa-star checked"></i>
+                                                                <i class="fa fa-star unchecked"></i>
+                                                            </div>
+                                                        </h5>
+                                                        <p>Old Road Sheynam, 194101 Leh, India</p>
+                                                        <a href="#" class="btn btn-link btn-sm">
+                                                            <i class="fa fa-info-circle" aria-hidden="true"></i> View Details
+                                                        </a>
+                                                        <button class="btn btn-primary btn-lg btn-block mb-1 select-hotel-btn">Select This Hotel</button>
                                                     </div>
-                                                </h5>
-                                                <p>Old Road Sheynam, 194101 Leh, India</p>
-                                                <a href="#" class="btn btn-link btn-sm">
-                                                    <i class="fa fa-info-circle" aria-hidden="true"></i> View Details
-                                                </a>
-                                                <a href="#" class="btn btn-primary btn-lg btn-block mb-1">Select This Hotel</a>
-                                            </div>
-                                        </div>
-                                        <div class="hotel-card modal-hotel-card">
-                                            <img src="images/hotel-1-k.jpg" class="hotel-img" alt="Hotel 3">
-                                            <div class="hotel-info">
-                                                <h5>The Grand Dragon Ladakh
-                                                    <div class="star-rating">
-                                                        <i class="fa fa-star checked" data-index="0"></i>
-                                                        <i class="fa fa-star checked" data-index="1"></i>
-                                                        <i class="fa fa-star checked" data-index="2"></i>
-                                                        <i class="fa fa-star checked" data-index="3"></i>
-                                                        <i class="fa fa-star unchecked" data-index="4"></i>
-                                                    </div>
-                                                </h5>
-                                                <p>Old Road Sheynam, 194101 Leh, India</p>
-                                                <a href="#" class="btn btn-link btn-sm">
-                                                    <i class="fa fa-info-circle" aria-hidden="true"></i> View Details
-                                                </a>
-                                                <a href="#" class="btn btn-primary btn-lg btn-block mb-1">Select This Hotel</a>
-                                            </div>
-                                        </div>
+                                    </div>
+                                    
+                                        
                                         <!-- Add more hotels as needed -->
                                     </div>
                                 </div>
@@ -642,7 +634,7 @@ WHERE
                      <div class="sticky-sidebar">
                     <div class="card card-custom bg-light p-3 mb-4 ">
                         <h3 class="tripdeth"> <?= htmlspecialchars($row['duration']) ?></h3>
-                        <p class="tripdetp">₹ <?= htmlspecialchars($row['price']) ?>/- per person</p>
+                        <p class="tripdetp">₹ <span id="tprice"><?= htmlspecialchars($row['price']) ?></span>/- per person</p>
                         <?php
                         $inclusions_with_commas = str_replace("\n", ", ", $row['inclusions']);
                         ?>
@@ -787,6 +779,48 @@ WHERE
                 }
             });
         });
+</script>
+<script>
+    document.querySelectorAll('.select-hotel-btn').forEach(button => {
+    button.addEventListener('click', function () {
+        const hotelCard = this.closest('.modal-hotel-card');
+
+        // Get data attributes
+        const hotelName = hotelCard.getAttribute('data-name');
+        const hotelLocation = hotelCard.getAttribute('data-location');
+        const hotelImg = hotelCard.getAttribute('data-img');
+        const hotelRating = parseInt(hotelCard.getAttribute('data-rating'));
+        const hotelPrice = parseInt(hotelCard.getAttribute('data-hotel-price'));
+
+        // Update Main Display
+        document.getElementById('main-hotel-name').innerHTML = `${hotelName} <div class="star-rating">${generateStarRating(hotelRating)}</div>`;
+        document.getElementById('main-hotel-location').textContent = hotelLocation;
+        document.getElementById('main-hotel-img').src = hotelImg;
+        var tprice = document.getElementById('tprice').innerHTML;
+        var chp = document.getElementById('current_hotel_price').value;
+        var days = document.getElementById('days').value;
+        var nprice = tprice-chp+(hotelPrice*days);
+        var ncprice = hotelPrice*days;
+        document.getElementById('tprice').innerHTML = nprice;
+        document.getElementById('current_hotel_price').value = ncprice;
+
+        // Close the modal
+        $('#hotelSelectionModal').modal('hide');
+    });
+});
+
+// Function to generate star rating HTML
+function generateStarRating(rating) {
+    let stars = '';
+    for (let i = 0; i < 5; i++) {
+        if (i < rating) {
+            stars += '<i class="fa fa-star checked"></i>';
+        } else {
+            stars += '<i class="fa fa-star unchecked"></i>';
+        }
+    }
+    return stars;
+}
 </script>
 </body>
 </html>
