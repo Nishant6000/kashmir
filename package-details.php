@@ -46,6 +46,8 @@
     pi.image AS additional_image,  -- Additional images from Packages_images
     
     pd.itinerary,
+    pd.hotel_id,
+    pd.car_id,
     pd.inclusions,
     pd.exclusions,
     pd.charges_for_exclusions,
@@ -83,7 +85,38 @@ WHERE
     exit;
     }
     $row = $featured_result->fetch_assoc();
+    $hotel_id = 0;
+    $hotel_id = $row["hotel_id"];
+    $destination_id = $row["destination_id"];
+    if ($hotel_id) {
+        $stmt = $conn->prepare("SELECT * FROM hotels WHERE id = ?");
+        if ($stmt === false) {
+            die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+        }
+    
+        $stmt->bind_param("i", $hotel_id);
+        $stmt->execute();
+        $related_packages_result = $stmt->get_result();
+        $stmt->close();
+    
+    }
+   $hotel_details = $related_packages_result->fetch_assoc();
    
+   
+   if ($destination_id) {
+    $stmt = $conn->prepare("SELECT * FROM hotels WHERE destination_id = ?");
+    if ($stmt === false) {
+        die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+    }
+
+    $stmt->bind_param("i", $destination_id);
+    $stmt->execute();
+    $related_packages_result_loc = $stmt->get_result();
+    $stmt->close();
+
+}
+$hotel_details_loc = $related_packages_result_loc->fetch_assoc();
+
 //e;
 
 ?>
@@ -326,16 +359,19 @@ WHERE
                     <!-- Hotel Details -->
                     <div class="card card-custom">
     <h2 class="tripdeth">Hotel Details</h2>
-    <p>Stay in luxurious 3-star hotels with all modern amenities to make your stay comfortable and enjoyable.</p>
+    <p> <?= htmlspecialchars($hotel_details['description']) ?></p>
 
     <!-- Default Hotel Card -->
         <div class="hotel-card" id="main-hotel-card">
             <img src="images/hotel-1-k.jpg" class="hotel-img" id="main-hotel-img" alt="Default Hotel">
+            <?php 
+
+            ?>
             <input type="hidden" id="current_hotel_price" value="7000">
             <input type="hidden" id="days" value="7">
             <div class="hotel-info">
                 <h5 id="main-hotel-name">
-                    The Grand Dragon Ladakh
+                    <?= htmlspecialchars($hotel_details['name']) ?>
                     <div class="star-rating" id="main-hotel-rating">
                         <i class="fa fa-star checked"></i>
                         <i class="fa fa-star checked"></i>
@@ -344,7 +380,7 @@ WHERE
                         <i class="fa fa-star unchecked"></i>
                     </div>
                 </h5>
-                <p id="main-hotel-location">Old Road Sheynam, 194101 Leh, India</p>
+                <p id="main-hotel-location"><?= htmlspecialchars($hotel_details['location']) ?></p>
                 <a href="#" class="btn btn-link btn-sm">
                     <i class="fa fa-info-circle" aria-hidden="true"></i> View Details
                 </a>
