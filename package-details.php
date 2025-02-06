@@ -137,8 +137,19 @@ if (preg_match('/(\d+)\s*Days?/', $text, $matches)) {
     $stmt->close();
 
 }
-$hotel_details_loc = $related_packages_result_loc->fetch_assoc();
+//$hotel_details_loc = $related_packages_result_loc->fetch_assoc();
+$hotel_details_loc = []; // Initialize an empty array
 
+    while ($row_n = $related_packages_result_loc->fetch_assoc()) {
+        // Convert image_paths to an array
+        //$row['image_paths'] = $row['image_paths'] ? explode(', ', $row['image_paths']) : [];
+        $hotel_details_loc [] = $row_n; // Store each row in the array
+    }
+//echo count($hotel_details_loc);die;
+// echo "<pre>";
+//print_r($hotel_details_loc);
+// echo "<pre>";
+//die;
 //e;
 function generateStarRating($rating) {
     $max_stars = 5; // Total stars
@@ -421,7 +432,7 @@ function generateStarRating($rating) {
                     ?>
                 </h5>
                 <p id="main-hotel-location"><?= htmlspecialchars($hotel_details['location']) ?></p>
-                <a href="#" class="btn btn-link btn-sm">
+                <a href="hotel_details.php?hid=<?php echo $destination_id; ?>" class="btn btn-link btn-sm">
                     <i class="fa fa-info-circle" aria-hidden="true"></i> View Details
                 </a>
                 <!-- Button to Open Modal -->
@@ -445,32 +456,35 @@ function generateStarRating($rating) {
                                 <div class="modal-body bg-light">
                                     <!-- List of Hotels -->
                                     <div class="hotel-list ">
-                                        <?php
-                                        foreach($hotel_details_loc as $hotel_details_loc_ind){
-                                           
-                                            
+                                        <?php  
+                                          foreach($hotel_details_loc as $ho_ind){ 
+                                            $img_paths = explode(",", $ho_ind['image_paths']);
+
                                         ?>
                                         
                                     <div class="hotel-card modal-hotel-card" 
-                                                    data-name="The Grand Dragon Ladakh 1" 
-                                                    data-location="Old Road Sheynam, 194101 Leh, India"
-                                                    data-img="images/hotel-1-k.jpg"
-                                                    data-rating="3"
-                                                    data-hotel-price="800">
+                                                    data-name="<?php echo $ho_ind['name']; ?>" 
+                                                    data-location="<?php echo $ho_ind['location']; ?>"
+                                                    data-img="<?php echo $img_paths[0]; ?>"
+                                                    data-rating="<?php echo $ho_ind['rating']; ?>"
+                                                    data-hotel-price="<?php echo $ho_ind['price']; ?>">
                                                     
-                                                    <img src="images/hotel-1-k.jpg" class="hotel-img" alt="Hotel 2">
+                                                    <img src="<?php echo $img_paths[0]; ?>" class="hotel-img" alt="Hotel 2">
                                                     <div class="hotel-info">
-                                                        <h5><?= htmlspecialchars($hotel_details_loc_ind["name"]) ?>
-                                                            <div class="star-rating">
+                                                        <h5><?php echo $ho_ind['name']; ?>
+                                                            <!-- <div class="star-rating">
                                                                 <i class="fa fa-star checked"></i>
                                                                 <i class="fa fa-star checked"></i>
                                                                 <i class="fa fa-star checked"></i>
                                                                 <i class="fa fa-star checked"></i>
                                                                 <i class="fa fa-star unchecked"></i>
-                                                            </div>
+                                                            </div> -->
+                                                            <?php 
+                        echo generateStarRating($ho_ind['rating']);
+                    ?>
                                                         </h5>
-                                                        <p>Old Road Sheynam, 194101 Leh, India</p>
-                                                        <a href="#" class="btn btn-link btn-sm">
+                                                        <p><?php echo $ho_ind['location']; ?></p>
+                                                        <a href="hotel_details.php?hid=<?php echo $destination_id; ?>" class="btn btn-link btn-sm">
                                                             <i class="fa fa-info-circle" aria-hidden="true"></i> View Details
                                                         </a>
                                                         <button class="btn btn-primary btn-lg btn-block mb-1 select-hotel-btn">Select This Hotel</button>
@@ -884,7 +898,6 @@ function generateStarRating($rating) {
         var tprice = document.getElementById('tprice').innerHTML;
         var chp = document.getElementById('current_hotel_price').value;
         var days = document.getElementById('days').value;
-        alert(days);
         var nprice = tprice-chp+(hotelPrice*days);
         var ncprice = hotelPrice*days;
         document.getElementById('tprice').innerHTML = nprice;
