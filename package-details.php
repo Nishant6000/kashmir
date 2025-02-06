@@ -88,8 +88,23 @@ WHERE
     $hotel_id = 0;
     $hotel_id = $row["hotel_id"];
     $destination_id = $row["destination_id"];
+    $text = $row["duration"];
+    //die;
+if (preg_match('/(\d+)\s*Days?/', $text, $matches)) {
+    $days = $matches[1]; // Extract the number of days
+} else {
+   $days = 0;
+}
+
     if ($hotel_id) {
-        $stmt = $conn->prepare("SELECT * FROM hotels WHERE id = ?");
+        $stmt = $conn->prepare("
+    SELECT hotels.*, 
+           GROUP_CONCAT(hotel_images.image_path SEPARATOR ', ') AS image_paths
+    FROM hotels 
+    LEFT JOIN hotel_images ON hotels.id = hotel_images.hotel_id
+    WHERE hotels.id = ?
+    GROUP BY hotels.id
+");
         if ($stmt === false) {
             die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
         }
@@ -101,10 +116,17 @@ WHERE
     
     }
    $hotel_details = $related_packages_result->fetch_assoc();
-   
-   
+  $hotel_details_image = explode(',',$hotel_details["image_paths"]);
+  
    if ($destination_id) {
-    $stmt = $conn->prepare("SELECT * FROM hotels WHERE destination_id = ?");
+    $stmt = $conn->prepare("
+    SELECT hotels.*, 
+           GROUP_CONCAT(hotel_images.image_path SEPARATOR ', ') AS image_paths
+    FROM hotels 
+    LEFT JOIN hotel_images ON hotels.id = hotel_images.hotel_id
+    WHERE hotels.destination_id = ?
+    GROUP BY hotels.id
+");
     if ($stmt === false) {
         die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
     }
@@ -118,6 +140,21 @@ WHERE
 $hotel_details_loc = $related_packages_result_loc->fetch_assoc();
 
 //e;
+function generateStarRating($rating) {
+    $max_stars = 5; // Total stars
+    $output = '<div class="star-rating" id="main-hotel-rating">' . PHP_EOL;
+
+    for ($i = 1; $i <= $max_stars; $i++) {
+        if ($i <= $rating) {
+            $output .= '<i class="fa fa-star checked"></i>' . PHP_EOL; // Filled star
+        } else {
+            $output .= '<i class="fa fa-star unchecked"></i>' . PHP_EOL; // Empty star
+        }
+    }
+
+    $output .= '</div>';
+    return $output;
+}
 
 ?>
 <!-- <div class="py-4 top-wrap">
@@ -363,22 +400,25 @@ $hotel_details_loc = $related_packages_result_loc->fetch_assoc();
 
     <!-- Default Hotel Card -->
         <div class="hotel-card" id="main-hotel-card">
-            <img src="images/hotel-1-k.jpg" class="hotel-img" id="main-hotel-img" alt="Default Hotel">
+            <img src="<?= htmlspecialchars($hotel_details_image[0]) ?>" class="hotel-img" id="main-hotel-img" alt="Default Hotel">
             <?php 
 
             ?>
             <input type="hidden" id="current_hotel_price" value="7000">
-            <input type="hidden" id="days" value="7">
+            <input type="hidden" id="days" value="<?= htmlspecialchars($days) ?>">
             <div class="hotel-info">
                 <h5 id="main-hotel-name">
                     <?= htmlspecialchars($hotel_details['name']) ?>
-                    <div class="star-rating" id="main-hotel-rating">
+                    <!-- <div class="star-rating" id="main-hotel-rating">
                         <i class="fa fa-star checked"></i>
                         <i class="fa fa-star checked"></i>
                         <i class="fa fa-star checked"></i>
                         <i class="fa fa-star checked"></i>
                         <i class="fa fa-star unchecked"></i>
-                    </div>
+                    </div> -->
+                    <?php 
+                        echo generateStarRating($hotel_details['rating']);
+                    ?>
                 </h5>
                 <p id="main-hotel-location"><?= htmlspecialchars($hotel_details['location']) ?></p>
                 <a href="#" class="btn btn-link btn-sm">
@@ -405,6 +445,11 @@ $hotel_details_loc = $related_packages_result_loc->fetch_assoc();
                                 <div class="modal-body bg-light">
                                     <!-- List of Hotels -->
                                     <div class="hotel-list ">
+                                        <?php
+                                        foreach($hotel_details_loc as $hotel_details_loc_ind){
+                                           
+                                            
+                                        ?>
                                         
                                     <div class="hotel-card modal-hotel-card" 
                                                     data-name="The Grand Dragon Ladakh 1" 
@@ -415,7 +460,7 @@ $hotel_details_loc = $related_packages_result_loc->fetch_assoc();
                                                     
                                                     <img src="images/hotel-1-k.jpg" class="hotel-img" alt="Hotel 2">
                                                     <div class="hotel-info">
-                                                        <h5>The Grand Dragon Ladakh 1
+                                                        <h5><?= htmlspecialchars($hotel_details_loc_ind["name"]) ?>
                                                             <div class="star-rating">
                                                                 <i class="fa fa-star checked"></i>
                                                                 <i class="fa fa-star checked"></i>
@@ -431,6 +476,10 @@ $hotel_details_loc = $related_packages_result_loc->fetch_assoc();
                                                         <button class="btn btn-primary btn-lg btn-block mb-1 select-hotel-btn">Select This Hotel</button>
                                                     </div>
                                     </div>
+
+                                    <?php 
+                                        }
+                                    ?>
                                     
                                         
                                         <!-- Add more hotels as needed -->
@@ -835,6 +884,7 @@ $hotel_details_loc = $related_packages_result_loc->fetch_assoc();
         var tprice = document.getElementById('tprice').innerHTML;
         var chp = document.getElementById('current_hotel_price').value;
         var days = document.getElementById('days').value;
+        alert(days);
         var nprice = tprice-chp+(hotelPrice*days);
         var ncprice = hotelPrice*days;
         document.getElementById('tprice').innerHTML = nprice;
