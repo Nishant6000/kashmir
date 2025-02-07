@@ -505,59 +505,57 @@ function generateStarRating($rating) {
 
                     <!-- Vehicle Details -->
                     <div class="card card-custom">
-                        <h2 class="tripdeth">Vehicle Details</h2>
-                        <p>Travel in comfort with our range of premium vehicles to suit your needs.</p>
-                    
-                        <!-- Default Vehicle Card -->
-                        <div class="vehicle-card">
-                            <img src="images/crysta.jpg" class="vehicle-img" alt="Default Vehicle">
-                            <div class="vehicle-info">
-                                <h5>Innova Crysta</h5>
-                                <p>Color:Maroon</p>
-                                
-                                <!-- Button to Open Modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#vehicleSelectionModal">
-                                    Select Another Vehicle
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+    <h2 class="tripdeth">Vehicle Details</h2>
+    <p>Travel in comfort with our range of premium vehicles to suit your needs.</p>
+
+    <!-- Default Vehicle Card -->
+    <div class="vehicle-card">
+        <img id="main-vehicle-img" src="images/crysta.jpg" class="vehicle-img" alt="Default Vehicle">
+        <div class="vehicle-info">
+            <h5 id="main-vehicle-name">Innova Crysta</h5>
+            <p id="main-vehicle-color">Color: Maroon</p>
+            
+            <!-- Button to Open Modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#vehicleSelectionModal">
+                Select Another Vehicle
+            </button>
+        </div>
+    </div>
+</div>
                     
                     <!-- Modal for Selecting Other Vehicles -->
                     <div class="modal fade" id="vehicleSelectionModal" tabindex="-1" role="dialog" aria-labelledby="vehicleSelectionModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="vehicleSelectionModalLabel">Select Your Vehicle</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body bg-light">
-                                    <!-- List of Vehicles -->
-                                    <div class="vehicle-list ">
-                                        <div class="vehicle-card modal-vehicle-card">
-                                            <img src="images/crysta.jpg" class="vehicle-img" alt="Vehicle 2">
-                                            <div class="vehicle-info">
-                                                <h5>Innova Crysta</h5>
-                                                <p>Color: White</p>
-                                                <a href="#" class="btn btn-primary btn-lg btn-block mb-1">Select This Vehicle</a>
-                                            </div>
-                                        </div>
-                                        <div class="vehicle-card modal-vehicle-card">
-                                            <img src="images/crysta.jpg" class="vehicle-img" alt="Vehicle 3">
-                                            <div class="vehicle-info">
-                                                <h5>Innova Crysta</h5>
-                                                <p>Color: White</p>
-                                                <a href="#" class="btn btn-primary btn-lg btn-block mb-1">Select This Vehicle</a>
-                                            </div>
-                                        </div>
-                                        <!-- Add more vehicles as needed -->
-                                    </div>
-                                </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="vehicleSelectionModalLabel">Select Your Vehicle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-light">
+                <!-- List of Vehicles -->
+                <div class="vehicle-list">
+                    <?php foreach($vehicle_details as $vehicle) { ?>
+                        <div class="vehicle-card modal-vehicle-card" 
+                            data-name="<?php echo $vehicle['name']; ?>" 
+                            data-color="<?php echo $vehicle['color']; ?>" 
+                            data-img="<?php echo $vehicle['image']; ?>" 
+                            data-price="<?php echo $vehicle['price']; ?>">
+                            
+                            <img src="<?php echo $vehicle['image']; ?>" class="vehicle-img" alt="Vehicle Image">
+                            <div class="vehicle-info">
+                                <h5><?php echo $vehicle['name']; ?></h5>
+                                <p>Color: <?php echo $vehicle['color']; ?></p>
+                                <button class="btn btn-primary btn-lg btn-block mb-1 select-vehicle-btn">Select This Vehicle</button>
                             </div>
                         </div>
-                    </div>
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
                     <!-- Itinerary Section -->
                     <div class="card card-custom">
@@ -920,6 +918,36 @@ function generateStarRating(rating) {
     }
     return stars;
 }
+</script>
+<script>
+    document.querySelectorAll('.select-vehicle-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const vehicleCard = this.closest('.modal-vehicle-card');
+
+            // Get data attributes
+            const vehicleName = vehicleCard.getAttribute('data-name');
+            const vehicleColor = vehicleCard.getAttribute('data-color');
+            const vehicleImg = vehicleCard.getAttribute('data-img');
+            const vehiclePrice = parseInt(vehicleCard.getAttribute('data-price'));
+
+            // Update Main Display
+            document.getElementById('main-vehicle-name').textContent = vehicleName;
+            document.getElementById('main-vehicle-color').textContent = `Color: ${vehicleColor}`;
+            document.getElementById('main-vehicle-img').src = vehicleImg;
+            
+            // Update total price if applicable
+            var tprice = document.getElementById('tprice').innerHTML;
+            var cvp = document.getElementById('current_vehicle_price').value;
+            var days = document.getElementById('days').value;
+            var nprice = tprice - cvp + (vehiclePrice * days);
+            var ncprice = vehiclePrice * days;
+            document.getElementById('tprice').innerHTML = nprice;
+            document.getElementById('current_vehicle_price').value = ncprice;
+
+            // Close the modal
+            $('#vehicleSelectionModal').modal('hide');
+        });
+    });
 </script>
 </body>
 </html>
