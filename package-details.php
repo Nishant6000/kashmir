@@ -87,6 +87,7 @@ WHERE
     $row = $featured_result->fetch_assoc();
     $hotel_id = 0;
     $hotel_id = $row["hotel_id"];
+    $car_id = $row["car_id"];
     $destination_id = $row["destination_id"];
     $text = $row["duration"];
     //die;
@@ -167,6 +168,57 @@ function generateStarRating($rating) {
     return $output;
 }
 
+if ($car_id) {
+    $stmt = $conn->prepare("
+SELECT cars.*, 
+       GROUP_CONCAT(cars_images.image_path SEPARATOR ', ') AS image_paths
+FROM cars 
+LEFT JOIN cars_images ON cars.id = cars_images.car_id
+WHERE cars.id = ?
+GROUP BY cars.id
+");
+    if ($stmt === false) {
+        die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+    }
+
+    $stmt->bind_param("i", $car_id);
+    $stmt->execute();
+    $related_packages_result_cars = $stmt->get_result();
+    $stmt->close();
+
+}
+
+$vehicle_details_sig = $related_packages_result_cars->fetch_assoc();
+
+if ($car_id) {
+    $stmt = $conn->prepare("
+SELECT cars.*, 
+       GROUP_CONCAT(cars_images.image_path SEPARATOR ', ') AS image_paths
+FROM cars 
+LEFT JOIN cars_images ON cars.id = cars_images.car_id
+WHERE cars.destination_id = ?
+GROUP BY cars.id
+");
+    if ($stmt === false) {
+        die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+    }
+
+    $stmt->bind_param("i", $destination_id);
+    $stmt->execute();
+    $related_packages_result_cars_all = $stmt->get_result();
+    $stmt->close();
+
+}
+$vehicle_details = [];
+while ($row_ncad =  $related_packages_result_cars_all->fetch_assoc()) {
+//     // Convert image_paths to an array
+//$row_ncad['image_paths'] = $row_ncad['image_paths'] ? explode(', ', $row_ncad['image_paths']) : [];
+$vehicle_details[] = $row_ncad; // Store each row in the array
+}
+// echo "<pre>";
+//  print_r($vehicle_details);
+//  echo "<pre>";
+//  die;
 ?>
 <!-- <div class="py-4 top-wrap">
 <div class="container-xl">
@@ -505,57 +557,59 @@ function generateStarRating($rating) {
 
                     <!-- Vehicle Details -->
                     <div class="card card-custom">
-    <h2 class="tripdeth">Vehicle Details</h2>
-    <p>Travel in comfort with our range of premium vehicles to suit your needs.</p>
+                        <h2 class="tripdeth">Vehicle Details</h2>
+                        <p>Travel in comfort with our range of premium vehicles to suit your needs.</p>
 
-    <!-- Default Vehicle Card -->
-    <div class="vehicle-card">
-        <img id="main-vehicle-img" src="images/crysta.jpg" class="vehicle-img" alt="Default Vehicle">
-        <div class="vehicle-info">
-            <h5 id="main-vehicle-name">Innova Crysta</h5>
-            <p id="main-vehicle-color">Color: Maroon</p>
-            
-            <!-- Button to Open Modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#vehicleSelectionModal">
-                Select Another Vehicle
-            </button>
-        </div>
-    </div>
-</div>
+                        <!-- Default Vehicle Card -->
+                        <div class="vehicle-card">
+                            <img id="main-vehicle-img" src="images/crysta.jpg" class="vehicle-img" alt="Default Vehicle">
+                            <div class="vehicle-info">
+                                <h5 id="main-vehicle-name">Innova Crysta</h5>
+                                <p id="main-vehicle-color">Color: NA</p>
+                                
+                                <!-- Button to Open Modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#vehicleSelectionModal">
+                                    Select Another Vehicle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                     
                     <!-- Modal for Selecting Other Vehicles -->
                     <div class="modal fade" id="vehicleSelectionModal" tabindex="-1" role="dialog" aria-labelledby="vehicleSelectionModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="vehicleSelectionModalLabel">Select Your Vehicle</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body bg-light">
-                <!-- List of Vehicles -->
-                <div class="vehicle-list">
-                    <?php foreach($vehicle_details as $vehicle) { ?>
-                        <div class="vehicle-card modal-vehicle-card" 
-                            data-name="<?php echo $vehicle['name']; ?>" 
-                            data-color="<?php echo $vehicle['color']; ?>" 
-                            data-img="<?php echo $vehicle['image']; ?>" 
-                            data-price="<?php echo $vehicle['price']; ?>">
-                            
-                            <img src="<?php echo $vehicle['image']; ?>" class="vehicle-img" alt="Vehicle Image">
-                            <div class="vehicle-info">
-                                <h5><?php echo $vehicle['name']; ?></h5>
-                                <p>Color: <?php echo $vehicle['color']; ?></p>
-                                <button class="btn btn-primary btn-lg btn-block mb-1 select-vehicle-btn">Select This Vehicle</button>
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="vehicleSelectionModalLabel">Select Your Vehicle</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body bg-light">
+                                        <!-- List of Vehicles -->
+                                        <div class="vehicle-list">
+                                            <?php foreach($vehicle_details as $vehicle) { 
+                                            $vehicle_image = explode(",", $vehicle["image_paths"]);
+                                            
+                                            ?>
+                                                <div class="vehicle-card modal-vehicle-card" 
+                                                    data-name="<?php echo $vehicle['model']; ?>"
+                                                    data-img="<?php echo $vehicle_image[0]; ?>" 
+                                                    data-price="<?php echo $vehicle['price']; ?>">
+                                                    
+                                                    <img src="<?php echo $vehicle_image[0]; ?>" class="vehicle-img" alt="Vehicle Image">
+                                                    <div class="vehicle-info">
+                                                        <h5><?php echo $vehicle['model']; ?></h5>
+                                                        <p>Color: NA</p>
+                                                        <button class="btn btn-primary btn-lg btn-block mb-1 select-vehicle-btn">Select This Vehicle</button>
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    <?php } ?>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
                     <!-- Itinerary Section -->
                     <div class="card card-custom">
