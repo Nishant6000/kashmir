@@ -189,7 +189,8 @@ GROUP BY cars.id
 }
 
 $vehicle_details_sig = $related_packages_result_cars->fetch_assoc();
-
+$sig_image_car = explode(",", $vehicle_details_sig["image_paths"]);
+//print_r($sig_image_car);die;
 if ($car_id) {
     $stmt = $conn->prepare("
 SELECT cars.*, 
@@ -216,7 +217,7 @@ while ($row_ncad =  $related_packages_result_cars_all->fetch_assoc()) {
 $vehicle_details[] = $row_ncad; // Store each row in the array
 }
 // echo "<pre>";
-//  print_r($vehicle_details);
+// print_r($vehicle_details);
 //  echo "<pre>";
 //  die;
 ?>
@@ -465,9 +466,10 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
         <div class="hotel-card" id="main-hotel-card">
             <img src="<?= htmlspecialchars($hotel_details_image[0]) ?>" class="hotel-img" id="main-hotel-img" alt="Default Hotel">
             <?php 
-
+                $current_hotel_p = $hotel_details['price'];
+                //die;
             ?>
-            <input type="hidden" id="current_hotel_price" value="7000">
+            <input type="hidden" id="current_hotel_price" value="<?= htmlspecialchars($current_hotel_p) ?>">
             <input type="hidden" id="days" value="<?= htmlspecialchars($days) ?>">
             <div class="hotel-info">
                 <h5 id="main-hotel-name">
@@ -558,14 +560,21 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
                     <!-- Vehicle Details -->
                     <div class="card card-custom">
                         <h2 class="tripdeth">Vehicle Details</h2>
-                        <p>Travel in comfort with our range of premium vehicles to suit your needs.</p>
-
+                        <p>Travel in comfort with our range of premium vehicles to suit your needs</p>
+                        <?php 
+                $current_car_p = $vehicle_details_sig['price']*$days;
+                //die;
+                //die;
+            ?>
+            
                         <!-- Default Vehicle Card -->
                         <div class="vehicle-card">
-                            <img id="main-vehicle-img" src="images/crysta.jpg" class="vehicle-img" alt="Default Vehicle">
+                            <img id="main-vehicle-img" src="<?= htmlspecialchars($sig_image_car[0]) ?>" class="vehicle-img" alt="Default Vehicle">
                             <div class="vehicle-info">
-                                <h5 id="main-vehicle-name">Innova Crysta</h5>
-                                <p id="main-vehicle-color">Color: NA</p>
+                            <input type="hidden" id="current_car_price" value="<?= htmlspecialchars($current_car_p) ?>">
+                            <input type="hidden" id="days" value="<?= htmlspecialchars($days) ?>">
+                                <h5 id="main-vehicle-name"><?= htmlspecialchars($vehicle_details_sig["model"]) ?></h5>
+                                <p id="main-vehicle-status">Status: <?= htmlspecialchars($vehicle_details_sig["status"]) ?></p>
                                 
                                 <!-- Button to Open Modal -->
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#vehicleSelectionModal">
@@ -595,12 +604,13 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
                                                 <div class="vehicle-card modal-vehicle-card" 
                                                     data-name="<?php echo $vehicle['model']; ?>"
                                                     data-img="<?php echo $vehicle_image[0]; ?>" 
+                                                    data-status="Status: <?php echo $vehicle['status']; ?>" 
                                                     data-price="<?php echo $vehicle['price']; ?>">
                                                     
                                                     <img src="<?php echo $vehicle_image[0]; ?>" class="vehicle-img" alt="Vehicle Image">
                                                     <div class="vehicle-info">
                                                         <h5><?php echo $vehicle['model']; ?></h5>
-                                                        <p>Color: NA</p>
+                                                        <p>Status: <?php echo $vehicle['status']; ?></p>
                                                         <button class="btn btn-primary btn-lg btn-block mb-1 select-vehicle-btn">Select This Vehicle</button>
                                                     </div>
                                                 </div>
@@ -980,23 +990,24 @@ function generateStarRating(rating) {
 
             // Get data attributes
             const vehicleName = vehicleCard.getAttribute('data-name');
-            const vehicleColor = vehicleCard.getAttribute('data-color');
+            const vehiclestatus = vehicleCard.getAttribute('data-status');
             const vehicleImg = vehicleCard.getAttribute('data-img');
             const vehiclePrice = parseInt(vehicleCard.getAttribute('data-price'));
 
             // Update Main Display
             document.getElementById('main-vehicle-name').textContent = vehicleName;
-            document.getElementById('main-vehicle-color').textContent = `Color: ${vehicleColor}`;
+            document.getElementById('main-vehicle-status').textContent = `${vehiclestatus}`;
             document.getElementById('main-vehicle-img').src = vehicleImg;
             
             // Update total price if applicable
             var tprice = document.getElementById('tprice').innerHTML;
-            var cvp = document.getElementById('current_vehicle_price').value;
-            var days = document.getElementById('days').value;
-            var nprice = tprice - cvp + (vehiclePrice * days);
-            var ncprice = vehiclePrice * days;
+            var cvpv = document.getElementById('current_car_price').value;
+            var daysv = document.getElementById('days').value;
+            var nprice = tprice - cvpv + (vehiclePrice * daysv);
+            var ncprice = vehiclePrice * daysv;
+            //alert(cvpv);
             document.getElementById('tprice').innerHTML = nprice;
-            document.getElementById('current_vehicle_price').value = ncprice;
+            document.getElementById('current_car_price').value = ncprice;
 
             // Close the modal
             $('#vehicleSelectionModal').modal('hide');
