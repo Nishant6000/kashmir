@@ -828,28 +828,34 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
                 </button>
             </div>
             <div class="modal-body">
-                <!-- Input for number of adults -->
-                <div class="form-group mb-3">
-                    <label for="adults">Number of Adults:</label>
-                    <input type="number" id="adults" class="form-control" placeholder="Enter number of adults" min="1">
-                </div>
-                
-                <!-- Input for number of children below 8 -->
-                <div class="form-group mb-3">
-                    <label for="childrenBelow8">Number of Children below 8:</label>
-                     <input type="number" id="childrenBelow8" class="form-control" placeholder="Enter number of children below 8" min="0">
-                </div>
-                
-                <!-- Input for number of children above 8 -->
-                <div class="form-group mb-3">
-                    <label for="childrenAbove8">Number of Children above 8:</label>
-                    <input type="number" id="childrenAbove8" class="form-control" placeholder="Enter number of children above 8" min="0">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Confirm Booking</button>
-            </div>
+    <!-- Input for number of adults -->
+    <div class="form-group mb-3">
+        <label for="adults">Number of Adults:</label>
+        <input type="number" id="adults" class="form-control" placeholder="Enter number of adults" min="1">
+    </div>
+
+    <!-- Input for number of children below 5 -->
+    <div class="form-group mb-3">
+        <label for="childrenBelow5">Number of Children below 5:</label>
+        <input type="number" id="childrenBelow5" class="form-control" placeholder="Enter number of children below 5" min="0">
+    </div>
+
+    <!-- Input for number of children above 5 -->
+    <div class="form-group mb-3">
+        <label for="childrenAbove5">Number of Children above 5:</label>
+        <input type="number" id="childrenAbove5" class="form-control" placeholder="Enter number of children above 5" min="0">
+    </div>
+
+    <!-- Display Total Cost -->
+    <div class="form-group mt-3">
+        <h5>Total Cost: ₹<span id="totalCost">0</span></h5>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <button type="button" id="confirmBooking" class="btn btn-primary" disabled>Confirm Booking</button>
+</div>
         </div>
     </div>
 </div>
@@ -1013,6 +1019,50 @@ function generateStarRating(rating) {
             $('#vehicleSelectionModal').modal('hide');
         });
     });
+</script>
+<script>
+$(document).ready(function () {
+    function calculateTotalCost() {
+        let numAdults = parseInt($("#adults").val()) || 0;
+        let numChildrenBelow5 = parseInt($("#childrenBelow5").val()) || 0;
+        let numChildrenAbove5 = parseInt($("#childrenAbove5").val()) || 0;
+        let numDays = 1; // Default 1 day, you can make this dynamic
+
+        // Cost Configuration
+        let costPerAdult = 2000;
+        let costPerChildAbove5 = 1000;
+        let costPerChildBelow5 = 0; // Free
+        let hotelCost = 4000; // Per night for 2 adults
+        let extraAdultCost = 1000; // Additional adult in hotel
+        let extraChildAbove5Cost = 500; // Additional child cost in hotel
+        let carCapacity = 4;
+        let carRatePerDay = 2500;
+
+        // Calculate individual costs
+        let totalAdultCost = numAdults * costPerAdult;
+        let totalChildAbove5Cost = numChildrenAbove5 * costPerChildAbove5;
+
+        // Calculate hotel cost
+        let extraAdults = Math.max(0, numAdults - 2);
+        let extraChildren = numChildrenAbove5;
+        let totalHotelCost = (hotelCost + (extraAdults * extraAdultCost) + (extraChildren * extraChildAbove5Cost)) * numDays;
+
+        // Calculate car cost
+        let totalPeople = numAdults + numChildrenBelow5 + numChildrenAbove5;
+        let numCars = Math.ceil(totalPeople / carCapacity);
+        let totalCarCost = numCars * carRatePerDay * numDays;
+
+        // Compute final total cost
+        let totalCost = totalAdultCost + totalChildAbove5Cost + totalHotelCost + totalCarCost;
+
+        // Update UI
+        $("#totalCost").text(totalCost.toLocaleString()); // Format with commas
+        $("#confirmBooking").prop("disabled", totalCost === 0); // Enable button if cost > 0
+    }
+
+    // Recalculate cost on input change
+    $("#adults, #childrenBelow5, #childrenAbove5").on("input", calculateTotalCost);
+});
 </script>
 </body>
 </html>
