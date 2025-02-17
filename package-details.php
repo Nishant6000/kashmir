@@ -565,6 +565,7 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
                 $current_car_p = $vehicle_details_sig['price']*$days;
                 //die;
                 //die;
+                //die;
             ?>
             
                         <!-- Default Vehicle Card -->
@@ -573,6 +574,7 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
                             <div class="vehicle-info">
                             <input type="hidden" id="current_car_price" value="<?= htmlspecialchars($current_car_p) ?>">
                             <input type="hidden" id="days" value="<?= htmlspecialchars($days) ?>">
+                            <input type="hidden" id="capacity" value="<?= htmlspecialchars($vehicle_details_sig["capacity"]) ?>">
                                 <h5 id="main-vehicle-name"><?= htmlspecialchars($vehicle_details_sig["model"]) ?></h5>
                                 <p id="main-vehicle-status">Status: <?= htmlspecialchars($vehicle_details_sig["status"]) ?></p>
                                 
@@ -1021,48 +1023,92 @@ function generateStarRating(rating) {
     });
 </script>
 <script>
+// $(document).ready(function () {
+//     function calculateTotalCost() {
+//         let numAdults = parseInt($("#adults").val()) || 0;
+//         let numChildrenBelow5 = parseInt($("#childrenBelow5").val()) || 0;
+//         let numChildrenAbove5 = parseInt($("#childrenAbove5").val()) || 0;
+//         let numDays = 1; // Default 1 day, you can make this dynamic
+
+//         // Cost Configuration
+        
+//         let costPerChildBelow5 = 0; // Free
+//         let hotelCost = parseInt($('#current_hotel_price').val()) || 0; // Per night for 2 adults
+//         let extraAdultCost = 0; // Additional adult in hotel
+//         let extraChildAbove5Cost = hotelCost/2; // Additional child cost in hotel
+//         let carCapacity = parseInt($('#capacity').val()) || 0;
+//         let carRatePerDay = parseInt($('#current_car_price').val()) || 0;
+//         let cpab = parseInt($('#tprice').html()) - carRatePerDay - hotelCost;
+//         let costPerAdult = parseInt($('#tprice').html()) || 0;
+//         let costPerChildAbove5 = costPerAdult/2;
+
+//         // Calculate individual costs
+//         let totalAdultCost = numAdults * costPerAdult;
+//         let totalChildAbove5Cost = numChildrenAbove5 * costPerChildAbove5;
+
+//         // Calculate hotel cost
+//         let extraAdults = Math.max(0, numAdults - 2);
+//         let extraChildren = numChildrenAbove5;
+//         let totalHotelCost = (hotelCost + (extraAdults * extraAdultCost) + (extraChildren * extraChildAbove5Cost)) * numDays;
+
+//         // Calculate car cost
+//         let totalPeople = numAdults + numChildrenBelow5 + numChildrenAbove5;
+//         let numCars = Math.ceil(totalPeople / carCapacity);
+//         let totalCarCost = numCars * carRatePerDay * numDays;
+
+//         // Compute final total cost
+//         let totalCost = totalAdultCost + totalChildAbove5Cost + totalHotelCost + totalCarCost;
+
+//         // Update UI
+//         $("#totalCost").text(totalCost.toLocaleString()); // Format with commas
+//         $("#confirmBooking").prop("disabled", totalCost === 0); // Enable button if cost > 0
+//     }
+
+//     // Recalculate cost on input change
+//     $("#adults, #childrenBelow5, #childrenAbove5").on("input", calculateTotalCost);
+// });
 $(document).ready(function () {
     function calculateTotalCost() {
         let numAdults = parseInt($("#adults").val()) || 0;
         let numChildrenBelow5 = parseInt($("#childrenBelow5").val()) || 0;
         let numChildrenAbove5 = parseInt($("#childrenAbove5").val()) || 0;
-        let numDays = 1; // Default 1 day, you can make this dynamic
-
+        
         // Cost Configuration
-        let costPerAdult = 2000;
-        let costPerChildAbove5 = 1000;
-        let costPerChildBelow5 = 0; // Free
-        let hotelCost = 4000; // Per night for 2 adults
-        let extraAdultCost = 1000; // Additional adult in hotel
-        let extraChildAbove5Cost = 500; // Additional child cost in hotel
-        let carCapacity = 4;
-        let carRatePerDay = 2500;
+        let hotelCost = parseInt($('#current_hotel_price').val()) || 0; // Full package hotel cost
+        let carRatePerDay = parseInt($('#current_car_price').val()) || 0; // Total package cost for car
+        let totalPackagePrice = parseInt($('#tprice').html()) || 0; // Total package price
+        let cpab = totalPackagePrice - carRatePerDay - hotelCost; // Cost per adult base
+        
+        // Ensure cpab is not negative
+        cpab = Math.max(0, cpab);
 
-        // Calculate individual costs
-        let totalAdultCost = numAdults * costPerAdult;
-        let totalChildAbove5Cost = numChildrenAbove5 * costPerChildAbove5;
-
-        // Calculate hotel cost
-        let extraAdults = Math.max(0, numAdults - 2);
-        let extraChildren = numChildrenAbove5;
-        let totalHotelCost = (hotelCost + (extraAdults * extraAdultCost) + (extraChildren * extraChildAbove5Cost)) * numDays;
-
-        // Calculate car cost
-        let totalPeople = numAdults + numChildrenBelow5 + numChildrenAbove5;
-        let numCars = Math.ceil(totalPeople / carCapacity);
-        let totalCarCost = numCars * carRatePerDay * numDays;
-
+        // Calculate base cost for first two adults
+        let baseAdultCost = (numAdults >= 2) ? cpab * 2 : cpab * numAdults;
+        let extraAdultCost = (numAdults > 2) ? (numAdults - 2) * cpab : 0; // Extra adults beyond 2
+        let totalChildAbove5Cost = numChildrenAbove5 * (cpab / 2); // Each child above 5 costs cpab/2
+        
         // Compute final total cost
-        let totalCost = totalAdultCost + totalChildAbove5Cost + totalHotelCost + totalCarCost;
+        let totalCost = baseAdultCost + extraAdultCost + totalChildAbove5Cost + hotelCost + carRatePerDay;
+alert(totalCost);
+        // Ensure total cost is not negative
+        totalCost = Math.max(0, totalCost);
 
+        // Debugging logs
+        console.log("Adults:", numAdults, "ChildrenAbove5:", numChildrenAbove5, "ChildrenBelow5:", numChildrenBelow5);
+        console.log("Total Cost:", totalCost);
+        
         // Update UI
         $("#totalCost").text(totalCost.toLocaleString()); // Format with commas
         $("#confirmBooking").prop("disabled", totalCost === 0); // Enable button if cost > 0
     }
 
     // Recalculate cost on input change
-    $("#adults, #childrenBelow5, #childrenAbove5").on("input", calculateTotalCost);
+    $("#adults, #childrenBelow5, #childrenAbove5, #current_hotel_price, #current_car_price, #tprice").on("input change", calculateTotalCost);
+
+    // Trigger initial calculation
+    calculateTotalCost();
 });
+
 </script>
 </body>
 </html>
