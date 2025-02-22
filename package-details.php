@@ -1072,42 +1072,77 @@ $(document).ready(function () {
         let numAdults = parseInt($("#adults").val()) || 0;
         let numChildrenBelow5 = parseInt($("#childrenBelow5").val()) || 0;
         let numChildrenAbove5 = parseInt($("#childrenAbove5").val()) || 0;
-        
+        let numDays = 1; // Default 1 day, can be dynamic
+
+        console.log(`Adults: ${numAdults}, Children <5: ${numChildrenBelow5}, Children >5: ${numChildrenAbove5}`);
+
         // Cost Configuration
-        let hotelCost = parseInt($('#current_hotel_price').val()) || 0; // Full package hotel cost
-        let carRatePerDay = parseInt($('#current_car_price').val()) || 0; // Total package cost for car
-        let totalPackagePrice = parseInt($('#tprice').html()) || 0; // Total package price
-        let cpab = totalPackagePrice - carRatePerDay - hotelCost; // Cost per adult base
-        
-        // Ensure cpab is not negative
-        cpab = Math.max(0, cpab);
+        let hotelCost = parseInt($('#current_hotel_price').val()) || 0; // Per night for 2 adults
+        let carCapacity = parseInt($('#capacity').val()) || 4;
+        let carRatePerDay = parseInt($('#current_car_price').val()) || 0;
+        let costPerAdult = parseInt($('#tprice').html()) || 0; // Includes hotel + car for 2 adults and 4 people in car
+        let costPerChildAbove5 = costPerAdult / 2;
 
-        // Calculate base cost for first two adults
-        let baseAdultCost = (numAdults >= 2) ? cpab * 2 : cpab * numAdults;
-        let extraAdultCost = (numAdults > 2) ? (numAdults - 2) * cpab : 0; // Extra adults beyond 2
-        let totalChildAbove5Cost = numChildrenAbove5 * (cpab / 2); // Each child above 5 costs cpab/2
-        
-        // Compute final total cost
-        let totalCost = baseAdultCost + extraAdultCost + totalChildAbove5Cost + hotelCost + carRatePerDay;
-alert(totalCost);
-        // Ensure total cost is not negative
-        totalCost = Math.max(0, totalCost);
+        console.log(`Hotel cost per night (2 adults): ${hotelCost}`);
+        console.log(`Cost per adult (base, incl. hotel & car): ${costPerAdult}`);
+        console.log(`Cost per child above 5: ${costPerChildAbove5}`);
+        console.log(`Car capacity: ${carCapacity}, Car rate per day: ${carRatePerDay}`);
 
-        // Debugging logs
-        console.log("Adults:", numAdults, "ChildrenAbove5:", numChildrenAbove5, "ChildrenBelow5:", numChildrenBelow5);
-        console.log("Total Cost:", totalCost);
+        // Base costs
+        let totalAdultCost = numAdults * costPerAdult;
+        let totalChildAbove5Cost = numChildrenAbove5 * costPerChildAbove5;
+
+        console.log(`Total adult cost (${numAdults} adults): ${totalAdultCost}`);
+        console.log(`Total child (above 5) cost (${numChildrenAbove5} children): ${totalChildAbove5Cost}`);
+
+        // **Hotel cost calculation** (only add extra cost if total people exceed 2 adults per room)
+        let totalPeopleForHotel = numAdults + numChildrenAbove5;
+        let baseHotelPeople = 2; // Included in base package (2 adults)
         
+        // Calculate extra hotel rooms: 1 room per every 2 adults
+        let extraHotelRooms = Math.max(0, Math.ceil((numAdults - baseHotelPeople) / 2));
+        
+        let extraHotelCost = extraHotelRooms * hotelCost * numDays;
+
+        // Add extra rooms if there are more than 3 children above 5 years (2 children per extra room)
+        let extraRoomsForChildrenAbove5 = 0;
+        if (numChildrenAbove5 > 3) {
+            extraRoomsForChildrenAbove5 = Math.ceil((numChildrenAbove5 - 3) / 2); // Every 2 children above 5 need an extra room
+        }
+        let extraRoomCostForChildrenAbove5 = extraRoomsForChildrenAbove5 * hotelCost * numDays;
+
+        console.log(`People for hotel rooms: ${totalPeopleForHotel}`);
+        console.log(`Extra hotel rooms needed: ${extraHotelRooms}`);
+        console.log(`Extra hotel cost: ${extraHotelCost}`);
+        console.log(`Extra room cost for children above 5: ${extraRoomCostForChildrenAbove5}`);
+
+        // **Car cost calculation** (only add extra cost if total people exceed 4)
+        let totalPeople = numAdults + numChildrenBelow5 + numChildrenAbove5;
+        let baseCarCount = 1; // 1 car is included in the base package
+        let totalCarsNeeded = Math.ceil(totalPeople / carCapacity);
+        let extraCars = Math.max(0, totalCarsNeeded - baseCarCount); // Calculate extra cars needed
+        let extraCarCost = extraCars * carRatePerDay * numDays;
+
+        console.log(`Total people (car calculation): ${totalPeople}`);
+        console.log(`Cars needed: ${totalCarsNeeded}, Extra cars: ${extraCars}`);
+        console.log(`Extra car cost: ${extraCarCost}`);
+
+        // **Final total cost calculation**
+        let totalCost = totalAdultCost + totalChildAbove5Cost + extraHotelCost + extraRoomCostForChildrenAbove5 + extraCarCost;
+
+        console.log(`✅ Final total cost: ${totalCost}`);
+
         // Update UI
         $("#totalCost").text(totalCost.toLocaleString()); // Format with commas
         $("#confirmBooking").prop("disabled", totalCost === 0); // Enable button if cost > 0
     }
 
     // Recalculate cost on input change
-    $("#adults, #childrenBelow5, #childrenAbove5, #current_hotel_price, #current_car_price, #tprice").on("input change", calculateTotalCost);
-
-    // Trigger initial calculation
-    calculateTotalCost();
+    $("#adults, #childrenBelow5, #childrenAbove5").on("input", calculateTotalCost);
 });
+
+
+
 
 </script>
 </body>
