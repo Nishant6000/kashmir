@@ -471,6 +471,8 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
             ?>
             <input type="hidden" id="current_hotel_price" value="<?= htmlspecialchars($current_hotel_p) ?>">
             <input type="hidden" id="days" value="<?= htmlspecialchars($days) ?>">
+            <input type="hidden" id="pid" value="<?= htmlspecialchars($pid) ?>">
+            <input type="hidden" id="hotel_ids" value="<?= htmlspecialchars($hotel_details["id"]) ?>">
             <div class="hotel-info">
                 <h5 id="main-hotel-name">
                     <?= htmlspecialchars($hotel_details['name']) ?>
@@ -517,6 +519,7 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
                                         ?>
                                         
                                     <div class="hotel-card modal-hotel-card" 
+                                                    data-id="<?php echo $ho_ind['id']; ?>" 
                                                     data-name="<?php echo $ho_ind['name']; ?>" 
                                                     data-location="<?php echo $ho_ind['location']; ?>"
                                                     data-img="<?php echo $img_paths[0]; ?>"
@@ -574,6 +577,7 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
                             <div class="vehicle-info">
                             <input type="hidden" id="current_car_price" value="<?= htmlspecialchars($current_car_p) ?>">
                             <input type="hidden" id="days" value="<?= htmlspecialchars($days) ?>">
+                            <input type="hidden" id="car_ids" value="<?= htmlspecialchars($vehicle_details_sig["id"]) ?>">
                             <input type="hidden" id="capacity" value="<?= htmlspecialchars($vehicle_details_sig["capacity"]) ?>">
                                 <h5 id="main-vehicle-name"><?= htmlspecialchars($vehicle_details_sig["model"]) ?></h5>
                                 <p id="main-vehicle-status">Status: <?= htmlspecialchars($vehicle_details_sig["status"]) ?></p>
@@ -605,9 +609,11 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
                                             ?>
                                                 <div class="vehicle-card modal-vehicle-card" 
                                                     data-name="<?php echo $vehicle['model']; ?>"
+                                                    data-id="<?php echo $vehicle['id']; ?>"
                                                     data-img="<?php echo $vehicle_image[0]; ?>" 
                                                     data-status="Status: <?php echo $vehicle['status']; ?>" 
-                                                    data-price="<?php echo $vehicle['price']; ?>">
+                                                    data-price="<?php echo $vehicle['price']; ?>"
+                                                    data-capacity="<?php echo $vehicle['capacity']; ?>">
                                                     
                                                     <img src="<?php echo $vehicle_image[0]; ?>" class="vehicle-img" alt="Vehicle Image">
                                                     <div class="vehicle-info">
@@ -809,9 +815,9 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
                         <h3 class="tripdeth">Book Your Tour</h3>
                         <p>Experience the beauty of Trip with our expertly curated tour package.</p>
                         
-                        <a href="#" class="btn btn-primary btn-lg btn-block mb-1" data-toggle="modal" data-target="#bookingModal">Book Now</a>
-                        <a href="#" class="btn btn-secondary btn-lg btn-block custom-primary">Enquire Now</a>
-                        <a href="#" class="btn btn-primary btn-lg btn-block mb-1">Preview Itinerary(PDF)</a>
+                        <a href="#" class="btn btn-primary btn-lg btn-block mb-1" data-toggle="modal" data-target="#bookingModal">Enquire Now</a>
+                        <a href="#" class="btn btn-secondary btn-lg btn-block custom-primary">Preview Itinerary(PDF)</a>
+                        <!-- <a href="#" class="btn btn-primary btn-lg btn-block mb-1">Preview Itinerary(PDF)</a> -->
                     </div>
                     
                 </div>
@@ -820,7 +826,7 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
             </div>
         </div>
         <!-- Modal -->
-<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+        <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -830,33 +836,59 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
                 </button>
             </div>
             <div class="modal-body">
-    <!-- Input for number of adults -->
-    <div class="form-group mb-3">
-        <label for="adults">Number of Adults:</label>
-        <input type="number" id="adults" class="form-control" placeholder="Enter number of adults" min="1">
-    </div>
+                <!-- Number of Adults -->
+                <div class="form-group mb-3">
+                    <label for="adults">Number of Adults:</label>
+                    <input type="number" id="adults" class="form-control" placeholder="Enter number of adults" min="1">
+                </div>
 
-    <!-- Input for number of children below 5 -->
-    <div class="form-group mb-3">
-        <label for="childrenBelow5">Number of Children below 5:</label>
-        <input type="number" id="childrenBelow5" class="form-control" placeholder="Enter number of children below 5" min="0">
-    </div>
+                <!-- Children below 5 -->
+                <div class="form-group mb-3">
+                    <label for="childrenBelow5">Number of Children below 5:</label>
+                    <input type="number" id="childrenBelow5" class="form-control" placeholder="Enter number of children below 5" min="0">
+                </div>
 
-    <!-- Input for number of children above 5 -->
-    <div class="form-group mb-3">
-        <label for="childrenAbove5">Number of Children above 5:</label>
-        <input type="number" id="childrenAbove5" class="form-control" placeholder="Enter number of children above 5" min="0">
-    </div>
+                <!-- Children above 5 -->
+                <div class="form-group mb-3">
+                    <label for="childrenAbove5">Number of Children above 5:</label>
+                    <input type="number" id="childrenAbove5" class="form-control" placeholder="Enter number of children above 5" min="0">
+                </div>
 
-    <!-- Display Total Cost -->
-    <div class="form-group mt-3">
-        <h5>Total Cost: ₹<span id="totalCost">0</span></h5>
+                <!-- Email Input -->
+                <div class="form-group mb-3">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" class="form-control" placeholder="Enter your email">
+                </div>
+
+                <!-- Phone Number Input -->
+                <div class="form-group mb-3">
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number" maxlength="10">
+                </div>
+
+                <!-- Total Cost -->
+               
+            </div>
+
+            <div class="modal-footer d-flex justify-content-between align-items-center">
+                <div class="form-group mt-3">
+                    <h5>Total Cost: ₹<span id="totalCost">0</span></h5>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="confirmBooking" class="btn btn-primary" disabled>Enquire Now</button>
+                </div>
+            </div>
+   
+        </div>
     </div>
 </div>
 
+
+
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-    <button type="button" id="confirmBooking" class="btn btn-primary" disabled>Confirm Booking</button>
+    <button type="button" id="confirmBooking" class="btn btn-primary" disabled>Enquire</button>
 </div>
         </div>
     </div>
@@ -955,6 +987,7 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
         const hotelCard = this.closest('.modal-hotel-card');
 
         // Get data attributes
+        const hotelid = hotelCard.getAttribute('data-id');
         const hotelName = hotelCard.getAttribute('data-name');
         const hotelLocation = hotelCard.getAttribute('data-location');
         const hotelImg = hotelCard.getAttribute('data-img');
@@ -965,6 +998,7 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
         document.getElementById('main-hotel-name').innerHTML = `${hotelName} <div class="star-rating">${generateStarRating(hotelRating)}</div>`;
         document.getElementById('main-hotel-location').textContent = hotelLocation;
         document.getElementById('main-hotel-img').src = hotelImg;
+        document.getElementById('hotel_ids').value = hotelid;
         var tprice = document.getElementById('tprice').innerHTML;
         var chp = document.getElementById('current_hotel_price').value;
         var days = document.getElementById('days').value;
@@ -1001,12 +1035,15 @@ function generateStarRating(rating) {
             const vehiclestatus = vehicleCard.getAttribute('data-status');
             const vehicleImg = vehicleCard.getAttribute('data-img');
             const vehiclePrice = parseInt(vehicleCard.getAttribute('data-price'));
+            const vehiclecap = parseInt(vehicleCard.getAttribute('data-capacity'));
+            const vehicleid= parseInt(vehicleCard.getAttribute('data-id'));
 
             // Update Main Display
             document.getElementById('main-vehicle-name').textContent = vehicleName;
             document.getElementById('main-vehicle-status').textContent = `${vehiclestatus}`;
             document.getElementById('main-vehicle-img').src = vehicleImg;
-            
+            document.getElementById('capacity').value = vehiclecap;
+            document.getElementById('car_ids').value = vehicleid;
             // Update total price if applicable
             var tprice = document.getElementById('tprice').innerHTML;
             var cvpv = document.getElementById('current_car_price').value;
@@ -1074,72 +1111,96 @@ $(document).ready(function () {
         let numChildrenAbove5 = parseInt($("#childrenAbove5").val()) || 0;
         let numDays = 1; // Default 1 day, can be dynamic
 
-        console.log(`Adults: ${numAdults}, Children <5: ${numChildrenBelow5}, Children >5: ${numChildrenAbove5}`);
-
         // Cost Configuration
         let hotelCost = parseInt($('#current_hotel_price').val()) || 0; // Per night for 2 adults
         let carCapacity = parseInt($('#capacity').val()) || 4;
         let carRatePerDay = parseInt($('#current_car_price').val()) || 0;
-        let costPerAdult = parseInt($('#tprice').html()) || 0; // Includes hotel + car for 2 adults and 4 people in car
+        let costPerAdult = parseInt($('#tprice').html()) || 0;
         let costPerChildAbove5 = costPerAdult / 2;
-
-        console.log(`Hotel cost per night (2 adults): ${hotelCost}`);
-        console.log(`Cost per adult (base, incl. hotel & car): ${costPerAdult}`);
-        console.log(`Cost per child above 5: ${costPerChildAbove5}`);
-        console.log(`Car capacity: ${carCapacity}, Car rate per day: ${carRatePerDay}`);
 
         // Base costs
         let totalAdultCost = numAdults * costPerAdult;
         let totalChildAbove5Cost = numChildrenAbove5 * costPerChildAbove5;
 
-        console.log(`Total adult cost (${numAdults} adults): ${totalAdultCost}`);
-        console.log(`Total child (above 5) cost (${numChildrenAbove5} children): ${totalChildAbove5Cost}`);
-
-        // **Hotel cost calculation** (only add extra cost if total people exceed 2 adults per room)
+        // Hotel cost calculation
         let totalPeopleForHotel = numAdults + numChildrenAbove5;
-        let baseHotelPeople = 2; // Included in base package (2 adults)
-        
-        // Calculate extra hotel rooms: 1 room per every 2 adults
+        let baseHotelPeople = 2;
         let extraHotelRooms = Math.max(0, Math.ceil((numAdults - baseHotelPeople) / 2));
-        
         let extraHotelCost = extraHotelRooms * hotelCost * numDays;
 
-        // Add extra rooms if there are more than 3 children above 5 years (2 children per extra room)
         let extraRoomsForChildrenAbove5 = 0;
         if (numChildrenAbove5 > 3) {
-            extraRoomsForChildrenAbove5 = Math.ceil((numChildrenAbove5 - 3) / 2); // Every 2 children above 5 need an extra room
+            extraRoomsForChildrenAbove5 = Math.ceil((numChildrenAbove5 - 3) / 2);
         }
         let extraRoomCostForChildrenAbove5 = extraRoomsForChildrenAbove5 * hotelCost * numDays;
 
-        console.log(`People for hotel rooms: ${totalPeopleForHotel}`);
-        console.log(`Extra hotel rooms needed: ${extraHotelRooms}`);
-        console.log(`Extra hotel cost: ${extraHotelCost}`);
-        console.log(`Extra room cost for children above 5: ${extraRoomCostForChildrenAbove5}`);
-
-        // **Car cost calculation** (only add extra cost if total people exceed 4)
+        // Car cost calculation
         let totalPeople = numAdults + numChildrenBelow5 + numChildrenAbove5;
-        let baseCarCount = 1; // 1 car is included in the base package
+        let baseCarCount = 1;
         let totalCarsNeeded = Math.ceil(totalPeople / carCapacity);
-        let extraCars = Math.max(0, totalCarsNeeded - baseCarCount); // Calculate extra cars needed
+        let extraCars = Math.max(0, totalCarsNeeded - baseCarCount);
         let extraCarCost = extraCars * carRatePerDay * numDays;
 
-        console.log(`Total people (car calculation): ${totalPeople}`);
-        console.log(`Cars needed: ${totalCarsNeeded}, Extra cars: ${extraCars}`);
-        console.log(`Extra car cost: ${extraCarCost}`);
-
-        // **Final total cost calculation**
+        // Final total cost
         let totalCost = totalAdultCost + totalChildAbove5Cost + extraHotelCost + extraRoomCostForChildrenAbove5 + extraCarCost;
 
-        console.log(`✅ Final total cost: ${totalCost}`);
-
-        // Update UI
-        $("#totalCost").text(totalCost.toLocaleString()); // Format with commas
-        $("#confirmBooking").prop("disabled", totalCost === 0); // Enable button if cost > 0
+        $("#totalCost").text(totalCost.toLocaleString());
+        validateForm(totalCost); // Check form validity with updated total cost
     }
 
-    // Recalculate cost on input change
-    $("#adults, #childrenBelow5, #childrenAbove5").on("input", calculateTotalCost);
+    function validateForm(totalCost) {
+        let isAdultValid = parseInt($("#adults").val()) >= 1;
+        let email = $("#email").val().trim();
+        let phone = $("#phone").val().trim();
+
+        let isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        let isPhoneValid = /^[0-9]{10}$/.test(phone);
+
+        // Enable button only if all fields are valid and total cost > 0
+        $("#confirmBooking").prop("disabled", !(isAdultValid && isEmailValid && isPhoneValid && totalCost > 0));
+    }
+
+    function confirmBooking() {
+    let bookingDetails = {
+        adults: $("#adults").val(),
+        childrenBelow5: $("#childrenBelow5").val(),
+        childrenAbove5: $("#childrenAbove5").val(),
+        email: $("#email").val().trim(),
+        phone: $("#phone").val().trim(),
+        totalCost: $("#totalCost").text(),
+        package_id: $("#pid").val(),
+        car_id: $("#car_ids").val(),
+        hotel_id: $("#hotel_ids").val()
+    };
+
+    // AJAX call to save booking details
+    $.ajax({
+        url: 'save_booking.php',
+        type: 'POST',
+        data: bookingDetails,
+        success: function (response) {
+            if (response === 'success') {
+                console.log("✅ Booking Saved:", bookingDetails);
+                alert(`🎉 Enquiry submitted !\n One of our Executive will get in touch with You`);
+                $('#bookingModal').modal('hide'); // Close modal
+            } else {
+                alert("⚠️ Error saving booking: " + response);
+            }
+        },
+        error: function () {
+            alert("❌ Failed to connect to the server.");
+        }
+    });
+}
+
+
+    // Recalculate cost and validate form on input change
+    $("#adults, #childrenBelow5, #childrenAbove5, #email, #phone").on("input", calculateTotalCost);
+
+    // Confirm booking click event
+    $("#confirmBooking").on("click", confirmBooking);
 });
+
 
 
 
