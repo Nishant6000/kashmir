@@ -816,7 +816,8 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
                         <p>Experience the beauty of Trip with our expertly curated tour package.</p>
                         
                         <a href="#" class="btn btn-primary btn-lg btn-block mb-1" data-toggle="modal" data-target="#bookingModal">Enquire Now</a>
-                        <a href="#" class="btn btn-secondary btn-lg btn-block custom-primary">Preview Itinerary(PDF)</a>
+                        <input type="hidden" id="uidpdf" value="0">
+                        <a href="#" class="btn btn-secondary btn-lg btn-block custom-primary" id="previewItinerary">Preview Itinerary (PDF)</a>
                         <!-- <a href="#" class="btn btn-primary btn-lg btn-block mb-1">Preview Itinerary(PDF)</a> -->
                     </div>
                     
@@ -876,6 +877,7 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
                 </div>
                 <div>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                   
                     <button type="button" id="confirmBooking" class="btn btn-primary" disabled>Enquire Now</button>
                 </div>
             </div>
@@ -884,12 +886,6 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
     </div>
 </div>
 
-
-
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-    <button type="button" id="confirmBooking" class="btn btn-primary" disabled>Enquire</button>
-</div>
         </div>
     </div>
 </div>
@@ -1170,19 +1166,23 @@ $(document).ready(function () {
         totalCost: $("#totalCost").text(),
         package_id: $("#pid").val(),
         car_id: $("#car_ids").val(),
-        hotel_id: $("#hotel_ids").val()
+        hotel_id: $("#hotel_ids").val(),
+        uid: Date.now() + "-" + Math.floor(Math.random() * 1000)
     };
-
+    //alert($("#totalCost").text());
     // AJAX call to save booking details
     $.ajax({
         url: 'save_booking.php',
         type: 'POST',
         data: bookingDetails,
         success: function (response) {
+            //alert(response);
             if (response === 'success') {
                 console.log("✅ Booking Saved:", bookingDetails);
                 alert(`🎉 Enquiry submitted !\n One of our Executive will get in touch with You`);
+                $("#uidpdf").val(bookingDetails.uid);
                 $('#bookingModal').modal('hide'); // Close modal
+               
             } else {
                 alert("⚠️ Error saving booking: " + response);
             }
@@ -1201,6 +1201,32 @@ $(document).ready(function () {
     $("#confirmBooking").on("click", confirmBooking);
 });
 
+$(document).ready(function () {
+    $("#previewItinerary").click(function (e) {
+        e.preventDefault();
+        let uidfrpdf = $("#uidpdf").val();
+        if(uidfrpdf == 0){
+            alert("⚠️ Please use the Enquire Now button to submit your requirement, and then use the Preview Itinerary button to generate the PDF.");
+            return false;
+        }
+        // Fetch and generate PDF itinerary
+        $.ajax({
+            url: 'generate_itinerary.php?uid='+uidfrpdf,
+            type: 'GET',
+            success: function (response) {
+                //alert(response);
+                if (response === "success") {
+                    window.location.href = 'itinerary.pdf'; // Open/download PDF
+                } else {
+                    alert("⚠️ Error generating itinerary.");
+                }
+            },
+            error: function () {
+                alert("❌ Failed to generate itinerary.");
+            }
+        });
+    });
+});
 
 
 
