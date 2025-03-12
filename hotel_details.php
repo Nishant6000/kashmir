@@ -288,7 +288,7 @@
 
                     <!-- Default Hotel Card -->
                     <div class="hotel-card" id="main-hotel-card">
-                        <img src="<?php echo !empty($hotel_details['image']) ? $hotel_details['image'] : 'https://picsum.photos/600/400'; ?>" class="hotel-img" id="main-hotel-img" alt="Hotel Image">
+                        <img src="<?php $images = explode(',', $hotel_details['image_paths']); echo !empty($images[0]) ? "./admin/".$images[0] : 'https://picsum.photos/600/400'; ?>" class="hotel-img" id="main-hotel-img" alt="Hotel Image">
                         <input type="hidden" id="current_hotel_price" value="<?php echo $hotel_details['price']; ?>">
                         <input type="hidden" id="hotel_ids" value="<?php echo $hotel_details['id']; ?>">
                         <div class="hotel-info">
@@ -316,7 +316,9 @@
                         <?php
                         $images = explode(',', $hotel_details['image_paths']);
                         foreach ($images as $image) {
-                            echo '<img src="./'. $image . '" class="hotel-img-thumbnail" alt="Hotel Image" onclick="openModal(\'' . $image . '\')">';
+                            $image2 = explode("/",$image);
+                            //echo $image;
+                            echo '<img src="./admin/uploads/'.$image2[1]. '" class="hotel-img-thumbnail" alt="Hotel Image" onclick="openModal(\'./admin/uploads/'.$image2[1]. '\')">';
                         }
                         ?>
                     </div>
