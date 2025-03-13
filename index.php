@@ -44,6 +44,7 @@ if ($result->num_rows > 0) {
         $destinations[] = $row;
     }
 }
+//print_r($destinations);die;
 // Fetch Featured Packages
 $featured_sql = "
     SELECT 
@@ -572,6 +573,7 @@ Gulmarg
 foreach($destinations as $destination){
 	if($destination["destination_name"] == "Gulmarg"){
 		echo $destination["package_count"];
+        //die;
 	}else{
 		echo 0;
 	}

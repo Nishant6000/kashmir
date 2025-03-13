@@ -488,7 +488,7 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
                     ?>
                 </h5>
                 <p id="main-hotel-location"><?= htmlspecialchars($hotel_details['location']) ?></p>
-                <a href="hotel_details.php?hid=<?php echo $destination_id; ?>" class="btn btn-link btn-sm">
+                <a href="hotel_details.php?hid=<?php echo $hotel_details["id"]; ?>" class="btn btn-link btn-sm">
                     <i class="fa fa-info-circle" aria-hidden="true"></i> View Details
                 </a>
                 <!-- Button to Open Modal -->

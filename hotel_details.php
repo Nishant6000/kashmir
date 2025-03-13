@@ -51,6 +51,15 @@
       </script>';
     exit;
     }
+    if ($hotel_result->num_rows == 0) {
+        echo "<script>
+                alert('Hotel Details Not found! Going back.');
+                window.history.back();
+              </script>";
+        exit;
+    }
+    
+    
     $hotel_details =  $hotel_result->fetch_assoc();
    
 ?>
