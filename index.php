@@ -284,69 +284,65 @@ $conn->close();
 <div class="col-md-12 tab-wrap">
 <div class="tab-content" id="v-pills-tabContent">
 <div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
-<form action="#" class="search-property-1">
-<div class="row g-0">
-<!-- <div class="col-md d-flex">
-<div class="form-group p-4 border-0">
-<label for="#">Enter Keyword</label>
-<div class="form-field">
-<div class="icon"><span class="fa fa-search"></span></div>
-<input type="text" class="form-control" placeholder="Enter Keyword">
-</div>
-</div>
-</div> -->
-<div class="col-md d-flex">
-<div class="form-group p-4">
-<label for="#">Location</label>
-<div class="form-field">
-<div class="select-wrap">
-<div class="icon"><span class="fa fa-chevron-down"></span></div>
-<select name id class="form-control">
-<option value>Gulmarg</option>
-<option value>Sonmarg</option>
-<option value>Leh</option>
-<option value>Ladakh</option>
-</select>
-</div>
-</div>
-</div>
-</div>
-<div class="col-md d-flex">
-<div class="form-group p-4">
-<label for="#">No of travellers</label>
-<div class="form-field">
-<div class="icon"><span class="fa fa-users"></span></div>
-<input type="number" class="form-control" placeholder="2">
-</div>
-</div>
-</div>
-<div class="col-md d-flex">
-<div class="form-group p-4">
-<label for="#">Price Limit</label>
-<div class="form-field">
-<div class="select-wrap">
-<div class="icon"><span class="fa fa-chevron-down"></span></div>
-<select name id class="form-control">
-<option value>&#8377;5000</option>
-<option value>&#8377;10,000</option>
-<option value>&#8377;20,000</option>
-<option value>&#8377;40,000</option>
-<option value>&#8377;100,000</option>
+<form action="search_packages.php" method="POST" class="search-property-1">
+    <div class="row g-0">
+        <div class="col-md d-flex">
+            <div class="form-group p-4">
+                <label for="location">Location</label>
+                <div class="form-field">
+                    <div class="select-wrap">
+                        <div class="icon"><span class="fa fa-chevron-down"></span></div>
+                        <select name="location" id="location" class="form-control" required>
+                            <option value="">Select Location</option>
+                            <option value="Gulmarg">Gulmarg</option>
+                            <option value="Sonmarg">Sonmarg</option>
+                            <option value="Leh">Leh</option>
+                            <option value="Ladakh">Ladakh</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-</select>
-</div>
-</div>
-</div>
-</div>
-<div class="col-md d-flex">
-<div class="form-group d-flex w-100 border-0">
-<div class="form-field w-100 align-items-center d-flex">
-<input type="submit" value="Search" class="align-self-stretch form-control btn btn-primary">
-</div>
-</div>
-</div>
-</div>
+        <div class="col-md d-flex">
+            <div class="form-group p-4">
+                <label for="no_of_travellers">No of Travellers</label>
+                <div class="form-field">
+                    <div class="icon"><span class="fa fa-users"></span></div>
+                    <input type="number" name="no_of_travellers" id="no_of_travellers" class="form-control" placeholder="2" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md d-flex">
+            <div class="form-group p-4">
+                <label for="price_limit">Price Limit</label>
+                <div class="form-field">
+                    <div class="select-wrap">
+                        <div class="icon"><span class="fa fa-chevron-down"></span></div>
+                        <select name="price_limit" id="price_limit" class="form-control" required>
+                            <option value="">Select Price</option>
+                            <option value="5000">₹5,000</option>
+                            <option value="10000">₹10,000</option>
+                            <option value="20000">₹20,000</option>
+                            <option value="40000">₹40,000</option>
+                            <option value="100000">₹100,000</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md d-flex">
+            <div class="form-group d-flex w-100 border-0">
+                <div class="form-field w-100 align-items-center d-flex">
+                    <input type="submit" value="Search" class="align-self-stretch form-control btn btn-primary">
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
+
 </div>
 <!-- <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">
 <form action="#" class="search-property-1">
@@ -479,7 +475,7 @@ $conn->close();
 <div class="col-md-4" data-aos="fade-up" data-aos-delay="500" data-aos-duration="1000">
 <ul class="places-list">
 <li>
-<a href="#">
+<a href="./search_packages.php?loc=Srinagar">
 Srinagar
 <span><?php 
 foreach($destinations as $destination){
@@ -493,7 +489,7 @@ foreach($destinations as $destination){
 </a>
 </li>
 <li>
-<a href="#">
+<a href="./search_packages.php?loc=Leh">
 Leh
 <span><?php 
 foreach($destinations as $destination){
@@ -507,7 +503,7 @@ foreach($destinations as $destination){
 </a>
 </li>
 <li>
-<a href="#">
+<a href="./search_packages.php?loc=Ladkah">
 Ladkah
 <span><?php 
 foreach($destinations as $destination){
@@ -521,7 +517,7 @@ foreach($destinations as $destination){
 </a>
 </li>
 <li>
-<a href="#">
+<a href="./search_packages.php?loc=Sonmag">
 Sonmag
 <span><?php 
 foreach($destinations as $destination){
@@ -539,7 +535,7 @@ foreach($destinations as $destination){
 <div class="col-md-4" data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
 <ul class="places-list">
 <li>
-<a href="#">
+<a href="./search_packages.php?loc=Katra">
 Katra
 <span><?php 
 foreach($destinations as $destination){
@@ -553,7 +549,7 @@ foreach($destinations as $destination){
 </a>
 </li>
 <li>
-<a href="#">
+<a href="./search_packages.php?loc=Gurez%20valley">
 Gurez valley
 <span><?php 
 foreach($destinations as $destination){
@@ -567,7 +563,7 @@ foreach($destinations as $destination){
 </a>
 </li>
 <li>
-<a href="#">
+<a href="./search_packages.php?loc=Gulmarg">
 Gulmarg
 <span><?php 
 foreach($destinations as $destination){
@@ -582,7 +578,7 @@ foreach($destinations as $destination){
 </a>
 </li>
 <li>
-<a href="#">
+<a href="./search_packages.php?loc=Pahalgam">
 Pahalgam
 <span><?php 
 foreach($destinations as $destination){
@@ -600,7 +596,7 @@ foreach($destinations as $destination){
 <div class="col-md-4" data-aos="fade-up" data-aos-delay="700" data-aos-duration="1000">
 <ul class="places-list">
 <li>
-<a href="#">
+<a href="./search_packages.php?loc=Dachigam">
 Dachigam
 <span><?php 
 foreach($destinations as $destination){
@@ -614,7 +610,7 @@ foreach($destinations as $destination){
 </a>
 </li>
 <li>
-<a href="#">
+<a href="./search_packages.php?loc=Anantnag">
 Anantnag
 <span><?php 
 foreach($destinations as $destination){
@@ -628,7 +624,7 @@ foreach($destinations as $destination){
 </a>
 </li>
 <li>
-<a href="#">
+<a href="./search_packages.php?loc=Manali">
 Manali
 <span><?php 
 foreach($destinations as $destination){
@@ -642,7 +638,7 @@ foreach($destinations as $destination){
 </a>
 </li>
 <li>
-<a href="#">
+<a href="./search_packages.php?loc=Shimla">
 Shimla
 <span><?php 
 foreach($destinations as $destination){

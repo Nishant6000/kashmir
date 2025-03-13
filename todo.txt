@@ -1,35 +1,15 @@
-Pending works
-
-Backend
-
-Login/Signup ---> Dashboard with email Otp Verification for client
-
-view cart, view transanctions
-
------------------------------------------------------------------------
-
-Admin page to add packages
-
-=> Add package category like ex: featured packages
-=> package details
-=> day wise itenary for each packages and price
-=> break fast, lunch and dinner details and price
-=> terms and condition of package
-
-------------------------------------------------------------------------------------------------------
-=> add hotel included and optional hotels in for that packages and price based on location and price
-=> add vehicle include and optional cars included and pricing in that location
--------------------------------------------------------------------------------------------------------
-
-=> add edit and delete blog
-
+=> seperate header,body,footer make all php pages
+=> home page change request callback to view details
+=> change serach form in every page
 ----------------------------------------------------------------------------------------------------------
-
-=> add seo for each page
-
+=> dynamically add seo add seo for each page
 --------------------------------------------------------------------------------------------------------
+=> fill all the data
+-------------------------------------------------------------------------------------------------------
+=> AI based chat bot integration
 
-=> chat bot integration
+
+
 
 
 
