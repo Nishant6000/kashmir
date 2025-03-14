@@ -192,7 +192,7 @@ $conn->close();
 </div>
 </div>
 </div> -->
-<nav class="navbar navbar-expand-lg  ftco-navbar-light">
+<!-- <nav class="navbar navbar-expand-lg  ftco-navbar-light">
 <div class="container-xl">
 <a class="navbar-brand align-items-center" href="index.html">
 <span class="tagline">Kashmir Meridian <small>Your Gateway to the Mystical Land</small></span>
@@ -212,7 +212,10 @@ $conn->close();
 <p class="mb-0"><a href="#" class="btn btn-primary rounded" data-toggle="modal" data-target="#authModal">Login/Signup</a></p>
 </div>
 </div>
-</nav>
+</nav> -->
+<?php
+include_once("includes/navbar.php");
+?>
 <section class="slider-hero">
 <div class="overlay"></div>
 <div class="hero-slider">
@@ -706,7 +709,7 @@ foreach($destinations as $destination){
                                 <div class="price">INR <?= htmlspecialchars($row['price']) ?></div>
 								<div class="strike-price">INR <?= number_format($row['price'] * 1.25, 2) ?></div>
                             </div>
-                            <button class="btn btn-primary btn-block">Request Callback</button>
+                            <a href="./package-details.php?package_details=<?= htmlspecialchars($row['id']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
                         </div>
                     </a>
                 </div>
@@ -743,7 +746,8 @@ foreach($destinations as $destination){
                             <div class="price">INR <?= htmlspecialchars($default_featured['price']) ?></div>
 							<div class="strike-price">INR <?= number_format($default_featured['price'] * 1.25, 2) ?></div>
                         </div>
-                        <button class="btn btn-primary btn-block">Request Callback</button>
+                        <a href="#"><button class="btn btn-primary btn-block">View Details</button></a>
+
                     </div>
                 </a>
             </div>
@@ -776,7 +780,7 @@ foreach($destinations as $destination){
               <div class="strike-price">INR 38,182</div>
             </div>
             <div class="save-price">SAVE INR 17,182</div>
-            <button class="btn btn-primary btn-block">Request Callback</button>
+            <button class="btn btn-primary btn-block">View Details</button>
           </div>
         </a>
       </div>
@@ -806,7 +810,7 @@ foreach($destinations as $destination){
               <div class="strike-price">INR 38,182</div>
             </div>
             <div class="save-price">SAVE INR 17,182</div>
-            <button class="btn btn-primary btn-block">Request Callback</button>
+            <button class="btn btn-primary btn-block">View Details</button>
           </div>
         </a>
       </div>
@@ -837,7 +841,7 @@ foreach($destinations as $destination){
               <div class="strike-price">INR 38,182</div>
             </div>
             <div class="save-price">SAVE INR 17,182</div>
-            <button class="btn btn-primary btn-block">Request Callback</button>
+            <button class="btn btn-primary btn-block">View Details</button>
           </div>
         </a>
       </div>
@@ -869,7 +873,7 @@ foreach($destinations as $destination){
               <div class="strike-price">INR 38,182</div>
             </div>
             <div class="save-price">SAVE INR 17,182</div>
-            <button class="btn btn-primary btn-block">Request Callback</button>
+            <button class="btn btn-primary btn-block">View Details</button>
           </div>
         </a>
       </div>
@@ -901,7 +905,7 @@ foreach($destinations as $destination){
               <div class="strike-price">INR 38,182</div>
             </div>
             <div class="save-price">SAVE INR 17,182</div>
-            <button class="btn btn-primary btn-block">Request Callback</button>
+            <button class="btn btn-primary btn-block">View Details</button>
           </div>
         </a>
       </div>
@@ -933,7 +937,7 @@ foreach($destinations as $destination){
               <div class="strike-price">INR 38,182</div>
             </div>
             <div class="save-price">SAVE INR 17,182</div>
-            <button class="btn btn-primary btn-block">Request Callback</button>
+            <button class="btn btn-primary btn-block">View Details</button>
           </div>
         </a>
       </div>
@@ -986,7 +990,7 @@ foreach($destinations as $destination){
                                 <div class="price">INR <?= htmlspecialchars($row['price']) ?></div>
 								<div class="strike-price">INR <?= number_format($row['price'] * 1.25, 2) ?></div>
                             </div>
-                            <button class="btn btn-primary btn-block">Request Callback</button>
+                            <a href="./package-details.php?package_details=<?= htmlspecialchars($row['id']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
                         </div>
                     </a>
                 </div>
@@ -1023,7 +1027,7 @@ foreach($destinations as $destination){
                             <div class="price">INR <?= htmlspecialchars($default_featured['price']) ?></div>
 							<div class="strike-price">INR <?= number_format($default_featured['price'] * 1.25, 2) ?></div>
                         </div>
-                        <button class="btn btn-primary btn-block">Request Callback</button>
+                        <a href="#"><button class="btn btn-primary btn-block">View Details</button></a>
                     </div>
                 </a>
             </div>
@@ -1098,7 +1102,7 @@ if ($honeymoon_result->num_rows > 0) {
                                 <div class="price">INR <?= htmlspecialchars($row['price']) ?></div>
 								<div class="strike-price">INR <?= number_format($row['price'] * 1.25, 2) ?></div>
                             </div>
-                            <button class="btn btn-primary btn-block">Request Callback</button>
+                            <a href="./package-details.php?package_details=<?= htmlspecialchars($row['id']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
                         </div>
                     </a>
                 </div>
@@ -1135,7 +1139,8 @@ if ($honeymoon_result->num_rows > 0) {
                             <div class="price">INR <?= htmlspecialchars($default_featured['price']) ?></div>
 							<div class="strike-price">INR <?= number_format($default_featured['price'] * 1.25, 2) ?></div>
                         </div>
-                        <button class="btn btn-primary btn-block">Request Callback</button>
+                        <a href="#"><button class="btn btn-primary btn-block">View Details</button></a>
+    
                     </div>
                 </a>
             </div>
@@ -1662,7 +1667,7 @@ echo htmlspecialchars($short_description) . '...';
 		</div>
 	</div>
 </div>
-<footer class="ftco-footer">
+<!-- <footer class="ftco-footer">
 <div class="container-xl">
 <div class="row mb-5 pb-5 justify-content-between">
 <div class="col-md-6 col-lg">
@@ -1727,7 +1732,10 @@ echo htmlspecialchars($short_description) . '...';
 </div>
 </div>
 </div>
-</footer>
+</footer> -->
+<?php 
+include_once("includes/footer.php");
+?>
 <script src="js/6440-js-bootstrap.bundle.min.js"></script>
 <script src="js/1306-js-tiny-slider.js"></script>
 <script src="js/1453-js-glightbox.min.js"></script>

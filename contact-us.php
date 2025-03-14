@@ -17,38 +17,6 @@
     <link rel="stylesheet" href="css/css-style.css">
     </head>
 <body>
-    <?php
-     $conn = new mysqli("localhost", "root", "", "kashmir_tourism");
-
-     // Check connection
-     if ($conn->connect_error) {
-         die("Connection failed: " . $conn->connect_error);
-     }
-$blog_sql = "
-SELECT 
-    blogs.*, 
-    GROUP_CONCAT(blog_images.image_path) AS image_paths
-FROM 
-    blogs 
-INNER JOIN 
-    blog_images 
-ON 
-    blogs.id = blog_images.blog_id
-GROUP BY 
-    blogs.id
-LIMIT 6
-";
-$blog_result = $conn->query($blog_sql);
-//print_r($blog_result);die;
-$default_blog = array();
-$default_blog['title'] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
-$default_blog['description'] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tempus aliquet Lorem ipsum dolor Lorem ipsum dolor";
-$default_blog['post_date'] = "2025-01-23";
-$default_blog['link'] = "#";
-$default_blog['image_path'] = "images/k1.jpg";
-$displayed_rows_blog = 0;
-$total_cards_blog = 9;
-?>
 <!-- <div class="py-4 top-wrap">
 <div class="container-xl">
 <div class="row d-flex align-items-start">
@@ -79,7 +47,7 @@ $total_cards_blog = 9;
 </div>
 </div>
 </div> -->
-<nav class="navbar navbar-expand-lg  ftco-navbar-light">
+<!-- <nav class="navbar navbar-expand-lg  ftco-navbar-light">
   <div class="container-xl">
   <a class="navbar-brand align-items-center" href="index.html">
   <span class="tagline">Kashmir Meridian <small>Your Gateway to the Mystical Land</small></span>
@@ -99,124 +67,76 @@ $total_cards_blog = 9;
   <p class="mb-0"><a href="#" class="btn btn-primary rounded">Login/Signup</a></p>
   </div>
   </div>
-  </nav>
+  </nav> -->
+  <?php
+include_once("includes/navbar.php");
+?>
 <section class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_4.jpg');">
 <div class="overlay"></div>
 <div class="container">
 <div class="row no-gutters slider-text align-items-center justify-content-center">
 <div class="col-md-9 pt-5 text-center">
-<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="fa fa-chevron-right"></i></a></span> <span>Blog Posts <i class="fa fa-chevron-right"></i></span></p>
-<h1 class="mb-0 bread">Blog Posts</h1>
+<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="fa fa-chevron-right"></i></a></span> <span>Contact Us<i class="fa fa-chevron-right"></i></span></p>
+<h1 class="mb-0 bread">Contact Us</h1>
 </div>
 </div>
 </div>
 </section>
-<div class="container my-5">
+<div class="container mt-5">
+    <!-- Row for contact form and image -->
     <div class="row">
-        <!-- Main Content -->
-        <div class="col-lg-12">
-            <h1 class="mb-4">Our Latest Blog Posts</h1>
-            <div class="row">
-                <!-- Blog Post 1 -->
-
-                <!-- Blog Post 2 -->
-                <!-- <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <img src="images/k1.jpg" class="card-img-top" alt="Blog Image 2">
-                        <div class="card-body">
-                            <h5 class="card-title">Blog Post Title 2</h5>
-                            <p class="card-text">This is a brief introduction to the second blog post. It highlights the key points to attract readers.</p>
-                        </div>
-                        <div class="card-footer">
-                            <a href="blog-details.html" class="btn btn-primary">Read More</a>
-                            <span class="float-end text-muted">Aug 9, 2024</span>
-                        </div>
-                    </div>
-                </div> -->
-                <?php
-    if ($blog_result->num_rows > 0) {
-        // Display featured packages from the database <?= htmlspecialchars($row['name']) 
-        while ($row = $blog_result->fetch_assoc()) {
-            $displayed_rows_blog++;
-            $image_path = explode(",",$row["image_paths"]);
-            //print_r($image_path); die;
-            $displayed_rows_blog++;
-            if($displayed_rows_blog > 7){
-                $dem = "col-md-6";
-            }else{
-                $dem = "col-md-4";
-            }
-    ?>
-             <div class="<?php echo htmlspecialchars($dem); ?> mb-4">
-                    <div class="card h-100">
-                        <img src="<?php echo htmlspecialchars($image_path[0]); ?>" class="card-img-top" alt="Blog Image 1">
-                        <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($row['title']) ?></h5>
-                            <p class="card-text"><?php
-$description = $row['description'];
-$words = explode(' ', $description);
-$short_description = implode(' ', array_slice($words, 0, 40));
-
-echo htmlspecialchars($short_description) . '...';
-?></p>
-                        </div>
-                        <div class="card-footer">
-                            <a href="blog-details.php?bid=<?= htmlspecialchars($row['id']) ?>" class="btn btn-primary">Read More</a>
-                            <span class="float-end text-muted"><?= htmlspecialchars($row['post_date']) ?></span>
-                        </div>
-                    </div>
-                </div>
-    <?php
-        }
-    }
-
-    // Fill remaining cards with default content
-    while ($displayed_rows_blog < $total_cards_blog) {
-        $displayed_rows_blog++;
-        if($displayed_rows_blog > 7){
-            $dem = "col-md-6";
-        }else{
-            $dem = "col-md-4";
-        }
-    ?>
-        <div class="<?php echo htmlspecialchars($dem); ?> mb-4">
-                    <div class="card h-100">
-                        <img src="<?= htmlspecialchars($default_blog['image_path']) ?>" class="card-img-top" alt="Blog Image 1">
-                        <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($default_blog['title']) ?></h5>
-                            <p class="card-text"><?= htmlspecialchars($default_blog['description']) ?></p>
-                        </div>
-                        <div class="card-footer">
-                            <a href="<?= htmlspecialchars($default_blog['link']) ?>" class="btn btn-primary">Read More</a>
-                            <span class="float-end text-muted"><?= htmlspecialchars($default_blog['post_date']) ?></span>
-                        </div>
-                    </div>
-                </div>
-    <?php
-    }
-    ?>	
+        <!-- Contact Form Column -->
+        <div class="col-md-6">
+            <div class="contact-header mb-4">
+                <h3>We'd love to hear from you</h3>
+                <p>Send us a message and we'll respond as soon as possible</p>
             </div>
-
-            <!-- Pagination -->
-            <div class="row justify-content-right">
-                <nav>
-                    <ul class="custom-pagination">
-                        <li><a href="#">&laquo;</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">&raquo;</a></li>
-                    </ul>
-                </nav> 
-              </div>
-            
+            <form action="/contact/#wpcf7-f7467-p8088-o1" method="post" class="wpcf7-form" novalidate>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="your-name" placeholder="Name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="your-email" placeholder="Email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea class="form-control" id="message" name="your-message" rows="4" placeholder="Message" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+        <!-- Image Column -->
+        <div class="col-md-6 image-background">
+            <!-- Address Section -->
+            <div class="address-overlay">
+                <h2>Kashmir Meridian Tours and Travels</h2>
+                <p class="address">Tell: +91-9113539263</p>
+                <p class="address">Email: info@kashmirmeridian.org</p>
+                <p class="address">Khidmat Complex, Branch office, Abi Guzar Rd, Srinagar, Jammu and Kashmir 190001</p>
             </div>
         </div>
-
-        <!-- Sidebar -->
+       
         
     </div>
+   
+
+    <!-- Address Section -->
+    <div class="row mt-5 ">
+        <div class="col-md-12">
+            <!-- Google Maps Embed -->
+            <div class="embed-responsive">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6609.842325873637!2d74.81342704232841!3d34.07153516681829!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38e18f0ad86d003b%3A0x51403bed4df52f7c!2sKashmir%20Meridian%20Tours%20and%20Travels!5e0!3m2!1sen!2sin!4v1723287925492!5m2!1sen!2sin" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+       
+    </div>
+
+    
 </div>
+
+
 <!-- <section class="img vid-section" style="background-image: url(images/bg_4.jpg);">
 <div class="overlay"></div>
 <div class="container-xl">
@@ -317,7 +237,7 @@ echo htmlspecialchars($short_description) . '...';
 		</div>
 	</div>
 </div>
-<footer class="ftco-footer">
+<!-- <footer class="ftco-footer">
   <div class="container-xl">
   <div class="row mb-5 pb-5 justify-content-between">
   <div class="col-md-6 col-lg">
@@ -382,7 +302,10 @@ echo htmlspecialchars($short_description) . '...';
   </div>
   </div>
   </div>
-  </footer>
+  </footer> -->
+  <?php
+include_once("includes/footer.php");
+?>
 <script src="js/6440-js-bootstrap.bundle.min.js"></script>
 <script src="js/1306-js-tiny-slider.js"></script>
 <script src="js/1453-js-glightbox.min.js"></script>

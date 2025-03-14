@@ -251,7 +251,7 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
 </div>
 </div>
 </div> -->
-<nav class="navbar navbar-expand-lg  ftco-navbar-light">
+<!-- <nav class="navbar navbar-expand-lg  ftco-navbar-light">
     <div class="container-xl">
     <a class="navbar-brand align-items-center" href="index.html">
     <span class="tagline">Kashmir Meridian <small>Your Gateway to the Mystical Land</small></span>
@@ -271,7 +271,10 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
     <p class="mb-0"><a href="#" class="btn btn-primary rounded">Login/Signup</a></p>
     </div>
     </div>
-    </nav>
+    </nav> -->
+    <?php
+include_once("includes/navbar.php");
+?>
 <section class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_4.jpg');">
 <div class="overlay"></div>
 <div class="container">
@@ -890,7 +893,7 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
     </div>
 </div>
     </section>
-        <footer class="ftco-footer">
+        <!-- <footer class="ftco-footer">
             <div class="container-xl">
             <div class="row mb-5 pb-5 justify-content-between">
             <div class="col-md-6 col-lg">
@@ -955,7 +958,10 @@ $vehicle_details[] = $row_ncad; // Store each row in the array
             </div>
             </div>
             </div>
-            </footer>
+            </footer> -->
+            <?php
+include_once("includes/footer.php");
+?>
 <script src="js/6440-js-bootstrap.bundle.min.js"></script>
 <script src="js/1306-js-tiny-slider.js"></script>
 <script src="js/1453-js-glightbox.min.js"></script>
