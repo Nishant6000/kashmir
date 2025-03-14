@@ -335,7 +335,9 @@ $total_cards = 9; // Minimum cards to display
     if ($featured_result->num_rows > 0) {
         // Display featured packages from the database
         while ($row = $featured_result->fetch_assoc()) {
-            //print_r($row);die;
+            // echo "<pre>";
+            // print_r($row);
+            // echo "<pre>";
            $displayed_rows++; 
     ?>
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
@@ -362,7 +364,7 @@ $total_cards = 9; // Minimum cards to display
                                 <div class="price">INR <?= htmlspecialchars($row['price']) ?></div>
 								<div class="strike-price">INR <?= number_format($row['price'] * 1.25, 2) ?></div>
                             </div>
-                            <a href="package-details.php?package_details=<?= htmlspecialchars($row['id']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
+                            <a href="package-details.php?package_details=<?= htmlspecialchars($row['package_id']) ?>"><button class="btn btn-primary btn-block">View Details</button></a>
                         </div>
                     </a>
                 </div>
