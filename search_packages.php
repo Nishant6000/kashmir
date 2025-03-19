@@ -18,7 +18,8 @@
     </head>
 <body>
 <?php
-    $conn = new mysqli("localhost", "root", "", "kashmir_tourism");
+    //$conn = new mysqli("localhost", "root", "", "kashmir_tourism");
+    include_once("db.php");
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }

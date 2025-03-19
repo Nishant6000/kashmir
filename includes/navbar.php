@@ -15,7 +15,10 @@
 <li class="nav-item"><a class="nav-link" href="blogs.php">Blog</a></li>
 <li class="nav-item"><a class="nav-link" href="contact-us.php">Contact</a></li>
 </ul>
-<p class="mb-0"><a href="#" class="btn btn-primary rounded" data-toggle="modal" data-target="#authModal">Login/Signup</a></p>
+<p class="mb-0">
+    <!-- <a href="#" class="btn btn-primary rounded" data-toggle="modal" data-target="#authModal">Login/Signup</a> -->
+    <a href="#" class="btn btn-primary rounded" id="authBtn">Login/Signup</a>
+</p>
 </div>
 </div>
 </nav>

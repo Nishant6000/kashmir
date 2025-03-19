@@ -5,7 +5,8 @@
 // $password = ''; // Update if you have a password
 // $database = 'your_database_name';
 
-$conn = new mysqli("localhost", "root", "", "kashmir_tourism");
+//$conn = new mysqli("localhost", "root", "", "kashmir_tourism");
+include_once("db.php");
 
 // Check connection
 if ($conn->connect_error) {

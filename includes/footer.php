@@ -1,3 +1,9 @@
+<script>
+    document.getElementById("authBtn").addEventListener("click", function(event) {
+        event.preventDefault(); // Prevent default action
+        alert("Oops! Looks like your IP isn’t on the admin list."); // Show message
+    });
+</script>
 <footer class="ftco-footer">
 <div class="container-xl">
 <div class="row mb-5 pb-5 justify-content-between">

@@ -1,9 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Kashmir Meridian</title>
+<title>Explore Jammu & Kashmir - Best Tour Packages | Kashmir Meridian | Your Gateway to Mystical land</title>
 <meta charset="utf-8">
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="Discover the best Kashmir and Manali tour packages with Kashmir Meridian. Book hotels, sightseeing tours, and adventure trips at the best prices.">
+<meta name="keywords" content="Kashmir tour packages, Manali trips, Kashmir tourism, best hotels in Kashmir, Srinagar travel, adventure tours in Kashmir, Leh Ladakh packages">
+<meta name="author" content="Kashmir Meridian">
+<meta name="robots" content="index, follow">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+
+<!-- Open Graph (Facebook) -->
+<meta property="og:title" content="Explore Kashmir & Manali - Best Tour Packages | Kashmir Meridian">
+<meta property="og:description" content="Discover the best Kashmir and Manali tour packages with Kashmir Meridian. Book hotels, sightseeing tours, and adventure trips at the best prices.">
+<meta property="og:image" content="https://kashmirmeridian.org/images/banner.jpg">
+<meta property="og:url" content="https://kashmirmeridian.org">
+<meta property="og:type" content="website">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://kashmirmeridian.org">
+
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -20,7 +38,8 @@
 <body>
 <?php
 // Database connection
-$conn = new mysqli("localhost", "root", "", "kashmir_tourism");
+include_once("db.php");
+// $conn = new mysqli("localhost", "root", "", "kashmir_tourism");
 
 // Check connection
 if ($conn->connect_error) {
